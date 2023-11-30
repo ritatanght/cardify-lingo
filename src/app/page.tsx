@@ -6,18 +6,22 @@ import "./ui/Home.scss";
 export default function Home() {
   return (
     <div className="home-container">
-      <div className="banner-container">
+      <div className="banner-container flex justify-center items-center text-center">
         <div className="banner__content">
-          <h2 className={`${playpen.className} text-4xl`}>
+          <h2
+            className={`${playpen.className} text-4xl font-bold leading-snug`}
+          >
             Get Started with <br />
             Your Flashcard Set
           </h2>
-          <Link href="/sets/create">Create My Set</Link>
+          <Link href="/sets/create" className="p-6">
+            Create My Set
+          </Link>
         </div>
       </div>
-      <div className="columns-container">
+      <div className="columns-container text-center">
         <div className="column">
-          <h3 className={`${playpen.className} text-2xl`}>
+          <h3 className={`${playpen.className} text-2xl font-bold mb-2`}>
             Create Your Own Flashcards Sets
           </h3>
           <p>
@@ -27,7 +31,7 @@ export default function Home() {
           </p>
         </div>
         <div className="column">
-          <h3 className={`${playpen.className} text-2xl`}>
+          <h3 className={`${playpen.className} text-2xl font-bold mb-2`}>
             Elevate Your Learning Journey
           </h3>
           <p>
@@ -37,7 +41,7 @@ export default function Home() {
           </p>
         </div>
         <div className="column">
-          <h3 className={`${playpen.className} text-2xl`}>
+          <h3 className={`${playpen.className} text-2xl font-bold mb-2`}>
             Explore and Learn from Others
           </h3>
           <p>
