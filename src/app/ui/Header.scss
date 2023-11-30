@@ -1,41 +1,15 @@
-@use "../variables" as var;
+@use "./variables" as var;
 
 header {
   background-color: var.$color-3;
-  padding-inline: 1.5em;
-  .navbar-brand img {
+  img {
     height: 50px;
-  }
-  .navbar {
-    padding: 0;
-  }
-  #nav-dropdown {
-    font-family: "Playpen Sans", cursive;
+    width: auto;
   }
 }
 
 nav {
-  .nav-item.dropdown {
-    transition: all 0.3s ease;
-    margin-left: 0.5em;
-    padding: 1em 0.2em;
-    border-top: 3px solid transparent;
-    border-bottom: 3px solid transparent;
-    border-radius: 2px;
-    &:hover {
-      border-bottom-color: var.$color-5;
-    }
-    & a::after {
-      color: var.$color-5;
-      animation: 4s infinite arrowDown;
-    }
-  }
-  button.btn.menu,
-  .btn-close {
-    display: none;
-  }
-
-  button.btn.menu:hover {
+  button.menu:hover {
     background-color: darken(var.$color-1, 5);
   }
 
@@ -47,7 +21,7 @@ nav {
       display: flex;
       justify-content: center;
       align-items: center;
-      > .btn:not(:first-child) {
+      > button:not(:first-child) {
         margin-left: 0.5em;
       }
     }
@@ -70,14 +44,14 @@ nav {
       transform: translateY(-3px);
     }
   }
-  .sign-out-btn.btn {
+  .sign-out-btn {
     background-color: darken(var.$color-3, 25);
     &:hover {
       background-color: darken(var.$color-3, 50);
     }
   }
 
-  .login-btn.btn {
+  .login-btn {
     background-color: darken(var.$color-2, 15);
 
     &:hover {
@@ -86,33 +60,13 @@ nav {
   }
 }
 
-@keyframes arrowDown {
-  from,
-  10%,
-  to {
-    transform: translateY(0);
-  }
-  50%,
-  60% {
-    transform: translateY(4px);
-  }
-}
 
 @media screen and (max-width: 800px) {
-  header {
-    padding-inline: 1em;
-    .navbar-brand img {
-      height: 40px;
-    }
+  header img {
+    height: 40px;
+    width: auto;
   }
   nav {
-    .nav-item.dropdown {
-      padding: 0.6em 0.2em;
-    }
-    button.btn.menu,
-    .btn-close {
-      display: block;
-    }
     .SearchBar {
       margin: 0;
     }
