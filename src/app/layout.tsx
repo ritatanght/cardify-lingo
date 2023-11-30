@@ -25,7 +25,7 @@ export default async function RootLayout({
         suppressHydrationWarning={true}
       >
         <Header categories={categories} />
-        {children}
+        <div className="content-container">{children}</div>
       </body>
     </html>
   );
