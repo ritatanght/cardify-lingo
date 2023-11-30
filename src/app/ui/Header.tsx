@@ -66,7 +66,7 @@ export default function Header({ categories }: { categories: Category[] }) {
                   {categories.map((category) => (
                     <Menu.Item key={category.name}>
                       {({ active }) => (
-                        <a
+                        <Link
                           href={`category/${category.id}`}
                           className={classNames(
                             active
@@ -76,7 +76,7 @@ export default function Header({ categories }: { categories: Category[] }) {
                           )}
                         >
                           {category.name}
-                        </a>
+                        </Link>
                       )}
                     </Menu.Item>
                   ))}
