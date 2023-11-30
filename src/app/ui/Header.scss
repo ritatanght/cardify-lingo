@@ -1,0 +1,136 @@
+@use "../variables" as var;
+
+header {
+  background-color: var.$color-3;
+  padding-inline: 1.5em;
+  .navbar-brand img {
+    height: 50px;
+  }
+  .navbar {
+    padding: 0;
+  }
+  #nav-dropdown {
+    font-family: "Playpen Sans", cursive;
+  }
+}
+
+nav {
+  .nav-item.dropdown {
+    transition: all 0.3s ease;
+    margin-left: 0.5em;
+    padding: 1em 0.2em;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-radius: 2px;
+    &:hover {
+      border-bottom-color: var.$color-5;
+    }
+    & a::after {
+      color: var.$color-5;
+      animation: 4s infinite arrowDown;
+    }
+  }
+  button.btn.menu,
+  .btn-close {
+    display: none;
+  }
+
+  button.btn.menu:hover {
+    background-color: darken(var.$color-1, 5);
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      > .btn:not(:first-child) {
+        margin-left: 0.5em;
+      }
+    }
+  }
+
+  .SearchBar {
+    margin-inline: auto;
+  }
+
+  .profile-btn {
+    font-size: 1.3rem;
+    padding: 0;
+    margin-right: 0.5em;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    strong {
+      margin-right: 5px;
+    }
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+  .sign-out-btn.btn {
+    background-color: darken(var.$color-3, 25);
+    &:hover {
+      background-color: darken(var.$color-3, 50);
+    }
+  }
+
+  .login-btn.btn {
+    background-color: darken(var.$color-2, 15);
+
+    &:hover {
+      background-color: darken(var.$color-2, 25);
+    }
+  }
+}
+
+@keyframes arrowDown {
+  from,
+  10%,
+  to {
+    transform: translateY(0);
+  }
+  50%,
+  60% {
+    transform: translateY(4px);
+  }
+}
+
+@media screen and (max-width: 800px) {
+  header {
+    padding-inline: 1em;
+    .navbar-brand img {
+      height: 40px;
+    }
+  }
+  nav {
+    .nav-item.dropdown {
+      padding: 0.6em 0.2em;
+    }
+    button.btn.menu,
+    .btn-close {
+      display: block;
+    }
+    .SearchBar {
+      margin: 0;
+    }
+    .nav-menu {
+      position: fixed;
+      z-index: 5;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 1.5em;
+      inset: 0 0 0 auto;
+      background: var.$color-3;
+      box-shadow: -2px 0 10px darken(var.$color-3, 40%);
+      padding: 1.5em;
+      transform: translateX(105%);
+      transition: transform 0.3s ease;
+      &.opened {
+        transform: translateX(0);
+      }
+    }
+  }
+}
