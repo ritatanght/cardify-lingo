@@ -2,6 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, Fragment } from "react";
+import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
@@ -35,56 +36,63 @@ export default function Header({ categories }: { categories: Category[] }) {
         pauseOnHover
         theme="light"
       /> */}
-      <nav className="flex gap-x-2 items-center">
-        <Link href="/">
-          <Image src="/logo.png" width={60} height={35.2} alt="Cardify logo" />
-        </Link>
-
-        {/* dropdown */}
-        <Menu as="div" className="dropdown py-3 relative inline-block">
-          <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-            Categories
-            <FontAwesomeIcon
-              icon={faChevronDown}
-              className="-mr-1 h-5 w-5 text-gray-400"
-              aria-hidden="true"
+      <nav className="flex gap-x-2 items-center justify-between">
+        <div className="flex gap-x-2 items-center">
+          <Link href="/">
+            <Image
+              src="/logo.png"
+              width={60}
+              height={35.2}
+              alt="Cardify logo"
             />
-          </Menu.Button>
+          </Link>
 
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-100"
-            enterFrom="transform opacity-0 scale-95"
-            enterTo="transform opacity-100 scale-100"
-            leave="transition ease-in duration-75"
-            leaveFrom="transform opacity-100 scale-100"
-            leaveTo="transform opacity-0 scale-95"
-          >
-            <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-              <div className="py-1">
-                {categories.map((category) => (
-                  <Menu.Item key={category.name}>
-                    {({ active }) => (
-                      <Link
-                        href={`category/${category.id}`}
-                        className={classNames(
-                          active
-                            ? "bg-gray-100 text-gray-900"
-                            : "text-gray-700",
-                          "block px-4 py-2 text-sm"
-                        )}
-                      >
-                        {category.name}
-                      </Link>
-                    )}
-                  </Menu.Item>
-                ))}
-              </div>
-            </Menu.Items>
-          </Transition>
-        </Menu>
+          {/* dropdown */}
+          <Menu as="div" className="dropdown py-3 relative inline-block">
+            <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+              Categories
+              <FontAwesomeIcon
+                icon={faChevronDown}
+                className="-mr-1 h-5 w-5 text-gray-400"
+                aria-hidden="true"
+              />
+            </Menu.Button>
 
-        <div className="ml-auto">
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                <div className="py-1">
+                  {categories.map((category) => (
+                    <Menu.Item key={category.name}>
+                      {({ active }) => (
+                        <Link
+                          href={`category/${category.id}`}
+                          className={classNames(
+                            active
+                              ? "bg-gray-100 text-gray-900"
+                              : "text-gray-700",
+                            "block px-4 py-2 text-sm"
+                          )}
+                        >
+                          {category.name}
+                        </Link>
+                      )}
+                    </Menu.Item>
+                  ))}
+                </div>
+              </Menu.Items>
+            </Transition>
+          </Menu>
+        </div>
+
+        <div className="md:grow">
           <button
             className="menu block md:hidden"
             aria-label="Open menu"
@@ -101,7 +109,7 @@ export default function Header({ categories }: { categories: Category[] }) {
               <FontAwesomeIcon icon={faXmark} />
             </button>
 
-            {/* /<SearchBar closeMenu={() => setIsMenuOpen(false)} /> */}
+            <SearchBar closeMenu={() => setIsMenuOpen(false)} />
 
             {user ? (
               <div>
