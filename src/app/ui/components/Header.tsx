@@ -9,9 +9,9 @@ import {
   faChevronDown,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import "./Header.scss";
+import "../Header.scss";
 
-import { Category } from "../lib/definitions";
+import { Category } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
 const user = { id: 1, username: "john_doe" };
 
@@ -42,15 +42,14 @@ export default function Header({ categories }: { categories: Category[] }) {
 
         {/* dropdown */}
         <Menu as="div" className="dropdown py-3 relative inline-block">
-            <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
-              Categories
-              <FontAwesomeIcon
-                icon={faChevronDown}
-                className="-mr-1 h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
-            </Menu.Button>
-         
+          <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+            Categories
+            <FontAwesomeIcon
+              icon={faChevronDown}
+              className="-mr-1 h-5 w-5 text-gray-400"
+              aria-hidden="true"
+            />
+          </Menu.Button>
 
           <Transition
             as={Fragment}
