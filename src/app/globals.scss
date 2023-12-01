@@ -48,8 +48,8 @@
 }
 
 @layer base {
-  button {
-    @apply bg-color-5 p-2 rounded-lg text-white hover:bg-darken-5;
+  .btn {
+    @apply bg-color-5 p-2 rounded-lg text-white hover:bg-darken-5-100;
   }
 }
 
