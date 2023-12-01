@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { roboto } from "./ui/fonts";
 import "./globals.scss";
-import Header from "./ui/Header";
+import Header from "./ui/components/Header";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 config.autoAddCss = false;
