@@ -1,6 +1,5 @@
-import { Set } from "@/app/lib/definitions";
-import Link from "next/link";
-// import useFavButton from "../hooks/useFavButton";
+import { Set } from "@/app/lib/definitions";import Link from "next/link";
+import useFavButton from "@/app/hooks/useFavButton";
 // import { useUser } from "../context/UserProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
@@ -11,12 +10,10 @@ import "../SetItem.scss";
 type setItemProps = { set: Set; setOwner: string; onDelete: () => void };
 
 const user = { id: 1, username: "john_doe" };
-const isLiked = true;
-const toggleLike = (set: Set) => {};
 
 const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
   // const { user, favoriteSets } = useUser();
-  // const { isLiked, toggleLike, checkLiked } = useFavButton();
+  const { isLiked, toggleLike } = useFavButton();
 
   // useEffect(() => {
   //   checkLiked(favoriteSets, set.id);
