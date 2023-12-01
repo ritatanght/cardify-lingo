@@ -1,0 +1,64 @@
+@use "./variables" as var;
+
+.set-item-container {
+  display: flex;
+  border-radius: 20px;
+  justify-content: space-between;
+
+  align-items: center;
+  padding: 1em 1.5em;
+  margin-block: 1em;
+  background-color: lighten($color: var.$color-2, $amount: 15);
+  border: 5px solid var.$color-2;
+  box-shadow: 0px 5px 5px #ccc;
+
+  > a:first-child {
+    text-decoration: none;
+    color: lighten(#000, 10);
+    transition: all 0.3s ease;
+
+    &:hover {
+      text-decoration: none;
+      transform: translateX(5px);
+      color: darken(var.$color-5, 10%);
+    }
+  }
+
+  p {
+    font-size: 1.9rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: left;
+  }
+
+  .btn.btn-link {
+    font-size: 1.5rem;
+    padding: 0 0 0 0.8em;
+  }
+
+  .set-item-right {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span {
+      font-style: italic;
+      font-size: 1.5rem;
+      color: darken(var.$color-5, 25%);
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .set-item-container {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1em;
+    p {
+      font-size: 1.6rem;
+    }
+    .set-item-right {
+      align-self: flex-end;
+    }
+  }
+}
