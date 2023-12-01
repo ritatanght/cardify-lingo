@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 import SetItem from "@/app/ui/components/SetItem";
@@ -7,7 +7,6 @@ import useSetsList from "@/app/hooks/useSetsList";
 // import { useUser } from "../context/UserProvider";
 // import { toast } from "react-toastify";
 // import Spinner from "react-bootstrap/Spinner";
-import "./Search.scss";
 import { searchSets } from "@/app/lib/api";
 import Loading from "../loading";
 
@@ -35,8 +34,9 @@ export default function Page() {
   if (isLoading) {
     return (
       <main className="search-container">
-        <h1>
-          Search Results for &quot;<span>{query}</span>&quot;
+        <h1 className="text-3xl md:text-4xl mb-7">
+          Search Results for &quot;<span className="text-color-5">{query}</span>
+          &quot;
         </h1>
         <Loading />
       </main>
@@ -54,9 +54,10 @@ export default function Page() {
 
   return (
     <main className="search-container">
-      <h1>
-        Search Results for &quot;<span>{query}</span>&quot;
+      <h1 className="text-3xl md:text-4xl mb-8">
+        Search Results for &quot;<span className="text-color-5">{query}</span>&quot;
       </h1>
+
       {displaySet.length > 0 ? (
         displaySet.map((set) => (
           <SetItem
@@ -67,7 +68,7 @@ export default function Page() {
           />
         ))
       ) : (
-        <h1 className="no-results">Couldn&apos;t find anything!</h1>
+        <h1 className="text-3xl text-darken-5-200">~ No set found matching your query ~</h1>
       )}
     </main>
   );
