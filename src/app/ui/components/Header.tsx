@@ -1,5 +1,4 @@
-"use client";
-import Link from "next/link";
+"use client";import Link from "next/link";
 import Image from "next/image";
 import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
@@ -74,7 +73,7 @@ export default function Header({ categories }: { categories: Category[] }) {
                     <Menu.Item key={category.name}>
                       {({ active }) => (
                         <Link
-                          href={`/category/${category.id}`}
+                          href={`/categories/${category.id}`}
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"
