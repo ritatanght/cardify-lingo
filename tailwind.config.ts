@@ -13,6 +13,14 @@ const config: Config = {
       "color-3": "#ececec",
       "color-4": "#90ccf4",
       "color-5": "#5da2d5",
+      "darken-5-100": "#358bcb",
+      "darken-5-200": "#25618e",
+    },
+    extend: {
+      colors: {
+        white: "#fff",
+        "slate-300": "rgb(203 213 225)",
+      },
     },
   },
   plugins: [],
