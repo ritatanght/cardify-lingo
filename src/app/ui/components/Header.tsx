@@ -95,7 +95,7 @@ export default function Header({ categories }: { categories: Category[] }) {
 
         <div className="md:grow">
           <button
-            className="menu block md:hidden"
+            className="btn menu block md:hidden"
             aria-label="Open menu"
             onClick={() => setIsMenuOpen(true)}
           >
@@ -120,7 +120,7 @@ export default function Header({ categories }: { categories: Category[] }) {
                 </Link>
 
                 <button
-                  className="sign-out-btn"
+                  className="btn sign-out-btn"
                   //onClick={logout}
                 >
                   Sign Out

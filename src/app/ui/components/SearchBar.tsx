@@ -39,7 +39,7 @@ export default function SearchBar({ closeMenu }: { closeMenu: () => void }) {
         onKeyDown={handleKeyDown}
       />
       <button
-        className="rounded-l-none rounded-r-md px-3"
+        className="btn rounded-l-none rounded-r-md px-3"
         onClick={handleSearch}
       >
         <FontAwesomeIcon icon={faMagnifyingGlass} />
