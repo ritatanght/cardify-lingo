@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import useSetsList from "@/app/hooks/useSetsList";
 // import Spinner from "react-bootstrap/Spinner";
-import "./Category.scss";
 import { getCategoryById } from "@/app/lib/api";
 import { Category, Set } from "@/app/lib/definitions";
 import SetItem from "../../ui/components/SetItem";
@@ -31,7 +30,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         //toast.error(err);
       })
       .finally(() => setIsLoading(false));
-  }, [params.slug]);
+  }, [params.slug, setSets]);
 
   if (isLoading) {
     return (
@@ -65,8 +64,8 @@ export default function Page({ params }: { params: { slug: string } }) {
   return (
     <main className="Category-container">
       {category ? (
-        <h1>
-          Category: <span>{category}</span>
+        <h1 className="text-3xl md:text-4xl mb-7">
+          Category: <span className="text-color-5">{category}</span>
         </h1>
       ) : (
         <h1 className="text-center">Category Not Found</h1>
