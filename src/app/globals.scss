@@ -47,13 +47,9 @@
   }
 }
 
-button {
-  background-color: var.$color-5;
-  color: white;
-  padding: 0.5em;
-  border-radius: 10px;
-  &:hover {
-    background-color: darken(var.$color-5, 10%);
+@layer base {
+  button {
+    @apply bg-color-5 p-2 rounded-lg text-white hover:bg-darken-5;
   }
 }
 
