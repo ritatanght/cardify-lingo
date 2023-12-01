@@ -1,0 +1,14 @@
+@use "./variables" as var;
+.set-item-container {
+  background-color: lighten($color: var.$color-2, $amount: 15);
+  box-shadow: 0px 5px 5px #ccc;
+  > a:first-child {
+    color: lighten(#000, 10);
+    transition: all 0.3s ease;
+    &:hover {
+      text-decoration: none;
+      transform: translateX(5px);
+      color: darken(var.$color-5, 10%);
+    }
+  }
+}

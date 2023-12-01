@@ -23,6 +23,7 @@ export type Set = {
   category_id: number;
   user_id: number;
   deleted: boolean;
+  username: string
 };
 
 export type Card = {
