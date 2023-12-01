@@ -40,3 +40,5 @@ export type Favorite = {
   set_id: number;
   deleted: boolean;
 };
+
+export type FavoriteSet = Omit<Set, "description" | " category_id">;
