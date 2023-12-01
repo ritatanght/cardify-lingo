@@ -1,0 +1,303 @@
+@use "@/app/ui/variables" as var;
+
+.ViewSet {
+  max-width: 800px;
+  margin: 0 auto;
+  .ViewSet__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 0.2em;
+    .ViewSet__header-left {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.5em;
+    }
+  }
+  h1,
+  h2 {
+    margin-bottom: 0;
+  }
+
+  h2 {
+    background-color: var.$color-3;
+    padding: 0.5em;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+
+  .heart-icon {
+    font-size: 1.8rem;
+  }
+  .btn-primary {
+    background-color: var.$color-5;
+    border-color: var.$color-5;
+  }
+
+  .cards-navigation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    letter-spacing: 5px;
+    .btn {
+      font-size: 1.8rem;
+      color: var.$color-5;
+      margin: 0;
+      &:hover {
+        color: darken(var.$color-5, 15%);
+      }
+    }
+  }
+
+  .set-info {
+    padding-inline: 2em;
+    justify-content: space-between;
+    > * {
+      margin: 0;
+      padding: 1em;
+      border-radius: 10px;
+    }
+    > p {
+      font-size: 1.2rem;
+      font-weight: bold;
+      flex-basis: 20%;
+    }
+    div.description {
+      flex-basis: 70%;
+      h3 {
+        font-size: 1.2rem;
+      }
+    }
+  }
+
+  /* ========
+    Cards
+  ========= */
+
+  .cards-container {
+    margin-top: 1.5em;
+    .hide {
+      visibility: hidden;
+    }
+    .card__text {
+      font-family: "Playpen Sans", cursive;
+      font-size: 2rem;
+      margin: 0;
+    }
+    button {
+      padding: 0.5em;
+    }
+  }
+
+  .cards-container,
+  .Card {
+    display: grid;
+  }
+
+  .Card {
+    grid-column: 1 / span 1;
+    grid-row: 1 / span 1;
+    margin-inline: auto;
+    transform-style: preserve-3d;
+    transition: all 0.3s ease-in-out;
+    backface-visibility: hidden;
+    opacity: 0;
+    transform: translateY(-60%);
+    pointer-events: none;
+
+    &.active {
+      opacity: 1;
+      transform: translateY(0);
+      backface-visibility: visible;
+      pointer-events: auto;
+      &.flip {
+        transform: rotateY(180deg);
+      }
+    }
+
+    .card-front,
+    .card-back {
+      grid-column: 1 / span 1;
+      grid-row: 1 / span 1;
+      background-color: #fff;
+      backface-visibility: hidden;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+
+      .card__icons-container {
+        position: absolute;
+        top: 0.5em;
+        right: 0.5em;
+        button {
+          font-size: 1.8rem;
+          color: #fff;
+          transition: color 0.3s ease;
+        }
+      }
+    }
+    .card-front {
+      border: 15px solid var.$color-1;
+      .card__icons-container button {
+        color: var.$color-1;
+        &:hover {
+          color: darken(var.$color-1, 20%);
+        }
+        &:active {
+          color: darken(var.$color-1, 30%);
+        }
+      }
+    }
+
+    .card-back {
+      transform: rotateY(180deg);
+      border: 15px solid var.$color-4;
+      .card__icons-container button {
+        color: var.$color-4;
+        &:hover {
+          color: darken(var.$color-4, 20%);
+        }
+        &:active {
+          color: darken(var.$color-4, 30%);
+        }
+      }
+    }
+  }
+
+  .card-finish,
+  .card-front,
+  .card-back {
+    border-radius: 10px;
+    padding: 0.5em;
+    width: min(90vw, 730px);
+    aspect-ratio: 2/1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    box-shadow: 0px 5px 5px #ccc;
+  }
+  .card-finish {
+    margin-inline: auto;
+    border: 15px solid var.$color-2;
+    .card-finish__icons-container {
+      position: absolute;
+      left: 1em;
+      bottom: 0.5em;
+      button {
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+        text-decoration: none;
+        font-size: 1.2rem;
+        transition: transform 0.3s ease;
+        color: darken(var.$color-5, 10%);
+        &:hover {
+          transform: translateX(-5px);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .ViewSet {
+    padding: 1.2em 1em;
+    .ViewSet__header {
+      align-items: center;
+
+      .btn {
+        line-height: 1;
+      }
+      .ViewSet__header-left {
+        display: block;
+        h1 {
+          font-size: 2rem;
+          margin-bottom: 0.2em;
+        }
+        > :not(h1) {
+          display: inline-block;
+          vertical-align: middle;
+        }
+      }
+    }
+    .cards-container {
+      margin-top: 0.5em;
+      text-align: center;
+      .card__text {
+        font-size: 1.6rem;
+      }
+    }
+    .Card {
+      .card-front,
+      .card-back {
+        border-width: 8px;
+        aspect-ratio: 1/1.2;
+        .card__icons-container {
+          position: absolute;
+          top: 2px;
+          right: 2px;
+          button {
+            font-size: 1.5rem;
+            padding: 0.4em;
+          }
+        }
+      }
+    }
+
+    .card-finish {
+      border-width: 8px;
+      aspect-ratio: 1/1.2;
+      overflow: hidden;
+      .card-finish__icons-container {
+        left: 5px;
+        bottom: 2px;
+        button {
+          font-size: 1.2rem;
+        }
+      }
+    }
+    .set-info {
+      padding-inline: 0;
+    }
+  }
+}
+
+/* ========
+   MODAL
+========= */
+.modal-content {
+  form {
+    > div {
+      border-radius: 10px;
+      padding: 5px;
+    }
+    label.form-label {
+      display: block;
+      text-align: center;
+      font-weight: bold;
+      color: #fff;
+      letter-spacing: 1px;
+      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    div:nth-of-type(1) {
+      background-color: var.$color-1;
+      margin-bottom: 1em;
+    }
+    div:nth-of-type(2) {
+      background-color: var.$color-4;
+    }
+  }
+
+  .btn-secondary {
+    background-color: darken(var.$color-3, 30%);
+    border: darken(var.$color-3, 30%);
+  }
+}
+
+main.PrivateSet,
+main.SetNotFound {
+  margin-top: 2em;
+  text-align: center;
+}
