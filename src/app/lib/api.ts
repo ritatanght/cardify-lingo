@@ -64,7 +64,7 @@ export const getSet = (setId: number) => {
 };
 
 export const searchSets = (query: string) => {
-  return axios
+  return instance
     .get(`/api/search?query=${encodeURIComponent(query)}`)
     .then((res) => res.data);
 };
