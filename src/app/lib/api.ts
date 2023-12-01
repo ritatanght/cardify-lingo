@@ -13,7 +13,7 @@ export const getAllCategories = () => {
   return instance.get("/api/categories").then((res) => res.data);
 };
 
-export const getCategoryById = (categoryId: number) => {
+export const getCategoryById = (categoryId: string) => { // params.slug is string
   return instance.get(`/api/categories/${categoryId}`).then((res) => res.data);
 };
 
@@ -59,7 +59,7 @@ export const createSet = (setData: {
   return instance.post("/api/sets/create", setData);
 };
 
-export const getSet = (setId: number) => {
+export const getSet = (setId: string) => { // string for getting the params.slug
   return instance.get(`/api/sets/${setId}`).then((res) => res.data);
 };
 
