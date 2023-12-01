@@ -1,5 +1,7 @@
 "use client";
-import { useEffect, useState } from "react"; // import Cards from "../components/Cards";// import EditCardModal from "../components/EditCardModal";
+import { useEffect, useState } from "react"; 
+import Cards from "./Cards";
+// import EditCardModal from "../components/EditCardModal";
 import useFavButton from "@/app/hooks/useFavButton";// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
@@ -104,11 +106,11 @@ export default function Page({ params }: { params: { slug: string } }) {
         )}
       </section>
 
-      {/* <Cards
+      <Cards
          cards={cards}
          isSetOwner={user && user.id === set.user_id}
          onEdit={handleCardEdit}
-       /> */}
+       />
 
       {/* Edit Card Modal */}
       {/* {editingCard && (
@@ -120,7 +122,7 @@ export default function Page({ params }: { params: { slug: string } }) {
          />
        )} */}
 
-      <section className="set-info d-flex gap-2">
+      <section className="set-info flex gap-2">
         <p>{set.username}</p>
         <div className="description">
           <h3>Description:</h3>
