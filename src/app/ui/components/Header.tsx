@@ -43,6 +43,7 @@ export default function Header({ categories }: { categories: Category[] }) {
               src="/logo.png"
               width={60}
               height={35.2}
+              priority
               alt="Cardify logo"
             />
           </Link>
@@ -73,7 +74,7 @@ export default function Header({ categories }: { categories: Category[] }) {
                     <Menu.Item key={category.name}>
                       {({ active }) => (
                         <Link
-                          href={`category/${category.id}`}
+                          href={`/category/${category.id}`}
                           className={classNames(
                             active
                               ? "bg-gray-100 text-gray-900"
