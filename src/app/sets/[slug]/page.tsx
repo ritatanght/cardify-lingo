@@ -1,8 +1,5 @@
-"use client";
-import { useEffect, useState } from "react"; 
-import Cards from "./Cards";
-// import EditCardModal from "../components/EditCardModal";
-import useFavButton from "@/app/hooks/useFavButton";// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
+"use client";import { useEffect, useState } from "react";import Cards from "./Cards";// import EditCardModal from "../components/EditCardModal";// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
+import useFavButton from "@/app/hooks/useFavButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
@@ -63,7 +60,7 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   if (!setData) {
     return (
-      <main className="SetNotFound">
+      <main className="mt-8 text-center">
         <h2>Set Not Found</h2>
       </main>
     );
@@ -73,20 +70,27 @@ export default function Page({ params }: { params: { slug: string } }) {
 
   if (set.private && (!user || user.id !== set.user_id)) {
     return (
-      <main className="PrivateSet">
+      <main className="mt-8 text-center">
         <h2>This set is marked as private.</h2>
       </main>
     );
   }
 
   return (
-    <main className="ViewSet">
-      <section className="ViewSet__header">
-        <div className="ViewSet__header-left">
-          <h1>{set.title}</h1>
-          <h2>{set.category_name}</h2>
+    <main className="ViewSet py-5 px-4 md:p-0 max-w-4xl mx-auto ">
+      <section className="ViewSet__header flex justify-between items-center md:items-end gap-2">
+        <div className="ViewSet__header-left md:flex items-end gap-2">
+          <h1 className="text-[2rem] font-bold mb-2 md:mb-0 md:text-4xl">
+            {set.title}
+          </h1>
+          <h2 className="bg-color-3 rounded-md p-2 text-base inline-block ">
+            {set.category_name}
+          </h2>
           {user && (
-            <button onClick={() => toggleLike(set)}>
+            <button
+              className="text-3xl inline-block align-middle"
+              onClick={() => toggleLike(set)}
+            >
               {isLiked ? (
                 <FontAwesomeIcon
                   icon={fillHeart}
@@ -102,15 +106,15 @@ export default function Page({ params }: { params: { slug: string } }) {
           )}
         </div>
         {user && user.id === set.user_id && (
-          <Link href={`/sets/edit/${params.slug}`}>Edit Set</Link>
+          <Link className="btn" href={`/sets/edit/${params.slug}`}>Edit Set</Link>
         )}
       </section>
 
       <Cards
-         cards={cards}
-         isSetOwner={user && user.id === set.user_id}
-         onEdit={handleCardEdit}
-       />
+        cards={cards}
+        isSetOwner={user && user.id === set.user_id}
+        onEdit={handleCardEdit}
+      />
 
       {/* Edit Card Modal */}
       {/* {editingCard && (
@@ -122,10 +126,10 @@ export default function Page({ params }: { params: { slug: string } }) {
          />
        )} */}
 
-      <section className="set-info flex gap-2">
-        <p>{set.username}</p>
-        <div className="description">
-          <h3>Description:</h3>
+      <section className="set-info px-0 flex gap-2 md:px-8 justify-between">
+        <p className="p-4 text-lg font-bold basis-3/12">{set.username}</p>
+        <div className="description p-4 basis-9/12">
+          <h3 className="text-lg">Description:</h3>
           <p>{set.description}</p>
         </div>
       </section>

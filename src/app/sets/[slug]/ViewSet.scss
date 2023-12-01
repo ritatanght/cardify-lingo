@@ -1,72 +1,7 @@
 @use "@/app/ui/variables" as var;
 
 .ViewSet {
-  max-width: 800px;
-  margin: 0 auto;
-  .ViewSet__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 0.2em;
-    .ViewSet__header-left {
-      display: flex;
-      align-items: flex-end;
-      gap: 0.5em;
-    }
-  }
-  h1,
-  h2 {
-    margin-bottom: 0;
-  }
-
-  h2 {
-    background-color: var.$color-3;
-    padding: 0.5em;
-    border-radius: 5px;
-    font-size: 1rem;
-  }
-
-  .heart-icon {
-    font-size: 1.8rem;
-  }
-
-  .cards-navigation {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    letter-spacing: 5px;
-    button {
-      font-size: 1.8rem;
-      color: var.$color-5;
-      margin: 0;
-      &:hover {
-        color: darken(var.$color-5, 15%);
-      }
-    }
-  }
-
-  .set-info {
-    padding-inline: 2em;
-    justify-content: space-between;
-    > * {
-      margin: 0;
-      padding: 1em;
-      border-radius: 10px;
-    }
-    > p {
-      font-size: 1.2rem;
-      font-weight: bold;
-      flex-basis: 20%;
-    }
-    div.description {
-      flex-basis: 70%;
-      h3 {
-        font-size: 1.2rem;
-      }
-    }
-  }
-
+ 
   /* ========
     Cards
   ========= */
@@ -198,25 +133,6 @@
 
 @media screen and (max-width: 800px) {
   .ViewSet {
-    padding: 1.2em 1em;
-    .ViewSet__header {
-      align-items: center;
-
-      .btn {
-        line-height: 1;
-      }
-      .ViewSet__header-left {
-        display: block;
-        h1 {
-          font-size: 2rem;
-          margin-bottom: 0.2em;
-        }
-        > :not(h1) {
-          display: inline-block;
-          vertical-align: middle;
-        }
-      }
-    }
     .cards-container {
       margin-top: 0.5em;
       text-align: center;
@@ -253,9 +169,7 @@
         }
       }
     }
-    .set-info {
-      padding-inline: 0;
-    }
+   
   }
 }
 
@@ -290,10 +204,4 @@
     background-color: darken(var.$color-3, 30%);
     border: darken(var.$color-3, 30%);
   }
-}
-
-main.PrivateSet,
-main.SetNotFound {
-  margin-top: 2em;
-  text-align: center;
 }
