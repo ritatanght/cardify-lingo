@@ -1,6 +1,5 @@
 import { Set } from "@/app/lib/definitions";import Link from "next/link";
-import useFavButton from "@/app/hooks/useFavButton";
-// import { useUser } from "../context/UserProvider";
+import useFavButton from "@/app/hooks/useFavButton"; // import { useUser } from "../context/UserProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
@@ -19,25 +18,28 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
   //   checkLiked(favoriteSets, set.id);
   // }, [checkLiked, favoriteSets, set.id]);
   return (
-    <div className="set-item-container">
-      <Link href={`/sets/${set.id}`}>
-        <p>{set.title}</p>
+    <div className="set-item-container border-4 border-color-2 rounded-2xl flex items-start flex-col justify-between p-4 md:flex-row items-center md:py-6 my-4">
+      <Link
+        href={`/sets/${set.id}`}
+        className="text-2xl self-start md:text-3xl font-bold"
+      >
+        {set.title}
       </Link>
-      <div className="set-item-right">
+      <div className="set-item-right flex self-end md:justify-between items-center">
         {user && user.id === set.user_id ? (
-          <div className="set-icons">
+          <div className="set-icons text-2xl ml-3 bg-transparent">
             <button onClick={onDelete}>
               <FontAwesomeIcon icon={faTrashCan} className="icon-primary" />
             </button>
-            <Link href={`/sets/edit/${set.id}`}>
+            <Link href={`/sets/edit/${set.id}`} className="text-2xl ml-3">
               <FontAwesomeIcon icon={faPenToSquare} className="icon-primary" />
             </Link>
           </div>
         ) : (
-          <span>{setOwner}</span>
+          <span className="italic text-darken-5-200 text-2xl">{setOwner}</span>
         )}
         {user && (
-          <button onClick={() => toggleLike(set)}>
+          <button className="text-2xl ml-3 bg-transparent" onClick={() => toggleLike(set)}>
             {isLiked ? (
               <FontAwesomeIcon
                 icon={fillHeart}
