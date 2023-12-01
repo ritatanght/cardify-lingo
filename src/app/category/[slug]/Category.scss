@@ -1,0 +1,14 @@
+@use "@/app/ui/variables" as var;
+
+.Category-container h1 {
+  margin-bottom: 1.2em; // Space below the category title
+  span {
+    color: var.$color-5;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .Category-container h1 {
+    font-size: 2.2rem;
+  }
+}
