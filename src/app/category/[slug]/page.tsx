@@ -1,6 +1,4 @@
-"use client";
-import { useState, useEffect } from "react"; 
-// import useSetsList from "../hooks/useSetsList";
+"use client";import { useState, useEffect } from "react";// import useSetsList from "../hooks/useSetsList";
 // import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
 // import Spinner from "react-bootstrap/Spinner";
 import "./Category.scss";
@@ -14,6 +12,8 @@ type categoryData = {
 };
 
 const user = { id: 1, username: "john_doe" };
+const deleteSet = (setId: number) => {};
+
 
 export default function Page({ params }: { params: { slug: string } }) {
   // const { user } = useUser();
@@ -21,7 +21,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [sets, setSets] = useState<Set[] | []>([]);
   const [category, setCategory] = useState("");
   //const [isLoading, setIsLoading] = useState(true);
-console.log(category)
+  console.log(category);
   useEffect(() => {
     getCategoryById(Number(params.slug))
       .then((data: categoryData) => {
@@ -58,6 +58,7 @@ console.log(category)
     }
   });
 
+ 
   const setsElements =
     Array.isArray(displaySet) &&
     displaySet.map((set) => (
@@ -65,7 +66,7 @@ console.log(category)
         key={set.id}
         set={set}
         setOwner={set.username}
-        //onDelete={() => deleteSet(set.id)}
+        onDelete={() => deleteSet(set.id)}
       />
     ));
 
