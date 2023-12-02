@@ -1,4 +1,5 @@
-"use client";import Link from "next/link";
+"use client";
+import Link from "next/link";
 import Image from "next/image";
 import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
@@ -10,10 +11,9 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
-
+import { useUser } from "@/app/context/UserProvider";
 import { Category } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
-const user = { id: 1, username: "john_doe" };
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -21,6 +21,8 @@ function classNames(...classes: string[]) {
 
 export default function Header({ categories }: { categories: Category[] }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout } = useUser();
+
   return (
     <header className="px-4 md:px-6">
       {/* <ToastContainer
@@ -120,17 +122,17 @@ export default function Header({ categories }: { categories: Category[] }) {
 
                 <button
                   className="btn sign-out-btn"
-                  //onClick={logout}
+                  onClick={logout}
                 >
                   Sign Out
                 </button>
               </div>
             ) : (
               <div>
-                <Link className="login-btn" href="/login">
+                <Link className="btn login-btn" href="/login">
                   Login
                 </Link>
-                <Link href="/register">Sign Up</Link>
+                <Link href="/register" className="btn">Sign Up</Link>
               </div>
             )}
           </div>
