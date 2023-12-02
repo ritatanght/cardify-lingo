@@ -13,23 +13,18 @@ export const userContext = createContext({} as any);
 export const useUser = () => {
   return useContext(userContext);
 };
-const loggedInUser = localStorage.getItem("loggedInUser");
-const favSets = localStorage.getItem("favoriteSets");
 const userInfo = { id: 1, username: "john_doe" };
 
 export const UserProvider = (props: any) => {
-  const [user, setUser] = useState<LoggedInUser | null>(
-    loggedInUser ? JSON.parse(loggedInUser) : null
-  );
-  const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | []>(
-    favSets ? JSON.parse(favSets) : []
-  );
+  const [user, setUser] = useState<LoggedInUser | null>(null);
+  const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | []>([]);
+
   useEffect(() => {
     setUser(userInfo);
   }, []);
 
   // useEffect(() => {
-  //   if (user) {
+  //   if (user && !favoriteSets) {
   //     getUserFavorites()
   //       .then(setFavoriteSets)
   //       .catch((err) => {
@@ -41,6 +36,17 @@ export const UserProvider = (props: any) => {
   //       });
   //   }
   // }, [user]);
+
+  useEffect(() => {
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    const favSets = localStorage.getItem("favoriteSets");
+    if (loggedInUser) {
+      setUser(JSON.parse(loggedInUser));
+    }
+    if (favSets) {
+      setFavoriteSets(JSON.parse(favSets));
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("favoriteSets", JSON.stringify(favoriteSets));
