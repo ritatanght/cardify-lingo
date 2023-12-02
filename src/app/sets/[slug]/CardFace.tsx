@@ -12,12 +12,12 @@ interface CardFaceProps {
 }
 
 const CardFace = ({ position, text, voice, isSetOwner, onEdit }:CardFaceProps) => {
-  const handleCardEdit = (e) => {
+  const handleCardEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
     onEdit();
   };
 
-  const speakText = (e) => {
+  const speakText = (e: React.MouseEvent) => {
     e.stopPropagation();
     const synth = window.speechSynthesis;
     // if (!synth)
