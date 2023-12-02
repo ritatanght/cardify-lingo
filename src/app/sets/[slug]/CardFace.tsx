@@ -3,7 +3,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
 
-const CardFace = ({ position, text, voice, isSetOwner, onEdit }) => {
+interface CardFaceProps {
+  position: string;
+  text: string;
+  voice: SpeechSynthesisVoice;
+  isSetOwner: boolean;
+  onEdit: () => void;
+}
+
+const CardFace = ({ position, text, voice, isSetOwner, onEdit }:CardFaceProps) => {
   const handleCardEdit = (e) => {
     e.stopPropagation();
     onEdit();
@@ -12,8 +20,8 @@ const CardFace = ({ position, text, voice, isSetOwner, onEdit }) => {
   const speakText = (e) => {
     e.stopPropagation();
     const synth = window.speechSynthesis;
-    if (!synth)
-      return toast.error("Your browser does not support Speech Synthesis");
+    // if (!synth)
+    //   return toast.error("Your browser does not support Speech Synthesis");
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = voice;
 
@@ -25,9 +33,9 @@ const CardFace = ({ position, text, voice, isSetOwner, onEdit }) => {
   };
 
   const style = {
-    border: position ===  'front'? 'border-color-1': 'border-color-4',
-    textColor: position ===  'front'? 'text-color-1': 'text-color-4'
-  }
+    border: position === "front" ? "border-color-1" : "border-color-4",
+    textColor: position === "front" ? "text-color-1" : "text-color-4",
+  };
 
   return (
     <div
