@@ -32,11 +32,17 @@ const Page = () => {
     } else {
       // display upon redirect to login page
       //toast.info("Login to view your profile.");
+      return router.replace("/login");
     }
   }, [user]);
 
-  // Redirect to login page
-  if (!user) return router.replace("/login");
+  // Redirect to login page after mount
+  if (!user)
+    return (
+      <main>
+        <h1 className="text-center">Login to view your profile</h1>
+      </main>
+    );
 
   if (isLoading) {
     return (
@@ -56,6 +62,8 @@ const Page = () => {
     return classes.filter(Boolean).join(" ");
   }
 
+  const tabs = ["My Set", "Favorite Sets"];
+
   return (
     <main className="profile-container">
       <div className="flex justify-between items-center mb-6">
@@ -66,32 +74,22 @@ const Page = () => {
       </div>
       <Tab.Group>
         <Tab.List className="flex space-x-1 rounded-xl bg-color-3 p-1">
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
-                "ring-color-4 focus:outline-none focus:ring-2",
-                selected
-                  ? "bg-white text-darken-5-200 shadow"
-                  : "text-gray-500 hover:bg-color-4 hover:text-white"
-              )
-            }
-          >
-            My Sets
-          </Tab>
-          <Tab
-            className={({ selected }) =>
-              classNames(
-                "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
-                "ring-color-4 focus:outline-none focus:ring-2",
-                selected
-                  ? "bg-white text-darken-5-200 shadow"
-                  : "text-gray-500 hover:bg-color-4 hover:text-white"
-              )
-            }
-          >
-            Favorite Sets
-          </Tab>
+          {tabs.map((tab) => (
+            <Tab
+              key={tab}
+              className={({ selected }) =>
+                classNames(
+                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
+                  "ring-color-4 focus:outline-none focus:ring-2",
+                  selected
+                    ? "bg-white text-darken-5-200 shadow"
+                    : "text-gray-500 hover:bg-color-4 hover:text-white"
+                )
+              }
+            >
+              {tab}
+            </Tab>
+          ))}
         </Tab.List>
         <Tab.Panels className="mt-2">
           <Tab.Panel
@@ -122,7 +120,7 @@ const Page = () => {
             )}
           >
             {favoriteSets.length > 0 ? (
-              favoriteSets.map((favoriteSet:FavoriteSet) => (
+              favoriteSets.map((favoriteSet: FavoriteSet) => (
                 <SetItem
                   key={favoriteSet.id}
                   set={favoriteSet}
