@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import useSetsList from "@/app/hooks/useSetsList";
+import { useUser } from "@/app/context/UserProvider";
 // import Spinner from "react-bootstrap/Spinner";
 import { getCategoryById } from "@/app/lib/api";
 import { Category, Set } from "@/app/lib/definitions";
@@ -12,10 +13,8 @@ type categoryData = {
   sets: Set[];
 };
 
-const user = { id: 1, username: "john_doe" };
-
 export default function Page({ params }: { params: { slug: string } }) {
-  // const { user } = useUser();
+  const { user } = useUser();
   const { sets, setSets, deleteSet } = useSetsList();
   const [category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);

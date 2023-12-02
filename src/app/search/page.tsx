@@ -4,9 +4,8 @@ import { useSearchParams } from "next/navigation";
 
 import SetItem from "@/app/ui/components/SetItem";
 import useSetsList from "@/app/hooks/useSetsList";
-// import { useUser } from "../context/UserProvider";
+import { useUser } from "../context/UserProvider";
 // import { toast } from "react-toastify";
-// import Spinner from "react-bootstrap/Spinner";
 import { searchSets } from "@/app/lib/api";
 import Loading from "../loading";
 
@@ -15,7 +14,7 @@ const user = { id: 1, username: "john_doe" };
 export default function Page() {
   const searchParams = useSearchParams();
   const query: string | null = searchParams.get("query");
-  //  const { user } = useUser();
+  const { user } = useUser();
 
   const { sets, setSets, deleteSet } = useSetsList();
   const [isLoading, setIsLoading] = useState(true);
