@@ -8,11 +8,11 @@ interface CardItemProps {
   currCard: number;
   seq: number;
   isSetOwner: boolean;
-  voice: SpeechSynthesisVoice;
-  onEdit: (card: Card) => void;
+  voice: SpeechSynthesisVoice | null;
+  onEdit: () => void;
 }
 
-const CardItem = (props:CardItemProps) => {
+const CardItem = (props: CardItemProps) => {
   const [isFlip, setIsFlip] = useState(false);
   const { front, back, currCard, seq, isSetOwner, voice, onEdit } = props;
 

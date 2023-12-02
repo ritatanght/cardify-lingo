@@ -6,7 +6,7 @@ import { playpen } from "@/app/ui/fonts";
 interface CardFaceProps {
   position: string;
   text: string;
-  voice: SpeechSynthesisVoice;
+  voice: SpeechSynthesisVoice | null;
   isSetOwner: boolean;
   onEdit: () => void;
 }
