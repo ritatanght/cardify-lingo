@@ -1,86 +1,59 @@
 @use "@/app/ui/variables" as var;
 
-.ViewSet {
-  /* ========
+/* ========
     Cards
   ========= */
 
-  .Card {
-    transform-style: preserve-3d;
-    transition: all 0.3s ease-in-out;
-    backface-visibility: hidden;
-    &.active {
-      backface-visibility: visible;
-      &.flip {
-        transform: rotateY(180deg);
-      }
-    }
-
-    .card-front,
-    .card-back {
-      backface-visibility: hidden;
-      transition: all 0.3s ease-in-out;
-    }
-    .card-front {
-      .card__icons-container button {
-        &:hover {
-          color: darken(var.$color-1, 20%);
-        }
-        &:active {
-          color: darken(var.$color-1, 30%);
-        }
-      }
-    }
-
-    .card-back {
+.Card {
+  transform-style: preserve-3d;
+  transition: all 0.3s ease-in-out;
+  backface-visibility: hidden;
+  &.active {
+    backface-visibility: visible;
+    &.flip {
       transform: rotateY(180deg);
-      .card__icons-container button {
-        &:hover {
-          color: darken(var.$color-4, 20%);
-        }
-        &:active {
-          color: darken(var.$color-4, 30%);
-        }
-      }
     }
   }
 
-  .card-finish,
   .card-front,
   .card-back {
-    width: min(90vw, 730px);
+    backface-visibility: hidden;
+    transition: all 0.3s ease-in-out;
   }
+  .card-front {
+    .card__icons-container button {
+      &:hover {
+        color: darken(var.$color-1, 20%);
+      }
+      &:active {
+        color: darken(var.$color-1, 30%);
+      }
+    }
+  }
+
+  .card-back {
+    transform: rotateY(180deg);
+    .card__icons-container button {
+      &:hover {
+        color: darken(var.$color-4, 20%);
+      }
+      &:active {
+        color: darken(var.$color-4, 30%);
+      }
+    }
+  }
+}
+
+.card-finish,
+.card-front,
+.card-back {
+  width: min(90vw, 730px);
 }
 
 /* ========
    MODAL
 ========= */
-.modal-content {
-  form {
-    > div {
-      border-radius: 10px;
-      padding: 5px;
-    }
-    label.form-label {
-      display: block;
-      text-align: center;
-      font-weight: bold;
-      color: #fff;
-      letter-spacing: 1px;
-      text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
-    }
 
-    div:nth-of-type(1) {
-      background-color: var.$color-1;
-      margin-bottom: 1em;
-    }
-    div:nth-of-type(2) {
-      background-color: var.$color-4;
-    }
-  }
-
-  button {
-    background-color: darken(var.$color-3, 30%);
-    border: darken(var.$color-3, 30%);
-  }
+label {
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.3);
 }
