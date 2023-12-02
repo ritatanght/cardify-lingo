@@ -28,7 +28,7 @@ export default function SearchBar({ closeMenu }: { closeMenu: () => void }) {
   };
 
   return (
-    <form className="SearchBar">
+    <form className="m-0 md:mx-auto">
       <input
         name="query"
         placeholder="Search"
