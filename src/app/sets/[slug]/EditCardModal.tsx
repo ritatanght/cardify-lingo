@@ -2,8 +2,9 @@ import { Card } from "@/app/lib/definitions";
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useUser } from "@/app/context/UserProvider";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { editCardById } from "@/app/lib/api";
+import { useRouter } from "next/navigation";
 
 interface modalProps {
   show: boolean;
@@ -12,22 +13,24 @@ interface modalProps {
   onUpdate: (card: Card) => void;
 }
 const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
+  const router = useRouter();
   const { clearUserInfo } = useUser();
 
   const [front, setFront] = useState(card.front);
   const [back, setBack] = useState(card.back);
 
   const handleSubmit = () => {
-    // if (!front || !back)
-    //   return toast.info("Front and back text cannot be empty");
+    if (!front || !back)
+      return toast.info("Front and back text cannot be empty");
     // Update the card data on the backend first
     editCardById(card.id, { front, back })
       .then((response) => {
         if (response.data.success) {
           // If successful, update the UI
           onUpdate({ ...card, front, back });
-          // toast.success("Changes have been saved.", {
-          // position: "top-center",         });
+          toast.success("Changes have been saved.", {
+            position: "top-center",
+          });
           onHide();
         } else {
           console.error("Error updating card: ", response.data.message);
@@ -35,11 +38,11 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
       })
       .catch((err) => {
         if (err.response.status === 401) {
-          //   toast.info(err.response.data.message);
-          //   clearUserInfo();
-          //   return navigate("/login");
-          // } else {
-          //   toast.error(err);
+          toast.info(err.response.data.message);
+          clearUserInfo();
+          return router.replace("/login");
+        } else {
+          toast.error(err);
         }
       });
   };

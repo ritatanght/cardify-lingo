@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useUser } from "@/app/context/UserProvider";
-//import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { deleteSetById } from "@/app/lib/api";
 import { Set } from "../lib/definitions";
 
@@ -15,12 +15,12 @@ const useSetsList = () => {
           const updatedSets = sets.filter((set) => set.id !== setId);
           setSets(updatedSets);
           removeFromFavList(setId);
-          // toast.success(res.data.message);
+          toast.success(res.data.message);
         }
       })
       .catch((err) => {
         if (err.response.status === 401) {
-          // toast.info(err.response.data.message);
+          toast.info(err.response.data.message);
           clearUserInfo();
         } else {
           console.error("Error deleting the set: ", err);

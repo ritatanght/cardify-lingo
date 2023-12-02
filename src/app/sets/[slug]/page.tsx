@@ -2,7 +2,7 @@
 import Cards from "./Cards"; 
 import EditCardModal from "./EditCardModal";
 import { useUser } from "@/app/context/UserProvider";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import useFavButton from "@/app/hooks/useFavButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
@@ -28,7 +28,7 @@ export default function Page({ params }: { params: { slug: string } }) {
     getSet(params.slug)
       .then(setSetData)
       .catch((err) => {
-        //toast.error(err);
+        toast.error(err);
       })
       .finally(() => setIsLoading(false));
     // check whether the current set is liked by the logged in user

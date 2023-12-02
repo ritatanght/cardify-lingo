@@ -2,7 +2,7 @@ import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useSearchParams, useRouter } from "next/navigation";
-//import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function SearchBar({ closeMenu }: { closeMenu: () => void }) {
   const searchParams = useSearchParams();
@@ -11,8 +11,8 @@ export default function SearchBar({ closeMenu }: { closeMenu: () => void }) {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // if (!queryString) return toast.info("Please enter keyword for search");
-    if (!queryString) return console.log("Please enter keyword for search");
+    if (!queryString) return toast.info("Please enter keyword for search");
+
     setQueryString("");
     closeMenu();
     const params = new URLSearchParams(searchParams);
