@@ -5,11 +5,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
+import { Card } from "@/app/lib/definitions";
 
-const Cards = ({ cards, isSetOwner, onEdit }) => {
+interface CardsProps {
+  cards: Card[];
+  isSetOwner: boolean;
+  onEdit: (card: Card) => void;
+}
+
+const Cards = ({ cards, isSetOwner, onEdit }: CardsProps) => {
   const [currCard, setCurrCard] = useState(1);
   const [isFinished, setIsFinished] = useState(false);
-  const [voice, setVoice] = useState(null);
+  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
 
   useEffect(() => {
     const initializeVoices = () => {
