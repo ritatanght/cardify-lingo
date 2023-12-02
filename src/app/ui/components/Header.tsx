@@ -12,6 +12,7 @@ import "../Header.scss";
 import { useUser } from "@/app/context/UserProvider";
 import { Category } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
+import { ToastContainer } from "react-toastify";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -23,7 +24,7 @@ export default function Header({ categories }: { categories: Category[] }) {
 
   return (
     <header className="px-4 md:px-6">
-      {/* <ToastContainer
+      <ToastContainer
         position="bottom-center"
         autoClose={4000}
         hideProgressBar={false}
@@ -34,7 +35,7 @@ export default function Header({ categories }: { categories: Category[] }) {
         draggable
         pauseOnHover
         theme="light"
-      /> */}
+      />
       <nav className="flex gap-x-2 items-center justify-between">
         <div className="flex gap-x-2 items-center">
           <Link href="/">
