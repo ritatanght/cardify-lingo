@@ -10,6 +10,8 @@ import "./Profile.scss";
 import { getUserSets } from "@/app/lib/api";
 import Link from "next/link";
 import Loading from "../loading";
+import { playpen } from "../ui/fonts";
+import { FavoriteSet } from "../lib/definitions";
 
 const Page = () => {
   const router = useRouter();
@@ -39,8 +41,8 @@ const Page = () => {
   if (isLoading) {
     return (
       <main className="profile-container">
-        <div className="d-flex justify-content-between align-items-center mb-4">
-          <h1>{user.username}</h1>
+        <div className="flex justify-between items-center mb-6">
+          <h1 className={`text-4xl ${playpen.className}`}>{user.username}</h1>
           <Link className="create-set btn" href="/sets/create">
             Create Set
           </Link>
@@ -56,8 +58,8 @@ const Page = () => {
 
   return (
     <main className="profile-container">
-      <div className="flex justify-between items-center mb-4">
-        <h1>{user.username}</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className={`text-4xl ${playpen.className}`}>{user.username}</h1>
         <Link className="create-set btn" href="/sets/create">
           Create Set
         </Link>
@@ -91,38 +93,50 @@ const Page = () => {
             Favorite Sets
           </Tab>
         </Tab.List>
-        {/* <Tab eventKey="my-sets" title="My Sets" className="text-center">
-          {sets.length > 0 ? (
-            sets.map((set) => (
-              <SetItem
-                key={set.id}
-                set={set}
-                setOwner={user.username}
-                onDelete={() => deleteSet(set.id)}
-              />
-            ))
-          ) : (
-            <p className="text-center empty">
-              You don&apos;t have any sets yet.
-            </p>
-          )}
-        </Tab>
-        <Tab eventKey="favorite-sets" title="Favorite Sets">
-          {favoriteSets.length > 0 ? (
-            favoriteSets.map((favoriteSet) => (
-              <SetItem
-                key={favoriteSet.id}
-                set={favoriteSet}
-                setOwner={favoriteSet.username}
-                onDelete={() => deleteSet(favoriteSet.id)}
-              />
-            ))
-          ) : (
-            <p className="text-center empty">
-              You have not favorited any sets yet.
-            </p>
-          )}
-        </Tab> */}
+        <Tab.Panels className="mt-2">
+          <Tab.Panel
+            className={classNames(
+              "rounded-xl bg-white p-3",
+              "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+            )}
+          >
+            {sets.length > 0 ? (
+              sets.map((set) => (
+                <SetItem
+                  key={set.id}
+                  set={set}
+                  setOwner={user.username}
+                  onDelete={() => deleteSet(set.id)}
+                />
+              ))
+            ) : (
+              <p className="text-center empty">
+                You don&apos;t have any sets yet.
+              </p>
+            )}
+          </Tab.Panel>
+          <Tab.Panel
+            className={classNames(
+              "rounded-xl bg-white p-3",
+              "focus:outline-none focus:ring-2"
+            )}
+          >
+            {favoriteSets.length > 0 ? (
+              favoriteSets.map((favoriteSet:FavoriteSet) => (
+                <SetItem
+                  key={favoriteSet.id}
+                  set={favoriteSet}
+                  setOwner={favoriteSet.username}
+                  onDelete={() => deleteSet(favoriteSet.id)}
+                />
+              ))
+            ) : (
+              <p className="text-center empty">
+                You have not favorited any sets yet.
+              </p>
+            )}
+          </Tab.Panel>
+        </Tab.Panels>
       </Tab.Group>
     </main>
   );
