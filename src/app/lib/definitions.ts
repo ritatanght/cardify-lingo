@@ -33,7 +33,7 @@ export type FullSet = {
 }
 
 export type Card = {
-  id: number | string;
+  id: number;
   set_id: number;
   front: string;
   back: string;
