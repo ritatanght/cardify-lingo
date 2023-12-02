@@ -1,5 +1,4 @@
-"use client";import Link from "next/link";import Image from "next/image";
-import { useState, Fragment } from "react";
+"use client";import Link from "next/link";import Image from "next/image";import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,6 +8,7 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
+import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "@/app/context/UserProvider";
 import { Category } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
