@@ -30,7 +30,7 @@ export const UserProvider = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (user && !favoriteSets) {
+    if (user) {
       getUserFavorites()
         .then(setFavoriteSets)
         .catch((err) => {
