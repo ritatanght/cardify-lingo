@@ -1,5 +1,4 @@
-"use client";
-import { useState } from "react";
+"use client";import { useEffect, useState } from "react";
 import { useUser } from "@/app/context/UserProvider";
 import { useRouter } from "next/navigation";
 //import { toast } from "react-toastify";
@@ -13,6 +12,12 @@ const Page = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/profile");
+    }
+  }, [user]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +44,12 @@ const Page = () => {
   };
 
   // redirect to profile if user has already logged-in
-  if (user) return router.replace("/profile");
+  if (user)
+    return (
+      <main>
+        <h1 className="text-center">You have already logged in</h1>
+      </main>
+    );
 
   return (
     <main>
