@@ -13,8 +13,12 @@ const CardItem = (props) => {
 
   return (
     <div
-      className={`Card${isFlip ? " flip" : ""}${
-        seq === currCard ? " active" : ""
+      className={`Card grid col-start-1 col-span-1 row-start-1 row-span-1 mx-auto -translate-y-3/4 pointer-events-none opacity-0${
+        isFlip ? " flip" : ""
+      }${
+        seq === currCard
+          ? " active pointer-events-auto translate-y-0 opacity-100"
+          : ""
       }`}
       onClick={() => setIsFlip(!isFlip)}
     >

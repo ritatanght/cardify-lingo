@@ -1,6 +1,7 @@
 //import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { playpen } from "@/app/ui/fonts";
 
 const CardFace = ({ position, text, voice, isSetOwner, onEdit }) => {
   const handleCardEdit = (e) => {
@@ -23,19 +24,41 @@ const CardFace = ({ position, text, voice, isSetOwner, onEdit }) => {
     synth.speak(utterance);
   };
 
+  const style = {
+    border: position ===  'front'? 'border-color-1': 'border-color-4',
+    textColor: position ===  'front'? 'text-color-1': 'text-color-4'
+  }
+
   return (
-    <div className={`card-${position}`}>
-      <div className="card__icons-container">
+    <div
+      className={`card-${position} border-8 md:border-[15px] col-start-1 col-span-1 row-start-1 row-span-1 bg-white cursor-pointer rounded-lg relative flex justify-center
+      items-center p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc] ${style.border}`}
+    >
+      <div
+        className={
+          "card__icons-container absolute top-1 right-1 md:top-2 md:right-2"
+        }
+      >
         {isSetOwner && (
-          <button onClick={handleCardEdit}>
+          <button
+            className={`p-2 md:p-4 text-2xl md:text-3xl transition-colors duration-300 ${style.textColor}`}
+            onClick={handleCardEdit}
+          >
             <FontAwesomeIcon icon={faPenToSquare} />
           </button>
         )}
-        <button onClick={speakText}>
+        <button
+          className={`p-2 md:p-4 text-2xl md:text-3xl transition-colors duration-300 ${style.textColor}`}
+          onClick={speakText}
+        >
           <FontAwesomeIcon icon={faVolumeHigh} />
         </button>
       </div>
-      <p className="card__text">{text}</p>
+      <p
+        className={`card__text text-2xl md:text-[2rem] leading-snug ${playpen.className}`}
+      >
+        {text}
+      </p>
     </div>
   );
 };

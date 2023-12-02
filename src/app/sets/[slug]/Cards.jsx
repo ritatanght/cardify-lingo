@@ -4,6 +4,7 @@ import CardItem from "./CardItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import { playpen } from "@/app/ui/fonts";
 
 const Cards = ({ cards, isSetOwner, onEdit }) => {
   const [currCard, setCurrCard] = useState(1);
@@ -58,15 +59,21 @@ const Cards = ({ cards, isSetOwner, onEdit }) => {
     ));
 
   return (
-    <div className="cards-container">
+    <div className="cards-container mt-2 text-center md:mt-6 grid">
       {isFinished ? (
-        <div className="card-finish">
+        <div
+          className="card-finish rounded-lg border-8 md:border-[15px] overflow-hidden border-color-2 mx-auto relative flex justify-center
+      items-center p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc]"
+        >
           {/* <Confetti width={700} height={335} opacity={0.8} /> */}
-          <p className="card__text">
+          <p className={`card__text text-2xl md:text-3xl ${playpen.className}`}>
             Congratulations! You&apos;ve finished the set!
           </p>
-          <div className="card-finish__icons-container">
-            <button onClick={resetCard}>
+          <div className="card-finish__icons-container absolute left-2 bottom-1 md:left-4 bottom-2">
+            <button
+              className="text-xl flex items-center text-darken-5-100 duration-300 gap-2 transition-transform hover:-translate-x-1.5"
+              onClick={resetCard}
+            >
               <FontAwesomeIcon icon={faArrowLeft} />{" "}
               <span>Go back to first card</span>
             </button>
@@ -76,19 +83,27 @@ const Cards = ({ cards, isSetOwner, onEdit }) => {
         cardsElement
       )}
 
-      <div className={`cards-navigation${isFinished ? " hide" : ""}`}>
+      <div
+        className={`flex justify-center items-center text-xl cards-navigation${
+          isFinished ? " invisible" : ""
+        }`}
+      >
         <button
-          className={currCard === 1 ? "hide" : ""}
-        
+          className={`text-3xl text-color-5 p-4 hover:text-darken-5-100${
+            currCard === 1 ? " invisible" : ""
+          }`}
           onClick={prevCard}
         >
           <FontAwesomeIcon icon={faArrowLeft} />
         </button>
 
-        <span>
+        <span className="tracking-[0.3em] pl-1">
           {currCard}/{cards.length}
         </span>
-        <button onClick={nextCard}>
+        <button
+          className="text-3xl text-color-5 p-4 hover:text-darken-5-100"
+          onClick={nextCard}
+        >
           <FontAwesomeIcon icon={faArrowRight} />
         </button>
       </div>
