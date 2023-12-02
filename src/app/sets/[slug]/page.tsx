@@ -1,4 +1,6 @@
-"use client";import { useEffect, useState } from "react";import Cards from "./Cards";// import EditCardModal from "../components/EditCardModal";// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
+"use client";
+import { useEffect, useState } from "react";
+import Cards from "./Cards"; // import EditCardModal from "../components/EditCardModal";// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
 import useFavButton from "@/app/hooks/useFavButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
@@ -83,12 +85,12 @@ export default function Page({ params }: { params: { slug: string } }) {
           <h1 className="text-[2rem] font-bold mb-2 md:mb-0 md:text-4xl">
             {set.title}
           </h1>
-          <h2 className="bg-color-3 rounded-md p-2 text-base inline-block ">
+          <h2 className="bg-color-3 rounded-md p-2 text-base inline-block mb-2 md:mb-0">
             {set.category_name}
           </h2>
           {user && (
             <button
-              className="text-3xl inline-block align-middle"
+              className="text-3xl inline-block align-middle ml-2"
               onClick={() => toggleLike(set)}
             >
               {isLiked ? (
@@ -106,7 +108,9 @@ export default function Page({ params }: { params: { slug: string } }) {
           )}
         </div>
         {user && user.id === set.user_id && (
-          <Link className="btn" href={`/sets/edit/${params.slug}`}>Edit Set</Link>
+          <Link className="btn" href={`/sets/edit/${params.slug}`}>
+            Edit Set
+          </Link>
         )}
       </section>
 
