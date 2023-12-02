@@ -21,7 +21,7 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getCategoryById(Number(params.slug))
+    getCategoryById(params.slug)
       .then((data: categoryData) => {
         setCategory(data.category);
         setSets(data.sets);

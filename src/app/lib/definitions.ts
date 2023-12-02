@@ -21,10 +21,16 @@ export type Set = {
   description: string;
   private: boolean;
   category_id: number;
+  category_name: string;
   user_id: number;
   deleted: boolean;
-  username: string
-};
+  username: string;
+}
+
+export type FullSet = {
+  set: Set;
+  cards: Card[];
+}
 
 export type Card = {
   id: number;

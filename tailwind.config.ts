@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-
 const config: Config = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -20,6 +19,9 @@ const config: Config = {
       colors: {
         white: "#fff",
         "slate-300": "rgb(203 213 225)",
+        "gray-50": "rgb(249 250 251)",
+        "gray-500": "rgb(107 114 128)",
+        "gray-600": "rgb(75 85 99)",
       },
     },
   },
