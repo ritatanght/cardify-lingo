@@ -6,7 +6,6 @@ import useSetsList from "@/app/hooks/useSetsList";
 import { useUser } from "@/app/context/UserProvider";
 //import { toast } from "react-toastify";
 import { Tab } from "@headlessui/react";
-import "./Profile.scss";
 import { getUserSets } from "@/app/lib/api";
 import Link from "next/link";
 import Loading from "../loading";
@@ -65,7 +64,7 @@ const Page = () => {
   const tabs = ["My Set", "Favorite Sets"];
 
   return (
-    <main className="profile-container">
+    <main>
       <div className="flex justify-between items-center mb-6">
         <h1 className={`text-4xl ${playpen.className}`}>{user.username}</h1>
         <Link className="create-set btn" href="/sets/create">
@@ -79,8 +78,8 @@ const Page = () => {
               key={tab}
               className={({ selected }) =>
                 classNames(
-                  "w-full rounded-lg py-2.5 text-sm font-medium leading-5",
-                  "ring-color-4 focus:outline-none focus:ring-2",
+                  `w-full rounded-lg py-2.5 text-lg font-medium leading-5",
+                  "ring-color-4 focus:outline-none focus:ring-2 ${playpen.className}`,
                   selected
                     ? "bg-white text-darken-5-200 shadow"
                     : "text-gray-500 hover:bg-color-4 hover:text-white"
@@ -91,11 +90,11 @@ const Page = () => {
             </Tab>
           ))}
         </Tab.List>
-        <Tab.Panels className="mt-2">
+        <Tab.Panels>
           <Tab.Panel
             className={classNames(
               "rounded-xl bg-white p-3",
-              "ring-white/60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2"
+              "focus:outline-none"
             )}
           >
             {sets.length > 0 ? (
@@ -108,7 +107,7 @@ const Page = () => {
                 />
               ))
             ) : (
-              <p className="text-center empty">
+              <p className="text-center text-gray-500 mt-4">
                 You don&apos;t have any sets yet.
               </p>
             )}
@@ -116,7 +115,7 @@ const Page = () => {
           <Tab.Panel
             className={classNames(
               "rounded-xl bg-white p-3",
-              "focus:outline-none focus:ring-2"
+              "focus:outline-none"
             )}
           >
             {favoriteSets.length > 0 ? (
@@ -129,7 +128,7 @@ const Page = () => {
                 />
               ))
             ) : (
-              <p className="text-center empty">
+              <p className="text-center text-gray-500 mt-4">
                 You have not favorited any sets yet.
               </p>
             )}
