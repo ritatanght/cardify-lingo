@@ -73,7 +73,7 @@ const Cards = ({ cards, isSetOwner, onEdit }: CardsProps) => {
       items-center p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc]"
         >
           {/* <Confetti width={700} height={335} opacity={0.8} /> */}
-          <p className={`card__text text-2xl md:text-3xl ${playpen.className}`}>
+          <p className={`text-2xl md:text-3xl ${playpen.className}`}>
             Congratulations! You&apos;ve finished the set!
           </p>
           <div className="card-finish__icons-container absolute left-2 bottom-1 md:left-4 bottom-2">

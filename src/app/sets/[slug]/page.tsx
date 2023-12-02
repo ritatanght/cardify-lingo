@@ -81,9 +81,9 @@ export default function Page({ params }: { params: { slug: string } }) {
   }
 
   return (
-    <main className="ViewSet py-5 px-4 md:p-0 max-w-4xl mx-auto ">
-      <section className="ViewSet__header flex justify-between items-center md:items-end gap-2">
-        <div className="ViewSet__header-left md:flex items-end gap-2">
+    <main className="py-5 px-4 md:p-0 max-w-4xl mx-auto ">
+      <section className="flex justify-between items-center md:items-end gap-2">
+        <div className="md:flex items-end gap-2">
           <h1 className="text-[2rem] font-bold mb-2 md:mb-0 md:text-4xl">
             {set.title}
           </h1>
@@ -124,17 +124,17 @@ export default function Page({ params }: { params: { slug: string } }) {
 
       {/* Edit Card Modal */}
       {editingCard && (
-         <EditCardModal
-           show={showEditModal}
-           onHide={closeEditModal}
-           card={editingCard}
-           onUpdate={handleCardUpdate}
-         />
-       )}
+        <EditCardModal
+          show={showEditModal}
+          onHide={closeEditModal}
+          card={editingCard}
+          onUpdate={handleCardUpdate}
+        />
+      )}
 
-      <section className="set-info px-0 flex gap-2 md:px-8 justify-between">
+      <section className="px-0 flex gap-2 md:px-8 justify-between">
         <p className="p-4 text-lg font-bold basis-3/12">{set.username}</p>
-        <div className="description p-4 basis-9/12">
+        <div className="p-4 basis-9/12">
           <h3 className="text-lg">Description:</h3>
           <p>{set.description}</p>
         </div>

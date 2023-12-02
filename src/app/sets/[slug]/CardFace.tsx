@@ -63,7 +63,7 @@ const CardFace = ({ position, text, voice, isSetOwner, onEdit }:CardFaceProps) =
         </button>
       </div>
       <p
-        className={`card__text text-2xl md:text-[2rem] leading-snug ${playpen.className}`}
+        className={`text-2xl md:text-[2rem] leading-snug ${playpen.className}`}
       >
         {text}
       </p>
