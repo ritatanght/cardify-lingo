@@ -56,14 +56,9 @@
 .content-container {
   padding: 1.5em 2em;
 }
+
 main {
   margin-inline: auto;
-  a {
-    text-decoration: none;
-    &:not([role="button"]):hover {
-      text-decoration: underline;
-    }
-  }
 }
 
 .spinner-border.text-primary {

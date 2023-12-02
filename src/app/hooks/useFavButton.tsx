@@ -8,7 +8,7 @@ const useFavButton = (initialState = false) => {
   const [isLiked, setIsLiked] = useState(initialState);
   const { addToFavList, removeFromFavList, clearUserInfo } = useUser();
 
-  const toggleLike = (set: Set) => {
+  const toggleLike = (set: Set | FavoriteSet) => {
     if (isLiked) {
       // Unlike a set
       unlikeSet(set.id)
