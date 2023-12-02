@@ -1,10 +1,11 @@
-"use client"
+"use client";
 import { useState } from "react";
 import { useUser } from "@/app/context/UserProvider";
 import { useRouter } from "next/navigation";
 //import { toast } from "react-toastify";
 import { logInUser } from "@/app/lib/api";
 import Link from "next/link";
+import { playpen } from "../ui/fonts";
 
 const Page = () => {
   const router = useRouter();
@@ -38,40 +39,40 @@ const Page = () => {
   };
 
   // redirect to profile if user has already logged-in
-  if (user) return router.replace("/profile"); //<Navigate to="/profile" replace={true} />;
+  //if (user) return router.replace("/profile"); //<Navigate to="/profile" replace={true} />;
 
   return (
     <main>
-      <h1>Login</h1>
+      <h1 className={`text-3xl mb-4 ${playpen.className}`}>Login</h1>
 
       <form onSubmit={handleLogin}>
-        <div className="mb-3">
-          <label className="mb-3">
-            Email Address
-            <input
-              type="email"
-              placeholder="Enter email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </label>
-        </div>
+        <input
+          className="block p-2 border-2 mb-4 w-full rounded-md border-color-3 outline-gray-500"
+          type="email"
+          placeholder="Email"
+          aria-label="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        <div className="mb-3">
-          <label className="mb-3">
-            Password
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </label>
-        </div>
-        <button type="submit">Login</button>
+        <input
+          className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
+          type="password"
+          aria-label="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+
+        <button type="submit" className="btn">
+          Login
+        </button>
       </form>
       <p className="mt-4">
-        Don&apos;t have an account? <Link href="/register">Register</Link>
+        Don&apos;t have an account?{" "}
+        <Link className="text-darken-5-200 hover:underline" href="/register">
+          Register
+        </Link>
       </p>
     </main>
   );
