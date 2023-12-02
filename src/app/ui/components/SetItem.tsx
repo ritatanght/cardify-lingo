@@ -1,5 +1,4 @@
-import { useEffect } from "react";
-import { Set } from "@/app/lib/definitions";
+import { useEffect } from "react";import { FavoriteSet, Set } from "@/app/lib/definitions";
 import Link from "next/link";
 import useFavButton from "@/app/hooks/useFavButton";
 import { useUser } from "@/app/context/UserProvider";
@@ -9,7 +8,11 @@ import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import { faPenToSquare, faTrashCan } from "@fortawesome/free-regular-svg-icons";
 import "../SetItem.scss";
 
-type setItemProps = { set: Set; setOwner: string; onDelete: () => void };
+type setItemProps = {
+  set: Set | FavoriteSet;
+  setOwner: string;
+  onDelete: () => void;
+};
 
 const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
   const { user, favoriteSets } = useUser();
