@@ -1,27 +1,27 @@
 import { useState } from "react";
-// import { useUser } from "../context/UserProvider";
+import { useUser } from "@/app/context/UserProvider";
 // import { toast } from "react-toastify";
 import { likeSet, unlikeSet } from "@/app/lib/api";
 import { FavoriteSet, Set } from "../lib/definitions";
 
 const useFavButton = (initialState = false) => {
   const [isLiked, setIsLiked] = useState(initialState);
-  //const { addToFavList, removeFromFavList, clearUserInfo } = useUser();
+  const { addToFavList, removeFromFavList, clearUserInfo } = useUser();
 
-  const toggleLike = (set:Set) => {
+  const toggleLike = (set: Set) => {
     if (isLiked) {
       // Unlike a set
       unlikeSet(set.id)
         .then(({ status }) => {
           if (status === 200) {
-            //removeFromFavList(set.id);
+            removeFromFavList(set.id);
             setIsLiked(false);
           }
         })
         .catch((err) => {
           if (err.response.status === 401) {
             // toast.info(err.response.data.message);
-            // clearUserInfo();
+            clearUserInfo();
           } else {
             // toast.error(err);
           }
@@ -31,14 +31,14 @@ const useFavButton = (initialState = false) => {
       likeSet(set.id)
         .then(({ status }) => {
           if (status === 201) {
-            // addToFavList(set);
+            addToFavList(set);
             setIsLiked(true);
           }
         })
         .catch((err) => {
           if (err.response.status === 401) {
             // toast.info(err.response.data.message);
-            // clearUserInfo();
+            clearUserInfo();
           } else {
             // toast.error(err);
           }
@@ -46,7 +46,7 @@ const useFavButton = (initialState = false) => {
     }
   };
 
-  const checkLiked = (favoriteSets:FavoriteSet[], currentSetId:number) => {
+  const checkLiked = (favoriteSets: FavoriteSet[], currentSetId: number) => {
     setIsLiked(favoriteSets.some((set) => set.id === currentSetId));
   };
 

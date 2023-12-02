@@ -1,8 +1,8 @@
-"use client";
-import { useEffect, useState } from "react";
+"use client";import { useEffect, useState } from "react";
 import Cards from "./Cards"; 
 import EditCardModal from "./EditCardModal";
-// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
+import { useUser } from "@/app/context/UserProvider";
+// import { toast } from "react-toastify";
 import useFavButton from "@/app/hooks/useFavButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
@@ -16,7 +16,7 @@ import Link from "next/link";
 const user = { id: 1, username: "john_doe" };
 
 export default function Page({ params }: { params: { slug: string } }) {
-  //const { user, favoriteSets } = useUser();
+  const { user, favoriteSets } = useUser();
   const { isLiked, checkLiked, toggleLike } = useFavButton();
 
   const [setData, setSetData] = useState<FullSet | null>(null);
@@ -32,7 +32,7 @@ export default function Page({ params }: { params: { slug: string } }) {
       })
       .finally(() => setIsLoading(false));
     // check whether the current set is liked by the logged in user
-    //checkLiked(favoriteSets, Number(setId));
+    checkLiked(favoriteSets, Number(params.slug));
   }, [params.slug]);
 
   const handleCardEdit = (card: Card) => {

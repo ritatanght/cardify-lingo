@@ -1,9 +1,10 @@
-export type User = {
-  id: number;
-  name: string;
+export type User = {  id: number;
+  username: string;
   email: string;
   password: string;
 };
+
+export type LoggedInUser = Pick<User, "id" | "username">;
 
 export type Language = {
   id: number;
@@ -23,14 +24,14 @@ export type Set = {
   category_id: number;
   category_name: string;
   user_id: number;
-  deleted: boolean;
+  // deleted: boolean;
   username: string;
-}
+};
 
 export type FullSet = {
   set: Set;
   cards: Card[];
-}
+};
 
 export type Card = {
   id: number;
@@ -38,14 +39,27 @@ export type Card = {
   front: string;
   back: string;
   image_url: string;
-  deleted: boolean;
+  // deleted: boolean;
 };
 
 export type Favorite = {
   id: number;
   user_id: number;
   set_id: number;
-  deleted: boolean;
+  // deleted: boolean;
 };
 
-export type FavoriteSet = Omit<Set, "description" | " category_id">;
+export type FavoriteSet = Omit<
+  Set,
+  "description" | "category_id" | "category_name"
+>;
+
+export interface userContextType {
+  user: LoggedInUser | null;
+  favoriteSets: [] | FavoriteSet[];
+  addToFavList: (set: any) => void;
+  removeFromFavList: (setId: number) => void;
+  logout: () => void;
+  storeUserInfo: (userInfo: User) => void;
+  clearUserInfo: () => void;
+}

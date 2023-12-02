@@ -1,5 +1,4 @@
-"use client";import Link from "next/link";
-import Image from "next/image";
+"use client";import Link from "next/link";import Image from "next/image";
 import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,10 +9,9 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
-
+import { useUser } from "@/app/context/UserProvider";
 import { Category } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
-const user = { id: 1, username: "john_doe" };
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -21,6 +19,8 @@ function classNames(...classes: string[]) {
 
 export default function Header({ categories }: { categories: Category[] }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logout } = useUser();
+
   return (
     <header className="px-4 md:px-6">
       {/* <ToastContainer
@@ -94,13 +94,19 @@ export default function Header({ categories }: { categories: Category[] }) {
 
         <div className="md:grow">
           <button
-            className="btn menu block md:hidden"
+            className="btn menu block md:hidden px-3 transition-colors duration-300 hover:bg-color-1"
             aria-label="Open menu"
             onClick={() => setIsMenuOpen(true)}
           >
             <FontAwesomeIcon icon={faBars} />
           </button>
-          <div className={`nav-menu ${isMenuOpen ? " opened" : ""}`}>
+          <div
+            className={`nav-menu shadow-[-2px_0_10px_rgba(0,0,0,0.3)] md:shadow-none bg-color-3 fixed flex grow flex-col gap-6 justify-start md:flex-row md:static md:justify-between inset-y-0 right-0 left-auto z-10 p-6 md:p-0 transition-transform duration-300 ${
+              isMenuOpen
+                ? " translate-x-0"
+                : " translate-x-[105%] md:translate-x-0"
+            }`}
+          >
             <button
               aria-label="Close menu"
               className="block text-left md:hidden"
@@ -112,25 +118,30 @@ export default function Header({ categories }: { categories: Category[] }) {
             <SearchBar closeMenu={() => setIsMenuOpen(false)} />
 
             {user ? (
-              <div>
-                <Link className="profile-btn" href="/profile">
-                  <strong>{user.username}</strong>
+              <div className="flex justify-center items-center">
+                <Link
+                  className="profile-btn p-0 text-xl transition-transform duration-300 hover:-translate-y-1"
+                  href="/profile"
+                >
+                  <strong className="mr-1">{user.username}</strong>
                   <FontAwesomeIcon icon={faUser} />
                 </Link>
 
                 <button
-                  className="btn sign-out-btn"
-                  //onClick={logout}
+                  className="btn sign-out-btn ml-4 bg-gray-500 hover:bg-gray-600"
+                  onClick={logout}
                 >
                   Sign Out
                 </button>
               </div>
             ) : (
-              <div>
-                <Link className="login-btn" href="/login">
+              <div className="flex justify-center items-center">
+                <Link className="btn login-btn" href="/login">
                   Login
                 </Link>
-                <Link href="/register">Sign Up</Link>
+                <Link href="/register" className="btn ml-4">
+                  Sign Up
+                </Link>
               </div>
             )}
           </div>

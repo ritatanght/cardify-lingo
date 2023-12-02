@@ -1,5 +1,8 @@
-import { Set } from "@/app/lib/definitions";import Link from "next/link";
-import useFavButton from "@/app/hooks/useFavButton"; // import { useUser } from "../context/UserProvider";
+import { useEffect } from "react";
+import { Set } from "@/app/lib/definitions";
+import Link from "next/link";
+import useFavButton from "@/app/hooks/useFavButton";
+import { useUser } from "@/app/context/UserProvider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
@@ -8,15 +11,13 @@ import "../SetItem.scss";
 
 type setItemProps = { set: Set; setOwner: string; onDelete: () => void };
 
-const user = { id: 1, username: "john_doe" };
-
 const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
-  // const { user, favoriteSets } = useUser();
-  const { isLiked, toggleLike } = useFavButton();
+  const { user, favoriteSets } = useUser();
+  const { isLiked, toggleLike, checkLiked } = useFavButton();
 
-  // useEffect(() => {
-  //   checkLiked(favoriteSets, set.id);
-  // }, [checkLiked, favoriteSets, set.id]);
+  useEffect(() => {
+    checkLiked(favoriteSets, set.id);
+  }, [checkLiked, favoriteSets, set.id]);
   return (
     <div className="set-item-container border-4 border-color-2 rounded-2xl flex items-start flex-col justify-between p-4 md:flex-row items-center md:py-6 my-4">
       <Link
@@ -39,7 +40,10 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
           <span className="italic text-darken-5-200 text-2xl">{setOwner}</span>
         )}
         {user && (
-          <button className="text-2xl ml-3 bg-transparent" onClick={() => toggleLike(set)}>
+          <button
+            className="text-2xl ml-3 bg-transparent"
+            onClick={() => toggleLike(set)}
+          >
             {isLiked ? (
               <FontAwesomeIcon
                 icon={fillHeart}
