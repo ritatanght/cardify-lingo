@@ -1,4 +1,4 @@
-//import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
@@ -20,8 +20,8 @@ const CardFace = ({ position, text, voice, isSetOwner, onEdit }:CardFaceProps) =
   const speakText = (e: React.MouseEvent) => {
     e.stopPropagation();
     const synth = window.speechSynthesis;
-    // if (!synth)
-    //   return toast.error("Your browser does not support Speech Synthesis");
+    if (!synth)
+      return toast.error("Your browser does not support Speech Synthesis");
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = voice;
 

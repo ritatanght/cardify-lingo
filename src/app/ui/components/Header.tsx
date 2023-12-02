@@ -1,5 +1,4 @@
-"use client";import Link from "next/link";import Image from "next/image";
-import { useState, Fragment } from "react";
+"use client";import Link from "next/link";import Image from "next/image";import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -9,9 +8,11 @@ import {
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
+import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "@/app/context/UserProvider";
 import { Category } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
+import { ToastContainer } from "react-toastify";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -23,7 +24,7 @@ export default function Header({ categories }: { categories: Category[] }) {
 
   return (
     <header className="px-4 md:px-6">
-      {/* <ToastContainer
+      <ToastContainer
         position="bottom-center"
         autoClose={4000}
         hideProgressBar={false}
@@ -34,7 +35,7 @@ export default function Header({ categories }: { categories: Category[] }) {
         draggable
         pauseOnHover
         theme="light"
-      /> */}
+      />
       <nav className="flex gap-x-2 items-center justify-between">
         <div className="flex gap-x-2 items-center">
           <Link href="/">

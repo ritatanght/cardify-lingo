@@ -1,7 +1,8 @@
-"use client";import { useEffect, useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import { useUser } from "@/app/context/UserProvider";
 import { useRouter } from "next/navigation";
-//import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { logInUser } from "@/app/lib/api";
 import Link from "next/link";
 import { playpen } from "../ui/fonts";
@@ -21,20 +22,20 @@ const Page = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    //if (!email || !password) return toast.error("Fields cannot be empty.");
+    if (!email || !password) return toast.error("Fields cannot be empty.");
 
     logInUser({ email, password })
       .then((data) => {
         if (data.user) {
-          // toast.success("Login successful", {
-          //   position: "top-center",
-          //   autoClose: 2000,
-          // });
+          toast.success("Login successful", {
+            position: "top-center",
+            autoClose: 2000,
+          });
           storeUserInfo(data.user);
           return router.push("/profile");
         }
         if (data.message) {
-          // toast.error(data.message);
+          toast.error(data.message);
         }
       })
       .catch(

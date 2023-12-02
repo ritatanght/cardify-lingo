@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import SetItem from "@/app/ui/components/SetItem";
 import useSetsList from "@/app/hooks/useSetsList";
 import { useUser } from "@/app/context/UserProvider";
-//import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { Tab } from "@headlessui/react";
 import { getUserSets } from "@/app/lib/api";
 import Link from "next/link";
@@ -30,7 +30,7 @@ const Page = () => {
         .finally(() => setIsLoading(false));
     } else {
       // display upon redirect to login page
-      //toast.info("Login to view your profile.");
+      toast.info("Login to view your profile.");
       return router.replace("/login");
     }
   }, [user]);

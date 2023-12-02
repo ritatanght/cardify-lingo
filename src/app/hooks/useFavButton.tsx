@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useUser } from "@/app/context/UserProvider";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { likeSet, unlikeSet } from "@/app/lib/api";
 import { FavoriteSet, Set } from "../lib/definitions";
 
@@ -20,10 +20,10 @@ const useFavButton = (initialState = false) => {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            // toast.info(err.response.data.message);
+            toast.info(err.response.data.message);
             clearUserInfo();
           } else {
-            // toast.error(err);
+            toast.error(err);
           }
         });
     } else {
@@ -37,10 +37,10 @@ const useFavButton = (initialState = false) => {
         })
         .catch((err) => {
           if (err.response.status === 401) {
-            // toast.info(err.response.data.message);
+            toast.info(err.response.data.message);
             clearUserInfo();
           } else {
-            // toast.error(err);
+            toast.error(err);
           }
         });
     }

@@ -1,11 +1,10 @@
-"use client";
-import { useEffect, useState, Suspense } from "react";
+"use client";import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 
 import SetItem from "@/app/ui/components/SetItem";
 import useSetsList from "@/app/hooks/useSetsList";
 import { useUser } from "../context/UserProvider";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { searchSets } from "@/app/lib/api";
 import Loading from "../loading";
 
@@ -24,7 +23,7 @@ export default function Page() {
       searchSets(query)
         .then(setSets)
         .catch((err) => {
-          // toast.error(err);
+          toast.error(err);
         })
         .finally(() => setIsLoading(false));
     }
@@ -54,7 +53,8 @@ export default function Page() {
   return (
     <main className="search-container">
       <h1 className="text-3xl md:text-4xl mb-8">
-        Search Results for &quot;<span className="text-color-5">{query}</span>&quot;
+        Search Results for &quot;<span className="text-color-5">{query}</span>
+        &quot;
       </h1>
 
       {displaySet.length > 0 ? (
@@ -67,7 +67,9 @@ export default function Page() {
           />
         ))
       ) : (
-        <h1 className="text-3xl text-darken-5-200">~ No set found matching your query ~</h1>
+        <h1 className="text-3xl text-darken-5-200">
+          ~ No set found matching your query ~
+        </h1>
       )}
     </main>
   );
