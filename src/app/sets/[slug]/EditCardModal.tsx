@@ -1,7 +1,7 @@
 import { Card } from "@/app/lib/definitions";
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-// import { useUser } from "../context/UserProvider";
+import { useUser } from "@/app/context/UserProvider";
 // import { toast } from "react-toastify";
 import { editCardById } from "@/app/lib/api";
 
@@ -12,7 +12,7 @@ interface modalProps {
   onUpdate: (card: Card) => void;
 }
 const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
-  //const { clearUserInfo } = useUser();
+  const { clearUserInfo } = useUser();
 
   const [front, setFront] = useState(card.front);
   const [back, setBack] = useState(card.back);
