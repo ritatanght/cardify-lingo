@@ -1,7 +1,18 @@
 import { useEffect, useState } from "react";
 import CardFace from "./CardFace";
+import { Card } from "@/app/lib/definitions";
 
-const CardItem = (props) => {
+interface CardItemProps {
+  front: string;
+  back: string;
+  currCard: number;
+  seq: number;
+  isSetOwner: boolean;
+  voice: SpeechSynthesisVoice;
+  onEdit: (card: Card) => void;
+}
+
+const CardItem = (props:CardItemProps) => {
   const [isFlip, setIsFlip] = useState(false);
   const { front, back, currCard, seq, isSetOwner, voice, onEdit } = props;
 
