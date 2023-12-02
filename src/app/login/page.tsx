@@ -39,7 +39,7 @@ const Page = () => {
   };
 
   // redirect to profile if user has already logged-in
-  //if (user) return router.replace("/profile"); //<Navigate to="/profile" replace={true} />;
+  if (user) return router.replace("/profile");
 
   return (
     <main>
