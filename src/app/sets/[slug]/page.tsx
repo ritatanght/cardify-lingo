@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
-import Cards from "./Cards"; // import EditCardModal from "../components/EditCardModal";// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
+import Cards from "./Cards"; 
+import EditCardModal from "./EditCardModal";
+// import { useUser } from "../context/UserProvider";// import { toast } from "react-toastify";
 import useFavButton from "@/app/hooks/useFavButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
@@ -121,14 +123,14 @@ export default function Page({ params }: { params: { slug: string } }) {
       />
 
       {/* Edit Card Modal */}
-      {/* {editingCard && (
+      {editingCard && (
          <EditCardModal
            show={showEditModal}
            onHide={closeEditModal}
            card={editingCard}
            onUpdate={handleCardUpdate}
          />
-       )} */}
+       )}
 
       <section className="set-info px-0 flex gap-2 md:px-8 justify-between">
         <p className="p-4 text-lg font-bold basis-3/12">{set.username}</p>
