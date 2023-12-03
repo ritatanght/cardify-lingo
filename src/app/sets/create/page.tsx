@@ -10,6 +10,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Category, NewCard } from "@/app/lib/definitions";
+import { playpen } from "@/app/ui/fonts";
 
 const Page = () => {
   const router = useRouter();
@@ -113,105 +114,108 @@ const Page = () => {
   return (
     <main className="create-container">
       <form>
-        <div className="set-container">
-          <div className="set-header-container">
-            <h1>Create a New Set</h1>
-            <button type="submit" onClick={handleSubmit}>
+        <div className="set-container border-b-2 border-gray-500 border-dashed pb-2 mb-6">
+          <div className="set-header-container flex justify-between items-center mb-4 gap-1">
+            <h1 className={`text-3xl ${playpen.className}`}>
+              Create a New Set
+            </h1>
+            <button
+              type="submit"
+              onClick={handleSubmit}
+              className="bg-color-2 px-2 font-bold transition-all duration-200 p-2 rounded-lg text-white hover:bg-color-2 hover:translate-y-0.5 md:px-8"
+            >
               Create
             </button>
           </div>
-          <div className="set-info-container">
-            <input
-              className="block p-2 border-2 mb-4 w-full rounded-md border-color-3 outline-gray-500"
-              type="text"
-              aria-label="Title"
-              placeholder="Title"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
+
+          <input
+            className="block p-2 border-2 mb-4 w-full rounded-md border-color-3 outline-gray-500"
+            type="text"
+            aria-label="Title"
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+
+          <div className="set-info-details flex justify-between gap-4 mb-4">
+            <textarea
+              className="block p-2 border-2 rounded-md border-color-3 outline-gray-500 resize-none basis-6/12"
+              aria-label="Description"
+              placeholder="Description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              style={{ height: "100px" }}
             />
 
-            <div className="set-info-details">
-              <textarea
-                className="block p-2 border-2 mb-4 rounded-md border-color-3 outline-gray-500"
-                aria-label="Description"
-                placeholder="Description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                style={{ height: "100px" }}
-              />
-
-              <div className="set-info-options">
-                <Listbox
-                  value={selectedCategory}
-                  onChange={setSelectedCategory}
-                >
-                  <div className="relative mt-1">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                      <span className="block truncate">
-                        {selectedCategory || "Select a category"}
-                      </span>
-                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                        <FontAwesomeIcon
-                          icon={faChevronDown}
-                          className="h-5 w-5 text-gray-400"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Listbox.Button>
-                    <Transition
-                      as={Fragment}
-                      leave="transition ease-in duration-100"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                        {categories.map((category: Category) => (
-                          <Listbox.Option
-                            key={category.id}
-                            className={({ active }) =>
-                              `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                active
-                                  ? "bg-amber-100 text-amber-900"
-                                  : "text-gray-900"
-                              }`
-                            }
-                            value={category.name}
-                            onClick={() => setSelectedCategory(category)}
-                          >
-                            {({ selected }) => (
-                              <>
-                                <span
-                                  className={`block truncate ${
-                                    selected ? "font-medium" : "font-normal"
-                                  }`}
-                                >
-                                  {category.name}
+            <div className="set-info-options grow flex flex-col justify-between my-2">
+              <Listbox value={selectedCategory} onChange={setSelectedCategory}>
+                <div className="relative w-full">
+                  <Listbox.Button className="w-full cursor-pointer rounded-md bg-[#419c8d] text-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-sm ">
+                    <span className="block truncate text-center">
+                      {selectedCategory || "Select a category"}
+                    </span>
+                    <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                      <FontAwesomeIcon
+                        icon={faChevronDown}
+                        className="h-5 w-5 text-gray-400"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </Listbox.Button>
+                  <Transition
+                    as={Fragment}
+                    leave="transition ease-in duration-100"
+                    leaveFrom="opacity-100"
+                    leaveTo="opacity-0"
+                  >
+                    <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                      {categories.map((category: Category) => (
+                        <Listbox.Option
+                          key={category.id}
+                          className={({ active }) =>
+                            `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                              active
+                                ? "bg-color-3 text-amber-900"
+                                : "text-gray-600"
+                            }`
+                          }
+                          value={category.name}
+                        >
+                          {({ selected }) => (
+                            <>
+                              <span
+                                className={`block truncate ${
+                                  selected ? "font-medium" : "font-normal"
+                                }`}
+                              >
+                                {category.name}
+                              </span>
+                              {selected ? (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-color-4">
+                                  <FontAwesomeIcon
+                                    icon={faCheck}
+                                    className="h-5 w-5"
+                                    aria-hidden="true"
+                                  />
                                 </span>
-                                {selected ? (
-                                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                    <FontAwesomeIcon
-                                      icon={faCheck}
-                                      className="h-5 w-5"
-                                      aria-hidden="true"
-                                    />
-                                  </span>
-                                ) : null}
-                              </>
-                            )}
-                          </Listbox.Option>
-                        ))}
-                      </Listbox.Options>
-                    </Transition>
-                  </div>
-                </Listbox>
-                <label>
-                  Private
-                  <input
-                    type="checkbox"
-                    checked={isPrivate}
-                    onChange={() => setIsPrivate(!isPrivate)}
-                  />
-                </label>
+                              ) : null}
+                            </>
+                          )}
+                        </Listbox.Option>
+                      ))}
+                    </Listbox.Options>
+                  </Transition>
+                </div>
+              </Listbox>
+              <div className="flex justify-between w-full">
+                <label htmlFor="private">Private</label>
+                <input
+                  id="private"
+                  type="checkbox"
+                  className="border-2 checked:bg-color-1 checked:border-color-1"
+                  checked={isPrivate}
+                  onChange={() => setIsPrivate(!isPrivate)}
+                />
               </div>
             </div>
           </div>
@@ -225,8 +229,10 @@ const Page = () => {
             onDelete={() => handleCardDelete(index)}
           />
         ))}
-        <div className="footer-button-container">
-          <button onClick={addCard}>Add Card</button>
+        <div className="text-center">
+          <button onClick={addCard} className="btn px-[30%]">
+            Add Card
+          </button>
         </div>
       </form>
     </main>
