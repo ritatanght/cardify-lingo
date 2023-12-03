@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Card, Set } from "./definitions";
+import { Card, NewCard, NewSet, Set } from "./definitions";
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
@@ -53,8 +53,8 @@ export const unlikeSet = (setId: number) => {
 
 /* --- Sets --- */
 export const createSet = (setData: {
-  setFormData: Set;
-  cardFormData: Card[];
+  setFormData: NewSet;
+  cardFormData: NewCard[];
 }) => {
   return instance.post("/api/sets/create", setData);
 };

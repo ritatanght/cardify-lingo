@@ -28,6 +28,8 @@ export type Set = {
   username: string;
 };
 
+export type NewSet = Omit<Set, "id" | "category_name" | "user_id" | "username">;
+
 export type FullSet = {
   set: Set;
   cards: Card[];
@@ -38,9 +40,11 @@ export type Card = {
   set_id: number;
   front: string;
   back: string;
-  image_url: string;
+  image_url?: string;
   // deleted: boolean;
 };
+
+export type NewCard = Pick<Card, "front" | "back">;
 
 export type Favorite = {
   id: number;

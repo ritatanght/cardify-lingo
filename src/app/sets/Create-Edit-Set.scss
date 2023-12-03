@@ -1,0 +1,158 @@
+@use "@/app/ui/variables" as var;
+
+.set-container {
+  .set-header-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5em;
+
+    Button {
+      padding-inline: 2rem;
+      background-color: var.$color-2;
+      box-shadow: inset 0px -2px rgba(0, 0, 0, 0.2);
+      font-weight: 600;
+      text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
+      transition: all 0.2s ease;
+      &:hover {
+        background-color: var.$color-2;
+        transform: translateY(2px);
+        box-shadow: inset 0px 2px rgba(0, 0, 0, 0.2);
+      }
+      &:active {
+        background-color: darken(var.$color-2, 20);
+      }
+    }
+  }
+
+  .set-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    border-bottom: 2px dashed darken(var.$color-3, 40);
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    #dropdown-basic {
+      background-color: #419c8d;
+      border-color: inherit;
+      &:hover {
+        background-color: darken(#419c8d, 10%);
+      }
+    }
+
+    .set-info-details {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      textarea {
+        resize: none;
+      }
+
+      > div {
+        flex: 1;
+      }
+    }
+
+    .set-info-options {
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+
+      > div {
+        flex: 1;
+      }
+
+      .dropdown {
+        width: 100%;
+        padding-left: 20px;
+
+        .dropdown-toggle {
+          width: 100%;
+        }
+
+        .dropdown-menu {
+          width: 97%;
+        }
+      }
+
+      .form-check {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding-left: 20px;
+
+        input[type="checkbox"] {
+          order: 2;
+          border-width: 2px;
+
+          &:checked {
+            background-color: var.$color-5;
+            border-color: var.$color-5;
+          }
+        }
+      }
+    }
+  }
+}
+
+.card-container {
+  .card-frontback-container {
+    display: flex;
+    width: 100%;
+    border: solid 1px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+
+    > div {
+      flex: 1;
+    }
+  }
+
+  .card-container-front.form-floating > input.form-control {
+    border: 5px solid lighten(var.$color-1, 10);
+  }
+  .card-container-back.form-floating > input.form-control {
+    border: 5px solid lighten(var.$color-4, 10);
+  }
+
+  .card-container-back {
+    position: relative;
+  }
+
+  .fa-trash {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+  }
+
+  .fa-trash:hover {
+    cursor: pointer;
+    opacity: 0.75;
+  }
+}
+
+.footer-button-container {
+  text-align: center;
+  button {
+    padding-inline: 30%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .set-container {
+    .set-header-container {
+      gap: 0.2em;
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      Button {
+        padding-inline: 0.5em;
+      }
+    }
+  }
+}
