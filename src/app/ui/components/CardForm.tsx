@@ -25,9 +25,7 @@ const CardForm = ({ card, onUpdate, onDelete }: CardFormProps) => {
           />
         </div>
         <div className="grow bg-color-4 rounded-md p-1">
-          <label className="block text-white font-bold text-center">
-            Back
-          </label>
+          <label className="block text-white font-bold text-center">Back</label>
           <input
             type="text"
             name="back"
@@ -39,6 +37,7 @@ const CardForm = ({ card, onUpdate, onDelete }: CardFormProps) => {
         <FontAwesomeIcon
           icon={faTrash}
           onClick={onDelete}
+          aria-label="Remove Card"
           className="absolute cursor-pointer top-2 right-2 hover:text-gray-600"
         />
       </div>
