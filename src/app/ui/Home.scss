@@ -1,40 +1,10 @@
 @use "./variables" as var;
 
-.home-container {
-  .banner-container {
-    min-height: min(500px, 50vh);
-    border-radius: 10px;
-    background-image: url("/Background_img.png");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    transition: background-image 1s ease-in-out;
-    box-shadow: inset 0 0 0 50vw rgba(0, 0, 0, 0.6);
-    margin-bottom: 1.5em;
-    .banner__content {
-      color: var.$color-3;
-      h2 {
-        text-shadow: 0 2px 5px black;
-        margin-bottom: 0.8em;
-      }
-    }
-  }
-  a {
-    padding: 0.8em;
-    background-color: var.$color-5;
-    border-radius: 10px;
-    &:hover {
-      background-color: darken(var.$color-5, 10%);
-    }
-  }
+.banner-container {
+  box-shadow: inset 0 0 0 50vw rgba(0, 0, 0, 0.6);
 }
 
 .columns-container {
-  display: flex;
-  justify-content: space-between;
-  margin: 1.5em auto 1em;
-  width: 90%;
-
   .column:first-child {
     background-color: lighten(var.$color-1, 10%);
   }
@@ -43,24 +13,5 @@
   }
   .column:last-child {
     background-color: lighten(var.$color-2, 10%);
-  }
-}
-
-.column {
-  flex-basis: 30%;
-  padding: 1em;
-  border-radius: 10px;
-  background-color: var.$color-3;
-}
-
-@media screen and (max-width: 800px) {
-  .home-container {
-    .banner-container {
-      border-radius: 0;
-    }
-  }
-  .columns-container {
-    flex-direction: column;
-    gap: 1.5em;
   }
 }

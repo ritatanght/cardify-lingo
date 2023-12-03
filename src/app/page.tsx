@@ -5,22 +5,22 @@ import "./ui/Home.scss";
 
 export default function Home() {
   return (
-    <div className="home-container">
-      <div className="banner-container flex justify-center items-center text-center">
-        <div className="banner__content">
+    <>
+      <div className="banner-container flex justify-center items-center text-center rounded-none mb-6 md:rounded-md bg-[url('/Background_img.png')] bg-cover bg-center bg-no-repeat min-h-[min(500px,50vh)]">
+        <div className="banner__content text-color-3">
           <h2
-            className={`${playpen.className} text-4xl font-bold leading-snug`}
+            className={`${playpen.className} text-4xl font-bold leading-snug mb-[0.8em]`}
           >
             Get Started with <br />
             Your Flashcard Set
           </h2>
-          <Link href="/sets/create" className="p-6">
+          <Link href="/sets/create" className="btn p-[0.8em]">
             Create My Set
           </Link>
         </div>
       </div>
-      <div className="columns-container text-center">
-        <div className="column">
+      <div className="columns-container text-center flex flex-col gap-6 md:gap-4 md:flex-row justify-between w-11/12 mt-6 mb-4 mx-auto">
+        <div className="column basis-2/6 rounded-md p-4">
           <h3 className={`${playpen.className} text-2xl font-bold mb-2`}>
             Create Your Own Flashcards Sets
           </h3>
@@ -30,7 +30,7 @@ export default function Home() {
             other subject, start creating your sets in just a few simple steps.
           </p>
         </div>
-        <div className="column">
+        <div className="column basis-2/6 rounded-md p-4">
           <h3 className={`${playpen.className} text-2xl font-bold mb-2`}>
             Elevate Your Learning Journey
           </h3>
@@ -40,7 +40,7 @@ export default function Home() {
             with audio assistance.
           </p>
         </div>
-        <div className="column">
+        <div className="column basis-2/6 rounded-md p-4">
           <h3 className={`${playpen.className} text-2xl font-bold mb-2`}>
             Explore and Learn from Others
           </h3>
@@ -51,6 +51,6 @@ export default function Home() {
           </p>
         </div>
       </div>
-    </div>
+    </>
   );
 }
