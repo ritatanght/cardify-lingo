@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Card } from "@/app/lib/definitions";
+import { NewCard } from "@/app/lib/definitions";
 
 interface CardFormProps {
-  card: Card;
-  onUpdate: (e: React.FormEvent) => void;
+  card: NewCard;
+  onUpdate: (e: React.BaseSyntheticEvent) => void;
   onDelete: () => void;
 }
 
