@@ -208,7 +208,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
                             <>
                               <span
                                 className={`block truncate ${
-                                  selected ? "font-medium" : "font-normal"
+                                  selected ? "font-bold" : "font-normal"
                                 }`}
                               >
                                 {category.name}
@@ -255,9 +255,8 @@ const Page = ({ params }: { params: { slug: string } }) => {
               />
             )
         )}
-
         <div className="text-center">
-          <button onClick={addCard} className="btn px-[30%]">
+          <button onClick={addCard} className="btn text-center px-[30%]">
             Add Card
           </button>
         </div>

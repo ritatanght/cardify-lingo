@@ -1,6 +1,4 @@
-"use client";
-import { useState, useEffect, Fragment } from "react";
-import { useRouter } from "next/navigation";
+"use client";import { useState, useEffect, Fragment } from "react";import { useRouter } from "next/navigation";
 import CardForm from "@/app/ui/components/CardForm";
 import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
@@ -112,9 +110,9 @@ const Page = () => {
   };
 
   return (
-    <main className="create-container">
+    <main>
       <form>
-        <div className="set-container border-b-2 border-gray-500 border-dashed pb-2 mb-6">
+        <div className="border-b-2 border-gray-500 border-dashed md:pb-2 mb-2 md:mb-6">
           <div className="set-header-container flex justify-between items-center mb-4 gap-1">
             <h1 className={`text-3xl ${playpen.className}`}>
               Create a New Set
@@ -139,12 +137,11 @@ const Page = () => {
 
           <div className="set-info-details flex justify-between gap-4 mb-4">
             <textarea
-              className="block p-2 border-2 rounded-md border-color-3 outline-gray-500 resize-none basis-6/12"
+              className="block p-2 border-2 rounded-md border-color-3 outline-gray-500 resize-none basis-6/12 h-28"
               aria-label="Description"
               placeholder="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              style={{ height: "100px" }}
             />
 
             <div className="set-info-options grow flex flex-col justify-between my-2">
@@ -168,7 +165,7 @@ const Page = () => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 focus:outline-none sm:text-sm">
+                    <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-color-3 focus:outline-none sm:text-sm">
                       {categories.map((category: Category) => (
                         <Listbox.Option
                           key={category.id}
@@ -185,7 +182,7 @@ const Page = () => {
                             <>
                               <span
                                 className={`block truncate ${
-                                  selected ? "font-medium" : "font-normal"
+                                  selected ? "font-bold" : "font-normal"
                                 }`}
                               >
                                 {category.name}
@@ -230,7 +227,7 @@ const Page = () => {
           />
         ))}
         <div className="text-center">
-          <button onClick={addCard} className="btn px-[30%]">
+          <button onClick={addCard} className="btn text-center px-[30%]">
             Add Card
           </button>
         </div>
