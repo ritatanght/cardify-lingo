@@ -9,7 +9,7 @@ import { Listbox, Transition } from "@headlessui/react";
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { getAllCategories, getSet, editSet } from "@/app/lib/api";
-import { Category, Card, NewCard } from "@/app/lib/definitions";
+import { Category, NewCard, EditCard } from "@/app/lib/definitions";
 import Loading from "@/app/loading";
 import Link from "next/link";
 import { playpen } from "@/app/ui/fonts";
@@ -25,7 +25,7 @@ const Page = ({ params }: { params: { slug: string } }) => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [categories, setCategories] = useState<Category[] | []>([]);
   const [isPrivate, setIsPrivate] = useState(false);
-  const [cards, setCards] = useState<Card[] | NewCard[]>([]);
+  const [cards, setCards] = useState<EditCard[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
