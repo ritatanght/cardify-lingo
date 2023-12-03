@@ -13,8 +13,6 @@ import { Card, FullSet } from "@/app/lib/definitions";
 import Loading from "@/app/loading";
 import Link from "next/link";
 
-const user = { id: 1, username: "john_doe" };
-
 export default function Page({ params }: { params: { slug: string } }) {
   const { user, favoriteSets } = useUser();
   const { isLiked, checkLiked, toggleLike } = useFavButton();
