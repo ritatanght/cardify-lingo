@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Card, NewCard, NewSet, Set } from "./definitions";
+import { EditCard, NewCard, NewSet } from "./definitions";
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
@@ -70,8 +70,8 @@ export const searchSets = (query: string) => {
 };
 
 export const editSet = (
-  setId: number,
-  updatedSetInfo: { setFormData: Set; cardFormData: Card[] }
+  setId: string, // params.slug
+  updatedSetInfo: { setFormData: NewSet; cardFormData: EditCard[] }
 ) => {
   return instance.put(`/api/sets/edit/${setId}`, updatedSetInfo);
 };

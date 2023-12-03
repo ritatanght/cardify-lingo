@@ -1,4 +1,5 @@
-export type User = {  id: number;
+export type User = {
+  id: number;
   username: string;
   email: string;
   password: string;
@@ -41,10 +42,12 @@ export type Card = {
   front: string;
   back: string;
   image_url?: string;
-  // deleted: boolean;
+  deleted?: boolean;
 };
 
 export type NewCard = Pick<Card, "front" | "back">;
+
+export type EditCard = Partial<Card>;
 
 export type Favorite = {
   id: number;
