@@ -150,7 +150,7 @@ const Page = () => {
             <div className="set-info-options grow flex flex-col justify-between my-2">
               <Listbox value={selectedCategory} onChange={setSelectedCategory}>
                 <div className="relative w-full">
-                  <Listbox.Button className="w-full cursor-pointer rounded-md bg-[#419c8d] text-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-sm ">
+                  <Listbox.Button className="w-full cursor-pointer rounded-md bg-[#419c8d] text-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-sm hover:bg-[#32786c]">
                     <span className="block truncate text-center">
                       {selectedCategory || "Select a category"}
                     </span>
@@ -168,14 +168,14 @@ const Page = () => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                   >
-                    <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                    <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 focus:outline-none sm:text-sm">
                       {categories.map((category: Category) => (
                         <Listbox.Option
                           key={category.id}
                           className={({ active }) =>
                             `relative cursor-default select-none py-2 pl-10 pr-4 ${
                               active
-                                ? "bg-color-3 text-amber-900"
+                                ? "bg-color-3 text-color-5"
                                 : "text-gray-600"
                             }`
                           }
@@ -212,7 +212,7 @@ const Page = () => {
                 <input
                   id="private"
                   type="checkbox"
-                  className="border-2 checked:bg-color-1 checked:border-color-1"
+                  className="checked:accent-darken-5-100"
                   checked={isPrivate}
                   onChange={() => setIsPrivate(!isPrivate)}
                 />
