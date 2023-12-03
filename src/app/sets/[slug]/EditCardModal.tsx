@@ -81,7 +81,7 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
                   Edit Card
                 </Dialog.Title>
                 <form className="pb-6 text-center">
-                  <div className="rounded-md p-1 bg-color-1 mb-4">
+                  <div className="card-container rounded-md p-1 bg-color-1 mb-4">
                     <label
                       htmlFor="front"
                       className="block font-bold text-white tracking-wider"
@@ -96,7 +96,7 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
                       onChange={(e) => setFront(e.target.value)}
                     />
                   </div>
-                  <div className="rounded-md p-1 bg-color-4">
+                  <div className="card-container rounded-md p-1 bg-color-4">
                     <label
                       htmlFor="back"
                       className="block font-bold text-white tracking-wider"
