@@ -16,7 +16,7 @@ import {
   SetData,
 } from "@/app/lib/definitions";
 import { playpen } from "@/app/ui/fonts";
-
+import "../Create-Edit-Set.scss";
 
 interface SetFormProps {
   mode: "create" | "edit";

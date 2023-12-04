@@ -1,4 +1,3 @@
-import "../Create-Edit-Set.scss";
 import { getAllCategories } from "@/app/lib/api";
 import SetForm from "@/app/ui/components/SetForm";
 
