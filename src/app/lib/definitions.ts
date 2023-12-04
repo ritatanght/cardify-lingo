@@ -17,7 +17,7 @@ export type Category = {
   name: string;
 };
 
-export type Set = {
+export interface Set {
   id: number;
   title: string;
   description: string;
@@ -27,9 +27,16 @@ export type Set = {
   user_id: number;
   // deleted: boolean;
   username: string;
-};
+}
 
-export type NewSet = Omit<Set, "id" | "category_name" | "user_id" | "username">;
+export type NewSetData = Omit<
+  Set,
+  "id" | "category_name" | "user_id" | "username"
+>;
+
+export interface SetData extends NewSetData {
+  set_id?: number;
+}
 
 export type FullSet = {
   set: Set;
@@ -45,9 +52,7 @@ export type Card = {
   deleted?: boolean;
 };
 
-export type NewCard = Pick<Card, "front" | "back">;
-
-export type EditCard = Partial<Card>;
+export type CardFormData = Partial<Card>;
 
 export type Favorite = {
   id: number;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { EditCard, NewCard, NewSet } from "./definitions";
+import { CardFormData, NewSetData, SetData } from "./definitions";
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
@@ -13,7 +13,8 @@ export const getAllCategories = () => {
   return instance.get("/api/categories").then((res) => res.data);
 };
 
-export const getCategoryById = (categoryId: string) => { // params.slug is string
+export const getCategoryById = (categoryId: string) => {
+  // params.slug is string
   return instance.get(`/api/categories/${categoryId}`).then((res) => res.data);
 };
 
@@ -53,13 +54,14 @@ export const unlikeSet = (setId: number) => {
 
 /* --- Sets --- */
 export const createSet = (setData: {
-  setFormData: NewSet;
-  cardFormData: NewCard[];
+  setFormData: NewSetData;
+  cardFormData: CardFormData[];
 }) => {
   return instance.post("/api/sets/create", setData);
 };
 
-export const getSet = (setId: string) => { // string for getting the params.slug
+export const getSet = (setId: string) => {
+  // string for getting the params.slug
   return instance.get(`/api/sets/${setId}`).then((res) => res.data);
 };
 
@@ -70,8 +72,8 @@ export const searchSets = (query: string) => {
 };
 
 export const editSet = (
-  setId: string, // params.slug
-  updatedSetInfo: { setFormData: NewSet; cardFormData: EditCard[] }
+  setId: number,
+  updatedSetInfo: { setFormData: SetData; cardFormData: CardFormData[] }
 ) => {
   return instance.put(`/api/sets/edit/${setId}`, updatedSetInfo);
 };
@@ -81,6 +83,9 @@ export const deleteSetById = (setId: number) => {
 };
 
 /* --- Card --- */
-export const editCardById = (cardId: number, card:{front:string, back:string}) => {
+export const editCardById = (
+  cardId: number,
+  card: { front: string; back: string }
+) => {
   return instance.put(`/api/cards/update/${cardId}`, card);
 };
