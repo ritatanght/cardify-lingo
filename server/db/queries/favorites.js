@@ -4,13 +4,13 @@ const getFavoritesByUserId = (userId) => {
   return db
     .query(
       `
-    SELECT sets.id, sets.title, sets.private, sets.user_id, users.username AS username
-    FROM favorites
-    JOIN sets ON favorites.set_id = sets.id
-    JOIN users ON sets.user_id = users.id
-    WHERE favorites.user_id = $1 
-    AND sets.deleted = false
-    AND favorites.deleted = false;`,
+    SELECT lang_sets.id, lang_sets.title, lang_sets.private, lang_sets.user_id, users.username AS username
+    FROM lang_favorites
+    JOIN lang_sets ON lang_favorites.set_id = lang_sets.id
+    JOIN users ON lang_sets.user_id = users.id
+    WHERE lang_favorites.user_id = $1 
+    AND lang_sets.deleted = false
+    AND lang_favorites.deleted = false;`,
       [userId]
     )
     .then((data) => data.rows);
@@ -18,19 +18,19 @@ const getFavoritesByUserId = (userId) => {
 
 const addFavoriteByUserAndSet = (userId, setId) => {
   return db.query(
-    `SELECT * FROM favorites 
+    `SELECT * FROM lang_favorites 
      WHERE user_id = $1
-     AND set_id = $2;`,
+     AND lang_set_id = $2;`,
     [userId, setId]
   ).then((likeRecord) => {
     // update deleted column for a found existing record
     if (likeRecord.rowCount > 0) {
       return db
         .query(
-          `UPDATE favorites
+          `UPDATE lang_favorites
            SET deleted = false
            WHERE user_id = $1
-           AND set_id = $2;`,
+           AND lang_set_id = $2;`,
           [userId, setId]
         )
         .then((data) => data.rows);
@@ -38,7 +38,7 @@ const addFavoriteByUserAndSet = (userId, setId) => {
       //insert a row if no record is found
       return db
         .query(
-          `INSERT INTO favorites (user_id, set_id)
+          `INSERT INTO lang_favorites (user_id, lang_set_id)
            VALUES ($1, $2);`,
           [userId, setId]
         )
@@ -51,10 +51,10 @@ const removeFavoriteByUserAndSet = (userId, setId) => {
   return db
     .query(
       `
-      UPDATE favorites
+      UPDATE lang_favorites
       SET deleted = true
       WHERE user_id = $1
-      AND set_id = $2;`,
+      AND lang_set_id = $2;`,
       [userId, setId]
     )
     .then((data) => data.rows);

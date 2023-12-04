@@ -3,7 +3,7 @@ const db = require("../../configs/db.config");
 const postCardsData = (cardsData) => {
   const promises = cardsData.map((cardData) => {
     const query = `
-      INSERT INTO cards(front, back, set_id)
+      INSERT INTO lang_cards(front, back, lang_set_id)
       VALUES($1, $2, $3)
     `;
     return db.query(query, [cardData.front, cardData.back, cardData.setId]);
@@ -15,7 +15,7 @@ const updateCardsData = (cardsData) => {
   const promises = cardsData.map((cardData) => {
     if (cardData.id) {
       const query = `
-      UPDATE cards
+      UPDATE lang_cards
       SET front = $1,
       back = $2,
       deleted = $3
@@ -29,7 +29,7 @@ const updateCardsData = (cardsData) => {
       ]);
     } else {
       const query = `
-      INSERT INTO cards (front, back, set_id)
+      INSERT INTO lang_cards (front, back, lang_set_id)
       VALUES ($1, $2, $3)
       RETURNING id;
       `;
@@ -44,10 +44,10 @@ const getCardsBySetId = (setId) => {
   return db
     .query(
       `
-      SELECT * FROM cards
-      WHERE set_id = $1 
+      SELECT * FROM lang_cards
+      WHERE lang_set_id = $1 
       AND deleted = false
-      ORDER BY cards.id;`,
+      ORDER BY lang_cards.id;`,
       [setId]
     )
     .then((data) => data.rows);
@@ -55,7 +55,7 @@ const getCardsBySetId = (setId) => {
 
 const updateCardById = (id, cardData) => {
   const query = `
-    UPDATE cards
+    UPDATE lang_cards
     SET front = $1, back = $2
     WHERE id = $3
   `;
@@ -67,9 +67,9 @@ const getCardOwnerByCardId = (cardId) => {
     .query(
       `
       SELECT user_id
-      FROM sets
-      JOIN cards ON sets.id = set_id
-      WHERE cards.id = $1;`,
+      FROM lang_sets
+      JOIN lang_cards ON lang_sets.id = lang_set_id
+      WHERE lang_cards.id = $1;`,
       [cardId]
     )
     .then((data) => data.rows[0]);

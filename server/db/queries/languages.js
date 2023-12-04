@@ -1,20 +1,20 @@
 const db = require("../../configs/db.config");
 
-const getAllCategories = () => {
+const getAllLanguages = () => {
   return db
     .query(
       `
-      SELECT * FROM categories
+      SELECT * FROM languages
       WHERE deleted = false;`
     )
     .then((data) => data.rows);
 };
 
-const getCategoryById = (categoryId) => {
+const getLanguagesById = (categoryId) => {
   return db
     .query(
       `
-      SELECT * FROM categories
+      SELECT * FROM languages
       WHERE deleted = false 
       AND id = $1;`,
       [categoryId]
@@ -22,4 +22,4 @@ const getCategoryById = (categoryId) => {
     .then((data) => data.rows[0]);
 };
 
-module.exports = { getAllCategories, getCategoryById };
+module.exports = { getAllLanguages, getLanguagesById };
