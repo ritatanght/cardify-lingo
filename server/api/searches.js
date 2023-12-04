@@ -2,7 +2,6 @@ const router = require("express").Router();
 const searches = require("../db/queries/searches");
 
 router.get("/", (req, res) => {
-  console.log("backend search")
   searches
     .searchByText(req.query.query)
     .then((data) => {

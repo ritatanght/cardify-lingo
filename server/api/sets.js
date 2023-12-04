@@ -8,7 +8,7 @@ router.post("/create", (req, res) => {
   if (!userId) return res.status(401).json({ message: "Please log in first." });
 
   const {
-    setFormData: { title, description, category_id },
+    setFormData: { title, description, language_id },
     cardFormData,
   } = req.body;
 
@@ -17,8 +17,8 @@ router.post("/create", (req, res) => {
       .status(400)
       .json({ message: "Title and description cannot be empty" });
 
-  if (!category_id)
-    return res.status(400).json({ message: "Please pick a category" });
+  if (!language_id)
+    return res.status(400).json({ message: "Please pick a language" });
 
   if (cardFormData.length === 0)
     return res
@@ -65,7 +65,7 @@ router.put("/edit/:id", (req, res) => {
   if (!userId) return res.status(401).json({ message: "Please log in first." });
 
   const {
-    setFormData: { title, description, category_id },
+    setFormData: { title, description, language_id },
     cardFormData,
   } = req.body;
 
@@ -74,8 +74,8 @@ router.put("/edit/:id", (req, res) => {
       .status(400)
       .json({ message: "Title and description cannot be empty" });
 
-  if (!category_id)
-    return res.status(400).json({ message: "Please pick a category" });
+  if (!language_id)
+    return res.status(400).json({ message: "Please pick a language" });
 
   if (cardFormData.length === 0)
     return res

@@ -105,7 +105,7 @@ module.exports = {
   updateSetData,
   getSetsByUserId,
   getSetInfoById,
-  getSetsByCategoryId,
+  getSetsByLanguageId,
   getSetOwnerBySetId,
   setSetToDeleted,
 };

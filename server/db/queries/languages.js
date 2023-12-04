@@ -1,5 +1,4 @@
 const db = require("../../configs/db.config");
-
 const getAllLanguages = () => {
   return db
     .query(
@@ -10,14 +9,14 @@ const getAllLanguages = () => {
     .then((data) => data.rows);
 };
 
-const getLanguagesById = (categoryId) => {
+const getLanguagesById = (languageId) => {
   return db
     .query(
       `
       SELECT * FROM languages
       WHERE deleted = false 
       AND id = $1;`,
-      [categoryId]
+      [languageId]
     )
     .then((data) => data.rows[0]);
 };
