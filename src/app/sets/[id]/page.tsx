@@ -14,7 +14,7 @@ import Loading from "@/app/loading";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   const router = useRouter();
   const { user, favoriteSets } = useUser();
   const { isLiked, checkLiked, toggleLike } = useFavButton();
@@ -25,15 +25,15 @@ export default function Page({ params }: { params: { slug: string } }) {
   const [editingCard, setEditingCard] = useState<Card | null>(null);
 
   useEffect(() => {
-    getSet(params.slug)
+    getSet(params.id)
       .then(setSetData)
       .catch((err) => {
         toast.error(err);
       })
       .finally(() => setIsLoading(false));
     // check whether the current set is liked by the logged in user
-    checkLiked(favoriteSets, Number(params.slug));
-  }, [params.slug]);
+    checkLiked(favoriteSets, Number(params.id));
+  }, [params.id]);
 
   const handleCardEdit = (card: Card) => {
     setEditingCard(card);
@@ -113,7 +113,7 @@ export default function Page({ params }: { params: { slug: string } }) {
           )}
         </div>
         {user && user.id === set.user_id && (
-          <Link className="btn" href={`/sets/edit/${params.slug}`}>
+          <Link className="btn" href={`/sets/edit/${params.id}`}>
             Edit Set
           </Link>
         )}

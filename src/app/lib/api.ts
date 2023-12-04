@@ -14,7 +14,7 @@ export const getAllCategories = () => {
 };
 
 export const getCategoryById = (categoryId: string) => {
-  // params.slug is string
+  // params.id is string
   return instance.get(`/api/categories/${categoryId}`).then((res) => res.data);
 };
 
@@ -61,7 +61,7 @@ export const createSet = (setData: {
 };
 
 export const getSet = (setId: string) => {
-  // string for getting the params.slug
+  // string for getting the params.id
   return instance.get(`/api/sets/${setId}`).then((res) => res.data);
 };
 

@@ -38,24 +38,12 @@ const Page = () => {
           toast.error(data.message);
         }
       })
-      .catch(
-        (err) => console.log(err.response.data.message)
-        //toast.error(err.response.data.message)
-      );
+      .catch((err) => toast.error(err.response.data.message));
   };
-
-  // redirect to profile if user has already logged-in
-  if (user)
-    return (
-      <main>
-        <h1 className="text-center">You have already logged in</h1>
-      </main>
-    );
 
   return (
     <main>
       <h1 className={`text-3xl mb-4 ${playpen.className}`}>Login</h1>
-
       <form onSubmit={handleLogin}>
         <input
           className="block p-2 border-2 mb-4 w-full rounded-md border-color-3 outline-gray-500"

@@ -13,14 +13,14 @@ type categoryData = {
   sets: Set[];
 };
 
-export default function Page({ params }: { params: { slug: string } }) {
+export default function Page({ params }: { params: { id: string } }) {
   const { user } = useUser();
   const { sets, setSets, deleteSet } = useSetsList();
   const [category, setCategory] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    getCategoryById(params.slug)
+    getCategoryById(params.id)
       .then((data: categoryData) => {
         setCategory(data.category);
         setSets(data.sets);
@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         //toast.error(err);
       })
       .finally(() => setIsLoading(false));
-  }, [params.slug, setSets]);
+  }, [params.id, setSets]);
 
   if (isLoading) {
     return (
