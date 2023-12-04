@@ -1,5 +1,5 @@
 "use client";import { useEffect, useState } from "react";
-import Cards from "./Cards"; 
+import Cards from "./Cards";
 import EditCardModal from "./EditCardModal";
 import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
@@ -12,8 +12,10 @@ import { getSet } from "@/app/lib/api";
 import { Card, FullSet } from "@/app/lib/definitions";
 import Loading from "@/app/loading";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Page({ params }: { params: { slug: string } }) {
+  const router = useRouter();
   const { user, favoriteSets } = useUser();
   const { isLiked, checkLiked, toggleLike } = useFavButton();
 
@@ -73,7 +75,10 @@ export default function Page({ params }: { params: { slug: string } }) {
   if (set.private && (!user || user.id !== set.user_id)) {
     return (
       <main className="mt-8 text-center">
-        <h2>This set is marked as private.</h2>
+        <h2 className="text-xl mb-4">This set is marked as private.</h2>
+        <button className="btn" onClick={() => router.back()}>
+          Return
+        </button>
       </main>
     );
   }
