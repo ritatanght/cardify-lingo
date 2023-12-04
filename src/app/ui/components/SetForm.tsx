@@ -4,76 +4,72 @@ import { useRouter } from "next/navigation";
 import CardForm from "@/app/ui/components/CardForm";
 import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
-import { createSet } from "@/app/lib/api";
+import { createSet, editSet } from "@/app/lib/api";
 import { Listbox, Transition } from "@headlessui/react";
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Category, FullSet, NewCard } from "@/app/lib/definitions";
+import {
+  Category,
+  FullSet,
+  CardFormData,
+  NewSetData,
+  SetData,
+} from "@/app/lib/definitions";
 import { playpen } from "@/app/ui/fonts";
 
 
-interface BasicSetFormProps {
+interface SetFormProps {
+  mode: "create" | "edit";
   categories: Category[];
+  setData?: FullSet;
 }
 
-interface CreateSetForm extends BasicSetFormProps {
-  mode: "create";
-}
-
-interface EditSetForm extends BasicSetFormProps {
-  mode: "edit";
-  setData: FullSet;
-  setId: string
-}
-
-type SetFormProps = CreateSetForm | EditSetForm;
-
-
-const SetForm = ({ categories }: SetFormProps) => {
+const SetForm = ({ mode, categories, setData }: SetFormProps) => {
   const router = useRouter();
   const { user, clearUserInfo } = useUser();
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [isPrivate, setIsPrivate] = useState(false);
-  const [cards, setCards] = useState<NewCard[]>([
-    { front: "", back: "" },
-    { front: "", back: "" },
-    { front: "", back: "" },
-  ]);
+  const [userId, setUserId] = useState(setData?.set.user_id || "");
+  const [title, setTitle] = useState(setData?.set.title || "");
+  const [description, setDescription] = useState(
+    setData?.set.description || ""
+  );
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    setData?.set.category_name || ""
+  );
+  const [isPrivate, setIsPrivate] = useState(setData?.set.private || false);
+  const [cards, setCards] = useState<CardFormData[]>(
+    setData?.cards || [
+      { front: "", back: "" },
+      { front: "", back: "" },
+      { front: "", back: "" },
+    ]
+  );
 
   useEffect(() => {
     // display upon redirect to login page
     if (!user) {
-      toast.info("Login to create set.");
+      toast.info(
+        mode === "create" ? "Login to create set." : "Login to edit set."
+      );
       return router.replace("/login");
     }
-  }, [user]);
+  }, [user, mode, router]);
 
   // If user is not logged-in, redirect to login page
   if (!user)
     return (
       <main>
-        <h1 className="text-center">Login to create set</h1>
+        <h1 className="text-center">
+          Login to {mode === "create" ? "create" : "edit"} set
+        </h1>
       </main>
     );
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const category_id = categories.find(
-      (cat) => cat.name === selectedCategory
-    )?.id;
-    if (!category_id) return toast.error("Please select a category");
-
-    const setFormData = {
-      title,
-      description,
-      category_id,
-      private: isPrivate,
-    };
-
-    createSet({ setFormData, cardFormData: cards })
+  const onCreate = (data: {
+    setFormData: NewSetData;
+    cardFormData: CardFormData[];
+  }) => {
+    createSet(data)
       .then((res) => {
         if (res.status === 201) {
           toast.success(res.data.message, { position: "top-center" });
@@ -91,6 +87,57 @@ const SetForm = ({ categories }: SetFormProps) => {
       });
   };
 
+  const onEdit = (data: {
+    setFormData: SetData;
+    cardFormData: CardFormData[];
+  }) => {
+    const setId = setData?.set.id;
+    const { setFormData, cardFormData } = data;
+    if (setId) {
+      setFormData.set_id = setId;
+      editSet(setId, { setFormData, cardFormData })
+        .then((res) => {
+          if (res.status === 200) {
+            toast.success(res.data.message, { position: "top-center" });
+            return router.push("/profile");
+          }
+        })
+        .catch((err) => {
+          if (err.response.status === 401) {
+            toast.info(err.response.data.message);
+            clearUserInfo();
+            return router.replace("/login");
+          } else {
+            toast.error(err.response.data.message);
+          }
+        });
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    const category_id = categories.find(
+      (cat) => cat.name === selectedCategory
+    )?.id;
+    if (!category_id) return toast.error("Please select a category");
+    const setFormData = {
+      title,
+      description,
+      category_id,
+      private: isPrivate,
+    };
+    switch (mode) {
+      case "create":
+        onCreate({ setFormData, cardFormData: cards });
+        break;
+      case "edit":
+        onEdit({ setFormData, cardFormData: cards });
+        break;
+      default:
+        console.log("Invalid mode");
+    }
+  };
+
   const addCard = (e: React.FormEvent) => {
     e.preventDefault();
     setCards((prevCards) => [
@@ -105,7 +152,7 @@ const SetForm = ({ categories }: SetFormProps) => {
   const handleCardUpdate = (index: number, e: React.BaseSyntheticEvent) => {
     setCards((prevCards) => {
       const updatedCards = [...prevCards];
-      updatedCards[index][e.target.name as keyof NewCard] = e.target.value;
+      updatedCards[index][e.target.name as keyof CardFormData] = e.target.value;
       return updatedCards;
     });
   };
@@ -115,9 +162,28 @@ const SetForm = ({ categories }: SetFormProps) => {
       return toast.info("There should be at least one card");
 
     const updatedCards = [...cards];
-    updatedCards.splice(cardIndex, 1);
-    setCards(updatedCards);
+    // A card has an id means it's been created in the database previously
+    // we have to keep it to update the database
+    if (cards[cardIndex].id) {
+      updatedCards[cardIndex].deleted = true;
+      setCards(updatedCards);
+    } else {
+      // otherwise, we could just remove it from the array
+      setCards((prevCards) =>
+        prevCards.filter((card, index) => index !== cardIndex)
+      );
+    }
   };
+  // display when it is edit mode and user is not the set's owner
+  if (mode === "edit" && user.id !== userId) {
+    return (
+      <main>
+        <h1 className="text-xl text-center">
+          Sorry, you don&apos;t have permission to edit this set!
+        </h1>
+      </main>
+    );
+  }
 
   return (
     <main>
@@ -125,14 +191,14 @@ const SetForm = ({ categories }: SetFormProps) => {
         <div className="border-b-2 border-gray-500 border-dashed md:pb-2 mb-2 md:mb-6">
           <div className="set-header-container flex justify-between items-center mb-4 gap-1">
             <h1 className={`text-3xl ${playpen.className}`}>
-              Create a New Set
+              {mode === "create" ? "Create a New Set" : `Edit: ${title}`}
             </h1>
             <button
               type="submit"
               onClick={handleSubmit}
               className="bg-color-2 px-2 font-bold transition-all duration-200 p-2 rounded-lg text-white hover:bg-color-2 hover:translate-y-0.5 md:px-8"
             >
-              Create
+              {mode === "create" ? "Create" : "Save"}
             </button>
           </div>
 
@@ -228,14 +294,17 @@ const SetForm = ({ categories }: SetFormProps) => {
           </div>
         </div>
 
-        {cards.map((card, index) => (
-          <CardForm
-            key={index}
-            card={card}
-            onUpdate={(e) => handleCardUpdate(index, e)}
-            onDelete={() => handleCardDelete(index)}
-          />
-        ))}
+        {cards.map(
+          (card, index) =>
+            !card.deleted && (
+              <CardForm
+                key={index}
+                card={card}
+                onUpdate={(e) => handleCardUpdate(index, e)}
+                onDelete={() => handleCardDelete(index)}
+              />
+            )
+        )}
         <div className="text-center">
           <button onClick={addCard} className="btn text-center px-[30%]">
             Add Card
