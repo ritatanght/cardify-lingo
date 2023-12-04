@@ -1,10 +1,12 @@
-"use client";import Link from "next/link";import Image from "next/image";import { useState, Fragment } from "react";
+"use client";import Link from "next/link";
+import Image from "next/image";
+import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUser,
   faBars,
-  faChevronDown,
+  faCaretDown,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
@@ -23,7 +25,7 @@ export default function Header({ categories }: { categories: Category[] }) {
   const { user, logout } = useUser();
 
   return (
-    <header className="px-4 md:px-6">
+    <header className="px-4 md:px-6 bg-color-3">
       <ToastContainer
         position="bottom-center"
         autoClose={4000}
@@ -45,16 +47,20 @@ export default function Header({ categories }: { categories: Category[] }) {
               height={35.2}
               priority
               alt="Cardify logo"
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
 
           {/* dropdown */}
-          <Menu as="div" className="dropdown py-3 relative inline-block">
-            <Menu.Button className="inline-flex w-full justify-center items-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+          <Menu
+            as="div"
+            className="dropdown relative inline-block border-b-[3px] transition-colors duration-200 border-transparent hover:border-color-5"
+          >
+            <Menu.Button className="inline-flex w-full justify-center items-center gap-x-0.5 rounded-md px-3 py-4 text-sm font-bold text-gray-600">
               Categories
               <FontAwesomeIcon
-                icon={faChevronDown}
-                className="-mr-1 h-5 w-5 text-gray-400"
+                icon={faCaretDown}
+                className="-mr-1 h-5 w-5 text-gray-400 scale-75"
                 aria-hidden="true"
               />
             </Menu.Button>
@@ -68,7 +74,7 @@ export default function Header({ categories }: { categories: Category[] }) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none">
                 <div className="py-1">
                   {categories.map((category) => (
                     <Menu.Item key={category.name}>
@@ -77,8 +83,8 @@ export default function Header({ categories }: { categories: Category[] }) {
                           href={`/categories/${category.id}`}
                           className={classNames(
                             active
-                              ? "bg-gray-100 text-gray-900"
-                              : "text-gray-700",
+                              ? "bg-gray-50 text-color-5 font-bold"
+                              : "text-gray-500",
                             "block px-4 py-2 text-sm"
                           )}
                         >
@@ -121,7 +127,7 @@ export default function Header({ categories }: { categories: Category[] }) {
             {user ? (
               <div className="flex justify-center items-center">
                 <Link
-                  className="profile-btn p-0 text-xl transition-transform duration-300 hover:-translate-y-1"
+                  className="p-0 text-xl transition-transform duration-300 hover:-translate-y-1 text-darken-5-200"
                   href="/profile"
                 >
                   <strong className="mr-1">{user.username}</strong>
