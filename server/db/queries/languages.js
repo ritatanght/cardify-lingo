@@ -9,7 +9,7 @@ const getAllLanguages = () => {
     .then((data) => data.rows);
 };
 
-const getLanguagesById = (languageId) => {
+const getLanguageById = (languageId) => {
   return db
     .query(
       `
@@ -21,4 +21,4 @@ const getLanguagesById = (languageId) => {
     .then((data) => data.rows[0]);
 };
 
-module.exports = { getAllLanguages, getLanguagesById };
+module.exports = { getAllLanguages, getLanguageById };
