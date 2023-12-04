@@ -17,6 +17,7 @@ const config: Config = {
     },
     extend: {
       colors: {
+        transparent: "transparent",
         white: "#fff",
         "slate-300": "rgb(203 213 225)",
         "gray-50": "rgb(249 250 251)",
