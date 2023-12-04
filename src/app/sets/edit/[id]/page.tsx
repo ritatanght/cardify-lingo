@@ -1,12 +1,22 @@
-import "../../Create-Edit-Set.scss";import { getAllCategories, getSet } from "@/app/lib/api";
-import { Category, FullSet } from "@/app/lib/definitions";
+import { getAllCategories, getSet } from "@/app/lib/api";import { AxiosError, isAxiosError } from "axios";
 import SetForm from "@/app/ui/components/SetForm";
+import { notFound } from "next/navigation";
 
 const Page = async ({ params }: { params: { id: string } }) => {
-  const categories: Category[] = await getAllCategories();
-  const setData: FullSet = await getSet(params.id);
+  try {
+    const [categories, setData] = await Promise.all([
+      getAllCategories(),
+      getSet(params.id),
+    ]);
 
-  return <SetForm mode="edit" categories={categories} setData={setData} />;
+    return <SetForm mode="edit" categories={categories} setData={setData} />;
+  } catch (err: any | AxiosError) {
+    if (isAxiosError(err) && err.response?.status === 404) {
+      notFound();
+    } else {
+      console.log(err);
+    }
+  }
 };
 
 export default Page;
