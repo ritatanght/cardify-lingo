@@ -1,11 +1,11 @@
-DROP TABLE IF EXISTS sets CASCADE;
+DROP TABLE IF EXISTS lang_sets CASCADE;
 
-CREATE TABLE sets (
+CREATE TABLE lang_sets (
   id SERIAL PRIMARY KEY,
   title VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   private BOOLEAN default false,
-  category_id INT REFERENCES categories(id),
+  language_id INT REFERENCES languages(id),
   user_id INT REFERENCES users(id),
   deleted BOOLEAN DEFAULT false
 );

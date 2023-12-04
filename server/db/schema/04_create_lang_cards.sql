@@ -1,8 +1,8 @@
-DROP TABLE IF EXISTS cards CASCADE;
+DROP TABLE IF EXISTS ang_cards CASCADE;
 
-CREATE TABLE cards (
+CREATE TABLE lang_cards (
   id SERIAL PRIMARY KEY,
-  set_id INT REFERENCES sets(id),
+  lang_set_id INT REFERENCES lang_sets(id),
   front VARCHAR(255) NOT NULL,
   back VARCHAR(255) NOT NULL,
   image_url VARCHAR(255),

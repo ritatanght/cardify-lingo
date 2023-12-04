@@ -1,6 +1,6 @@
-DROP TABLE IF EXISTS categories CASCADE;
+DROP TABLE IF EXISTS languages CASCADE;
 
-CREATE TABLE categories (
+CREATE TABLE languages (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
   deleted BOOLEAN DEFAULT false
