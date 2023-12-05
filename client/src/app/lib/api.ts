@@ -8,14 +8,14 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-/* --- Categories --- */
-export const getAllCategories = () => {
-  return instance.get("/api/categories").then((res) => res.data);
+/* --- Languages --- */
+export const getAllLanguages = () => {
+  return instance.get("/api/languages").then((res) => res.data);
 };
 
-export const getCategoryById = (categoryId: string) => {
+export const getLanguageById = (languageId: string) => {
   // params.id is string
-  return instance.get(`/api/categories/${categoryId}`).then((res) => res.data);
+  return instance.get(`/api/languages/${languageId}`).then((res) => res.data);
 };
 
 /* --- Users --- */
