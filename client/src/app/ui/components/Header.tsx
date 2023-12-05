@@ -1,18 +1,9 @@
-"use client";import Link from "next/link";
-import Image from "next/image";
-import { useState, Fragment } from "react";
-import SearchBar from "./SearchBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faBars,
-  faCaretDown,
-  faXmark,
+"use client";import Link from "next/link";import Image from "next/image";import { useState, Fragment } from "react";import SearchBar from "./SearchBar";import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";import {  faUser,  faBars,  faCaretDown,  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "@/app/context/UserProvider";
-import { Category } from "../../lib/definitions";
+import { Language } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 
@@ -20,7 +11,7 @@ function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Header({ categories }: { categories: Category[] }) {
+export default function Header({ languages }: { languages: Language[] }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logout } = useUser();
 
@@ -57,7 +48,7 @@ export default function Header({ categories }: { categories: Category[] }) {
             className="dropdown relative inline-block border-b-[3px] transition-colors duration-200 border-transparent hover:border-color-5"
           >
             <Menu.Button className="inline-flex w-full justify-center items-center gap-x-0.5 rounded-md px-3 py-4 text-sm font-bold text-gray-600">
-              Categories
+              Languages
               <FontAwesomeIcon
                 icon={faCaretDown}
                 className="-mr-1 h-5 w-5 text-gray-400 scale-75"
@@ -76,11 +67,11 @@ export default function Header({ categories }: { categories: Category[] }) {
             >
               <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none">
                 <div className="py-1">
-                  {categories.map((category) => (
-                    <Menu.Item key={category.name}>
+                  {languages.map((language) => (
+                    <Menu.Item key={language.name}>
                       {({ active }) => (
                         <Link
-                          href={`/categories/${category.id}`}
+                          href={`/languages/${language.id}`}
                           className={classNames(
                             active
                               ? "bg-gray-50 text-color-5 font-bold"
@@ -88,7 +79,7 @@ export default function Header({ categories }: { categories: Category[] }) {
                             "block px-4 py-2 text-sm"
                           )}
                         >
-                          {category.name}
+                          {language.name}
                         </Link>
                       )}
                     </Menu.Item>
