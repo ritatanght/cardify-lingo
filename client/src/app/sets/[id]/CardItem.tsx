@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-import CardFace from "./CardFace";
-import { Card } from "@/app/lib/definitions";
+import { useEffect, useState } from "react";import CardFace from "./CardFace";
 
 interface CardItemProps {
   front: string;
@@ -8,13 +6,16 @@ interface CardItemProps {
   currCard: number;
   seq: number;
   isSetOwner: boolean;
-  voice: SpeechSynthesisVoice | null;
+  voices: {
+    userVoice: SpeechSynthesisVoice;
+    languageVoice: SpeechSynthesisVoice;
+  };
   onEdit: () => void;
 }
 
 const CardItem = (props: CardItemProps) => {
   const [isFlip, setIsFlip] = useState(false);
-  const { front, back, currCard, seq, isSetOwner, voice, onEdit } = props;
+  const { front, back, currCard, seq, isSetOwner, voices, onEdit } = props;
 
   useEffect(() => {
     if (isFlip) {
@@ -36,14 +37,14 @@ const CardItem = (props: CardItemProps) => {
       <CardFace
         position="front"
         isSetOwner={isSetOwner}
-        voice={voice}
+        voice={voices.userVoice}
         text={front}
         onEdit={onEdit}
       />
       <CardFace
         position="back"
         isSetOwner={isSetOwner}
-        voice={voice}
+        voice={voices.languageVoice}
         text={back}
         onEdit={onEdit}
       />
