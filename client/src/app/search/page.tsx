@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 import { searchSets } from "@/app/lib/api";
 import Loading from "../loading";
 
-const user = { id: 1, username: "john_doe" };
 
 export default function Page() {
   const searchParams = useSearchParams();
