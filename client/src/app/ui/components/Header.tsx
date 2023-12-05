@@ -47,7 +47,7 @@ export default function Header({ languages }: { languages: Language[] }) {
             as="div"
             className="dropdown relative inline-block border-b-[3px] transition-colors duration-200 border-transparent hover:border-color-5"
           >
-            <Menu.Button className="inline-flex w-full justify-center items-center gap-x-0.5 rounded-md px-3 py-4 text-sm font-bold text-gray-600">
+            <Menu.Button className="inline-flex w-full justify-center items-center gap-x-0.5 rounded-md px-3 pb-4 pt-5 text-sm font-bold text-gray-600">
               Languages
               <FontAwesomeIcon
                 icon={faCaretDown}
