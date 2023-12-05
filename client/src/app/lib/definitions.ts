@@ -22,8 +22,8 @@ export interface Set {
   title: string;
   description: string;
   private: boolean;
-  category_id: number;
-  category_name: string;
+  language_id: number;
+  language_name: string;
   user_id: number;
   // deleted: boolean;
   username: string;
@@ -31,7 +31,7 @@ export interface Set {
 
 export type NewSetData = Omit<
   Set,
-  "id" | "category_name" | "user_id" | "username"
+  "id" | "language_name" | "user_id" | "username"
 >;
 
 export interface SetData extends NewSetData {
@@ -63,7 +63,7 @@ export type Favorite = {
 
 export type FavoriteSet = Omit<
   Set,
-  "description" | "category_id" | "category_name"
+  "description" | "language_id" | "language_name"
 >;
 
 export interface userContextType {
