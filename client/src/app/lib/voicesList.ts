@@ -20,6 +20,22 @@ export const language_voice_lang: { [key: string]: string} = {
   Cantonese: "zh-HK",
 };
 
+export const waitForVoices = (): Promise<SpeechSynthesisVoice[]> => {
+  return new Promise((resolve) => {
+    const voicesChanged = () => {
+      window.speechSynthesis.onvoiceschanged = null; // Remove the listener after it fires
+      resolve(window.speechSynthesis.getVoices());
+    };
+
+    // Check if voices are already available
+    if (window.speechSynthesis.getVoices().length > 0) {
+      resolve(window.speechSynthesis.getVoices());
+    } else {
+      window.speechSynthesis.onvoiceschanged = voicesChanged;
+    }
+  });
+};
+
 /*
 0Microsoft David - English (United States)
 1Microsoft Mark - English (United States)
