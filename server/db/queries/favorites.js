@@ -6,7 +6,7 @@ const getFavoritesByUserId = (userId) => {
       `
     SELECT lang_sets.id, lang_sets.title, lang_sets.private, lang_sets.user_id, users.username AS username
     FROM lang_favorites
-    JOIN lang_sets ON lang_favorites.set_id = lang_sets.id
+    JOIN lang_sets ON lang_favorites.lang_set_id = lang_sets.id
     JOIN users ON lang_sets.user_id = users.id
     WHERE lang_favorites.user_id = $1 
     AND lang_sets.deleted = false
