@@ -11,6 +11,7 @@ import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import "./ViewSet.scss";
 import { Card, FullSet } from "@/app/lib/definitions";
+import { language_voice_lang, waitForVoices } from "@/app/lib/voicesList";
 
 interface ViewSetProps {
   fullSetData: FullSet;
@@ -25,6 +26,26 @@ const ViewSet = ({ fullSetData }: ViewSetProps) => {
   const [setData, setSetData] = useState<FullSet>(fullSetData);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
+  const [userVoice, setUserVoice] = useState<SpeechSynthesisVoice | null>(null);
+  const [languageVoice, setLanguageVoice] =
+    useState<SpeechSynthesisVoice | null>(null);
+
+  // load and set voices to state based on the language of the set
+  useEffect(() => {
+    waitForVoices().then((voices) => {
+      const language = fullSetData.set.language_name;
+      const languageCode = language_voice_lang[language];
+
+      if (languageCode) {
+        const selectedVoice = voices.find(
+          (voice) => voice.lang === languageCode
+        );
+        selectedVoice && setLanguageVoice(selectedVoice);
+      }
+      // assume user's language is English
+      setUserVoice(voices[7]);
+    });
+  }, [fullSetData.set.language_name]);
 
   useEffect(() => {
     checkLiked(favoriteSets, setId);
@@ -74,7 +95,7 @@ const ViewSet = ({ fullSetData }: ViewSetProps) => {
             {set.title}
           </h1>
           <h2 className="bg-color-3 rounded-md p-2 text-base inline-block mb-2 md:mb-0">
-            {set.category_name}
+            {set.language_name}
           </h2>
           {user && (
             <button
@@ -102,11 +123,14 @@ const ViewSet = ({ fullSetData }: ViewSetProps) => {
         )}
       </section>
 
-      <Cards
-        cards={cards}
-        isSetOwner={user && user.id === set.user_id}
-        onEdit={handleCardEdit}
-      />
+      {userVoice && (
+        <Cards
+          cards={cards}
+          isSetOwner={user && user.id === set.user_id}
+          onEdit={handleCardEdit}
+          voices={{ userVoice, languageVoice: languageVoice || userVoice }}
+        />
+      )}
 
       {/* Edit Card Modal */}
       {editingCard && (

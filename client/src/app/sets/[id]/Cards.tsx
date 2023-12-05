@@ -1,35 +1,25 @@
 import { useState, useEffect } from "react";
-import CardItem from "./CardItem";
-//import Confetti from "react-confetti";
+import CardItem from "./CardItem"; 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
 import { Card } from "@/app/lib/definitions";
+//import Confetti from "react-confetti";
 
 interface CardsProps {
   cards: Card[];
   isSetOwner: boolean;
   onEdit: (card: Card) => void;
+  voices: {
+    userVoice: SpeechSynthesisVoice;
+    languageVoice: SpeechSynthesisVoice;
+  };
 }
 
-const Cards = ({ cards, isSetOwner, onEdit }: CardsProps) => {
+const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
   const [currCard, setCurrCard] = useState(1);
   const [isFinished, setIsFinished] = useState(false);
-  const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
-
-  useEffect(() => {
-    const initializeVoices = () => {
-      const voices = speechSynthesis.getVoices();
-      // Change voice for speech; 7 - Google US English
-      if (voices[7]) {
-        setVoice(voices[7]);
-      } else {
-        setTimeout(initializeVoices, 200);
-      }
-    };
-    initializeVoices();
-  }, []);
 
   const resetCard = () => {
     setCurrCard(1);
@@ -58,7 +48,7 @@ const Cards = ({ cards, isSetOwner, onEdit }: CardsProps) => {
         key={card.id}
         currCard={currCard}
         seq={index + 1}
-        voice={voice}
+        voices={voices}
         isSetOwner={isSetOwner}
         onEdit={() => onEdit(card)}
         {...card}
