@@ -5,12 +5,12 @@ import { notFound } from "next/navigation";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   try {
-    const [categories, setData] = await Promise.all([
+    const [languages, setData] = await Promise.all([
       getAllLanguages(),
       getSet(params.id),
     ]);
 
-    return <SetForm mode="edit" categories={categories} setData={setData} />;
+    return <SetForm mode="edit" languages={languages} setData={setData} />;
   } catch (err: any | AxiosError) {
     if (isAxiosError(err) && err.response?.status === 404) {
       notFound();

@@ -1,9 +1,9 @@
-import { getAllLanguages } from "@/app/lib/api";import SetForm from "@/app/ui/components/SetForm";
-
+import { getAllLanguages } from "@/app/lib/api";
+import SetForm from "@/app/ui/components/SetForm";
 const Page = async () => {
-  const categories = await getAllLanguages();
+  const languages = await getAllLanguages();
 
-  return <SetForm mode="create" categories={categories} />;
+  return <SetForm mode="create" languages={languages} />;
 };
 
 export default Page;
