@@ -9,22 +9,22 @@ import { Listbox, Transition } from "@headlessui/react";
 import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  Category,
   FullSet,
   CardFormData,
   NewSetData,
   SetData,
+  Language,
 } from "@/app/lib/definitions";
 import { playpen } from "@/app/ui/fonts";
 import "../Create-Edit-Set.scss";
 
 interface SetFormProps {
   mode: "create" | "edit";
-  categories: Category[];
+  languages: Language[];
   setData?: FullSet;
 }
 
-const SetForm = ({ mode, categories, setData }: SetFormProps) => {
+const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const router = useRouter();
   const { user, clearUserInfo } = useUser();
 
@@ -33,8 +33,8 @@ const SetForm = ({ mode, categories, setData }: SetFormProps) => {
   const [description, setDescription] = useState(
     setData?.set.description || ""
   );
-  const [selectedCategory, setSelectedCategory] = useState<string>(
-    setData?.set.category_name || ""
+  const [selectedLanguage, setSelectedLanguage] = useState<string>(
+    setData?.set.language_name || ""
   );
   const [isPrivate, setIsPrivate] = useState(setData?.set.private || false);
   const [cards, setCards] = useState<CardFormData[]>(
@@ -116,14 +116,14 @@ const SetForm = ({ mode, categories, setData }: SetFormProps) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const category_id = categories.find(
-      (cat) => cat.name === selectedCategory
+    const language_id = languages.find(
+      (lang) => lang.name === selectedLanguage
     )?.id;
-    if (!category_id) return toast.error("Please select a category");
+    if (!language_id) return toast.error("Please select a language");
     const setFormData = {
       title,
       description,
-      category_id,
+      language_id,
       private: isPrivate,
     };
     switch (mode) {
@@ -221,11 +221,11 @@ const SetForm = ({ mode, categories, setData }: SetFormProps) => {
             />
 
             <div className="set-info-options grow flex flex-col justify-between my-2">
-              <Listbox value={selectedCategory} onChange={setSelectedCategory}>
+              <Listbox value={selectedLanguage} onChange={setSelectedLanguage}>
                 <div className="relative w-full">
                   <Listbox.Button className="w-full cursor-pointer rounded-md bg-[#419c8d] text-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-sm hover:bg-[#32786c]">
                     <span className="block truncate text-center">
-                      {selectedCategory || "Select a category"}
+                      {selectedLanguage || "Select a language"}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
                       <FontAwesomeIcon
@@ -242,9 +242,9 @@ const SetForm = ({ mode, categories, setData }: SetFormProps) => {
                     leaveTo="opacity-0"
                   >
                     <Listbox.Options className="absolute mt-1 max-h-60 w-full z-10 overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-color-3 focus:outline-none sm:text-sm">
-                      {categories.map((category: Category) => (
+                      {languages.map((language: Language) => (
                         <Listbox.Option
-                          key={category.id}
+                          key={language.id}
                           className={({ active }) =>
                             `relative cursor-default select-none py-2 pl-10 pr-4 ${
                               active
@@ -252,7 +252,7 @@ const SetForm = ({ mode, categories, setData }: SetFormProps) => {
                                 : "text-gray-600"
                             }`
                           }
-                          value={category.name}
+                          value={language.name}
                         >
                           {({ selected }) => (
                             <>
@@ -261,7 +261,7 @@ const SetForm = ({ mode, categories, setData }: SetFormProps) => {
                                   selected ? "font-bold" : "font-normal"
                                 }`}
                               >
-                                {category.name}
+                                {language.name}
                               </span>
                               {selected ? (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-color-4">
