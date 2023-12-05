@@ -1,4 +1,4 @@
-INSERT INTO favorites (user_id, set_id)
+INSERT INTO lang_favorites (user_id, lang_set_id)
 VALUES 
 (1, 2),
 (2, 1),
@@ -7,6 +7,6 @@ VALUES
 (2, 5),
 (4, 7),
 (5, 8),
-(6, 9),
-(4, 10),
+(6, 1),
+(4, 2),
 (5, 6);
