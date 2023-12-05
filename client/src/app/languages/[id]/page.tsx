@@ -1,44 +1,32 @@
-"use client";
-import { useState, useEffect } from "react";
+"use client";import { useState, useEffect } from "react";
 import useSetsList from "@/app/hooks/useSetsList";
 import { useUser } from "@/app/context/UserProvider";
-// import Spinner from "react-bootstrap/Spinner";
-import { getCategoryById } from "@/app/lib/api";
-import { Category, Set } from "@/app/lib/definitions";
+import { getLanguageById } from "@/app/lib/api";
+import { Language, Set } from "@/app/lib/definitions";
 import SetItem from "../../ui/components/SetItem";
-import Loading from "@/app/loading";
+import { toast } from "react-toastify";
 
-type categoryData = {
-  category: Category["name"];
+type languageData = {
+  language: Language["name"];
   sets: Set[];
 };
 
 export default function Page({ params }: { params: { id: string } }) {
+  const languageId = params.id;
   const { user } = useUser();
   const { sets, setSets, deleteSet } = useSetsList();
-  const [category, setCategory] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
+  const [language, setLanguage] = useState("");
 
   useEffect(() => {
-    getCategoryById(params.id)
-      .then((data: categoryData) => {
-        setCategory(data.category);
+    getLanguageById(languageId)
+      .then((data: languageData) => {
+        setLanguage(data.language);
         setSets(data.sets);
       })
       .catch((err) => {
-        //toast.error(err);
-      })
-      .finally(() => setIsLoading(false));
-  }, [params.id, setSets]);
-
-  if (isLoading) {
-    return (
-      <Loading />
-      // <      <Spinner animation="border" variant="primary" role="status">
-      //         <span className="visually-hidden">Loading...</span>
-      //       </Spinner>>
-    );
-  }
+        toast.error(err);
+      });
+  }, [languageId, setSets]);
 
   // If a set is marked private, it will only show up in the search if the current user is the set owner
   const displaySet = sets.filter((set) => {
@@ -61,16 +49,16 @@ export default function Page({ params }: { params: { id: string } }) {
     ));
 
   return (
-    <main className="Category-container">
-      {category ? (
+    <main>
+      {language ? (
         <h1 className="text-3xl md:text-4xl mb-7">
-          Category: <span className="text-color-5">{category}</span>
+          Language: <span className="text-color-5">{language}</span>
         </h1>
       ) : (
-        <h1 className="text-center">Category Not Found</h1>
+        <h1 className="text-center">Language Not Found</h1>
       )}
       {displaySet.length === 0 ? (
-        <h2>There are currently no sets in this category.</h2>
+        <h2>There are currently no sets in this language.</h2>
       ) : (
         <section>{setsElements}</section>
       )}
