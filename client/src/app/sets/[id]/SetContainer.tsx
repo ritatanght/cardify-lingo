@@ -49,10 +49,10 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
   }
 
   return (
-    <main className="p-4 md:p-0 max-w-4xl mx-auto">
+    <main className="p-3 md:p-0 max-w-4xl mx-auto">
       <Link
         href={`/languages/${set.language_id}`}
-        className="rounded-md text-base transition-all font-bold text-gray-600 hover:bg-color-5 hover:text-white hover:p-1.5"
+        className="rounded-md text-base transition-all font-bold text-gray-600 hover:bg-color-5 hover:text-white hover:p-1.5 mb-4"
       >
         <FontAwesomeIcon
           icon={faFolderOpen}
@@ -60,53 +60,51 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
         />
         {set.language_name}
       </Link>
-      <section className="flex justify-between items-center md:items-end gap-2 my-4">
-        <div className="flex items-center gap-2 flex-wrap">
-          <h1 className="text-[2rem] leading-8 font-bold md:mb-0 md:text-4xl">
-            {set.title}
-          </h1>
-          {user && (
-            <button
-              className="text-3xl inline-block align-middle ml-2"
-              onClick={() => toggleLike(set)}
-            >
-              {isLiked ? (
-                <FontAwesomeIcon
-                  icon={fillHeart}
-                  className="icon-primary heart-icon"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={emptyHeart}
-                  className="icon-primary heart-icon"
-                />
-              )}
-            </button>
-          )}
-        </div>
+      <section className="flex justify-between items-center gap-2 gap-y-4 my-4 flex-wrap md:mb-6">
+        <h1 className="text-[1.8rem] leading-8 font-bold mb-0 md:text-4xl">
+          {set.title}
+        </h1>
+        {user && (
+          <button
+            className="text-3xl inline-block align-middle ml-2"
+            onClick={() => toggleLike(set)}
+          >
+            {isLiked ? (
+              <FontAwesomeIcon
+                icon={fillHeart}
+                className="icon-primary heart-icon"
+              />
+            ) : (
+              <FontAwesomeIcon
+                icon={emptyHeart}
+                className="icon-primary heart-icon"
+              />
+            )}
+          </button>
+        )}
         {user && user.id === set.user_id && (
-          <Link className="btn text-center" href={`/sets/edit/${setId}`}>
+          <Link className="btn ml-auto" href={`/sets/edit/${setId}`}>
             Edit Set
           </Link>
         )}
       </section>
-      <section>
-        <div className="mt-4 text-center">
+      <section className="text-center bg-color-3 rounded-md">
+        <div className="border-b-2 border-white">
           <button
-            className={`w-28 rounded-md px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors duration-200 hover:border-color-2 ${
+            className={`w-28 rounded px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors ${
               mode === "view"
-                ? "bg-color-5 text-white border-color-2 font-bold"
-                : "bg-color-3"
+                ? "bg-color-4 text-white border-color-2 font-bold hover:border-transparent cursor-default hover:bg-color-4"
+                : "bg-color-3 hover:border-color-2 hover:bg-white"
             }`}
             onClick={() => setMode("view")}
           >
             View
           </button>{" "}
           <button
-            className={`w-28 rounded-md px-4 pb-2 pt-3  border-b-4 border-transparent transition-colors duration-200 hover:border-color-2 ${
+            className={`w-28 rounded px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors ${
               mode === "quiz"
-                ? "bg-color-5 text-white border-color-2 font-bold"
-                : "bg-color-3"
+                ? "bg-color-4 text-white border-color-2 font-bold  hover:border-transparent cursor-default hover:bg-color-4"
+                : "bg-color-3 hover:border-color-2 hover:bg-white"
             }`}
             onClick={() => setMode("quiz")}
           >
