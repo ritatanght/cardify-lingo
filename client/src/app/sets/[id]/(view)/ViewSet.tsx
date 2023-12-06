@@ -1,5 +1,4 @@
-import { Dispatch, useEffect, useState } from "react";
-import Cards from "./Cards";
+import { Dispatch, useEffect, useState } from "react";import Cards from "./Cards";
 import EditCardModal from "./EditCardModal";
 import { Card, FullSet } from "@/app/lib/definitions";
 import { waitForVoices } from "@/app/lib/voicesList";
@@ -18,7 +17,6 @@ const ViewSet = ({
   setSetData,
   languageCode,
 }: ViewSetProps) => {
-
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [userVoice, setUserVoice] = useState<SpeechSynthesisVoice | null>(null);
