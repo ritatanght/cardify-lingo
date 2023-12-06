@@ -13,16 +13,16 @@ const TestListen = ({ card, endQuestion, speakText }: TestListenProps) => {
   const [answer, setAnswer] = useState("");
 
   const checkAnswer = () => {
-    if (answer === card.front) {
+    if (answer.toLowerCase() === card.front.toLowerCase()) {
       endQuestion(true);
     } else {
       endQuestion(false);
     }
-    setAnswer("")
+    setAnswer("");
   };
   return (
     <>
-      <p>What does this mean in your own language?</p>
+      <p>What does this mean in your language?</p>
       <button
         className="text-2xl text-color-1 transition-colors hover:text-gray-500"
         onClick={speakText}

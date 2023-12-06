@@ -14,9 +14,9 @@ const TestRead = ({ card, endQuestion }: TestRead) => {
 
   const checkAnswer = () => {
     if (questionSide === "front") {
-      endQuestion(answer === card.back);
+      endQuestion(answer.toLowerCase() === card.back.toLowerCase());
     } else {
-      endQuestion(answer === card.front);
+      endQuestion(answer.toLowerCase() === card.front.toLowerCase());
     }
     setAnswer("");
   };
