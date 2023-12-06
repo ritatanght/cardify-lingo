@@ -22,6 +22,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
   const router = useRouter();
   const { user, favoriteSets } = useUser();
   const { isLiked, checkLiked, toggleLike } = useFavButton();
+  const [mode, setMode] = useState("view");
   const [setData, setSetData] = useState<FullSet>(fullSetData);
 
   const language = fullSetData.set.language_name;
@@ -79,7 +80,41 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
           </Link>
         )}
       </section>
-     
+      <section>
+        <div className="mt-4 text-center">
+          <button
+            className={`w-28 rounded-md px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors duration-200 hover:border-color-2 ${
+              mode === "view"
+                ? "bg-color-5 text-white border-color-2 font-bold"
+                : "bg-color-3"
+            }`}
+            onClick={() => setMode("view")}
+          >
+            View
+          </button>{" "}
+          <button
+            className={`w-28 rounded-md px-4 pb-2 pt-3  border-b-4 border-transparent transition-colors duration-200 hover:border-color-2 ${
+              mode === "quiz"
+                ? "bg-color-5 text-white border-color-2 font-bold"
+                : "bg-color-3"
+            }`}
+            onClick={() => setMode("quiz")}
+          >
+            Quiz
+          </button>
+        </div>
+
+        {mode === "view" && (
+          <ViewSet
+            setSetData={setSetData}
+            cards={cards}
+            isSetOwner={user && user.id === set.user_id}
+            languageCode={languageCode}
+          />
+        )}
+        {mode === "quiz" && <QuizSet />}
+      </section>
+
       <section className="px-0 flex gap-2 md:px-8 justify-between">
         <p className="p-4 text-lg font-bold basis-3/12">{set.username}</p>
         <div className="p-4 basis-9/12">
