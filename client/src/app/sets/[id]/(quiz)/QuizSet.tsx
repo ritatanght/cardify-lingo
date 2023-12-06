@@ -9,6 +9,7 @@ import {
   faCircleCheck,
   faCircleXmark,
 } from "@fortawesome/free-solid-svg-icons";
+
 interface QuizSetProps {
   cards: Card[];
   voice: SpeechSynthesisVoice;
@@ -24,6 +25,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
     Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]
   );
 
+  // set the testMode to either read or listen randomly
   const generateTestMode = () =>
     setTestMode(Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]);
 
@@ -60,7 +62,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
         </p>
       );
     }
-    // change question and
+    // change question and set the message back to null
     setTimeout(() => {
       setMessage(null);
       changeQuestion();
@@ -123,7 +125,9 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       {testMode === "finish" && (
         <>
           <p className="text-lg mt-6 mb-4">
-            You have finished the quiz scoring {score}/{cards.length}.
+            You have finished the quiz scoring{" "}
+            <span className="text-color-5 font-bold text-2xl">{score}</span> /{" "}
+            {cards.length}
           </p>
           <button className="btn" onClick={resetQuiz}>
             Try Again
