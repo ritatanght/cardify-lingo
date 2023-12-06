@@ -22,6 +22,13 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   const generateTestMode = () =>
     setTestMode(Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]);
 
+  const resetQuiz = () => {
+    setQuestion(0);
+    setScore(0);
+    generateTestMode();
+    setShuffledCards(randomSort(cards));
+  };
+
   const endQuestion = (correct: boolean) => {
     // show whether the input is correct
     if (correct) {
@@ -77,9 +84,12 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
 
       {testMode === "finish" && (
         <>
-          <p>
-            You have finished the quiz scoring {score} out of {cards.length}.
+          <p className="text-lg mb-4">
+            You have finished the quiz scoring {score}/{cards.length}.
           </p>
+          <button className="btn" onClick={resetQuiz}>
+            Try Again
+          </button>
         </>
       )}
     </div>
