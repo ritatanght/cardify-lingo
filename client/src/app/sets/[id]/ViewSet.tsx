@@ -1,55 +1,47 @@
-"use client";
-import { useEffect, useState } from "react";
+import { Dispatch, useEffect, useState } from "react";
 import Cards from "./Cards";
 import EditCardModal from "./EditCardModal";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useUser } from "@/app/context/UserProvider";
-import useFavButton from "@/app/hooks/useFavButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
-import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
-import "./ViewSet.scss";
 import { Card, FullSet } from "@/app/lib/definitions";
-import { language_voice_lang, waitForVoices } from "@/app/lib/voicesList";
+import { waitForVoices } from "@/app/lib/voicesList";
+import Loading from "@/app/loading";
 
 interface ViewSetProps {
-  fullSetData: FullSet;
+  cards: Card[];
+  isSetOwner: boolean;
+  setSetData: Dispatch<React.SetStateAction<FullSet>>;
+  languageCode: string;
 }
 
-const ViewSet = ({ fullSetData }: ViewSetProps) => {
-  const setId = fullSetData.set.id;
-  const router = useRouter();
-  const { user, favoriteSets } = useUser();
-  const { isLiked, checkLiked, toggleLike } = useFavButton();
+const ViewSet = ({
+  cards,
+  isSetOwner,
+  setSetData,
+  languageCode,
+}: ViewSetProps) => {
 
-  const [setData, setSetData] = useState<FullSet>(fullSetData);
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
   const [userVoice, setUserVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [languageVoice, setLanguageVoice] =
     useState<SpeechSynthesisVoice | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   // load and set voices to state based on the language of the set
   useEffect(() => {
-    waitForVoices().then((voices) => {
-      const language = fullSetData.set.language_name;
-      const languageCode = language_voice_lang[language];
-
-      if (languageCode) {
-        const selectedVoice = voices.find(
-          (voice) => voice.lang === languageCode
-        );
-        selectedVoice && setLanguageVoice(selectedVoice);
-      }
-      // assume user's language is English
-      setUserVoice(voices[7]);
-    });
-  }, [fullSetData.set.language_name]);
-
-  useEffect(() => {
-    checkLiked(favoriteSets, setId);
-  }, [setId, checkLiked, favoriteSets]);
+    setIsLoading(true);
+    waitForVoices()
+      .then((voices) => {
+        if (languageCode) {
+          const selectedVoice = voices.find(
+            (voice) => voice.lang === languageCode
+          );
+          selectedVoice && setLanguageVoice(selectedVoice);
+        }
+        // assume user's language is English
+        setUserVoice(voices[7]);
+      })
+      .finally(() => setIsLoading(false));
+  }, [languageCode]);
 
   const handleCardEdit = (card: Card) => {
     setEditingCard(card);
@@ -74,60 +66,17 @@ const ViewSet = ({ fullSetData }: ViewSetProps) => {
     setShowEditModal(false);
   };
 
-  const { set, cards } = setData;
-
-  if (set.private && (!user || user.id !== set.user_id)) {
-    return (
-      <main className="mt-8 text-center">
-        <h2 className="text-xl mb-4">This set is marked as private.</h2>
-        <button className="btn" onClick={() => router.back()}>
-          Return
-        </button>
-      </main>
-    );
+  if (isLoading) {
+    return <Loading />;
   }
 
   return (
-    <main className="py-5 px-4 md:p-0 max-w-4xl mx-auto ">
-      <section className="flex justify-between items-center md:items-end gap-2">
-        <div className="md:flex items-end gap-2">
-          <h1 className="text-[2rem] font-bold mb-2 md:mb-0 md:text-4xl">
-            {set.title}
-          </h1>
-          <h2 className="bg-color-3 rounded-md p-2 text-base inline-block mb-2 md:mb-0">
-            {set.language_name}
-          </h2>
-          {user && (
-            <button
-              className="text-3xl inline-block align-middle ml-2"
-              onClick={() => toggleLike(set)}
-            >
-              {isLiked ? (
-                <FontAwesomeIcon
-                  icon={fillHeart}
-                  className="icon-primary heart-icon"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={emptyHeart}
-                  className="icon-primary heart-icon"
-                />
-              )}
-            </button>
-          )}
-        </div>
-        {user && user.id === set.user_id && (
-          <Link className="btn" href={`/sets/edit/${setId}`}>
-            Edit Set
-          </Link>
-        )}
-      </section>
-
+    <>
       {userVoice && (
         <Cards
           cards={cards}
-          isSetOwner={user && user.id === set.user_id}
           onEdit={handleCardEdit}
+          isSetOwner={isSetOwner}
           voices={{ userVoice, languageVoice: languageVoice || userVoice }}
         />
       )}
@@ -141,15 +90,7 @@ const ViewSet = ({ fullSetData }: ViewSetProps) => {
           onUpdate={handleCardUpdate}
         />
       )}
-
-      <section className="px-0 flex gap-2 md:px-8 justify-between">
-        <p className="p-4 text-lg font-bold basis-3/12">{set.username}</p>
-        <div className="p-4 basis-9/12">
-          <h3 className="text-lg">Description:</h3>
-          <p>{set.description}</p>
-        </div>
-      </section>
-    </main>
+    </>
   );
 };
 
