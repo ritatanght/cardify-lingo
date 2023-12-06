@@ -14,7 +14,7 @@ import "./ViewSet.scss";
 import { FullSet } from "@/app/lib/definitions";
 import { language_voice_lang } from "@/app/lib/voicesList";
 import ViewSet from "./(view)/ViewSet";
-import QuizSet from "./QuizSet";
+import QuizSet from "./(quiz)/QuizSet";
 
 interface SetContainerProps {
   fullSetData: FullSet;
@@ -88,6 +88,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
           </Link>
         )}
       </section>
+      {/* Switch mode buttons */}
       <section className="text-center bg-color-3 rounded-md">
         <div className="border-b-2 border-white">
           <button
@@ -120,9 +121,9 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
             languageCode={languageCode}
           />
         )}
-        {mode === "quiz" && <QuizSet />}
+        {mode === "quiz" && <QuizSet cards={cards} />}
       </section>
-
+      {/* Footer with set info */}
       <section className="px-0 flex gap-2 md:px-8 justify-between">
         <p className="p-4 text-lg font-bold basis-3/12">{set.username}</p>
         <div className="p-4 basis-9/12">
