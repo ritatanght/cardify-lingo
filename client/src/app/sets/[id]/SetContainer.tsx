@@ -5,12 +5,15 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserProvider";
 import useFavButton from "@/app/hooks/useFavButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart as fillHeart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFolderOpen,
+  faHeart as fillHeart,
+} from "@fortawesome/free-solid-svg-icons";
 import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
 import "./ViewSet.scss";
 import { FullSet } from "@/app/lib/definitions";
 import { language_voice_lang } from "@/app/lib/voicesList";
-import ViewSet from "./ViewSet";
+import ViewSet from "./(view)/ViewSet";
 import QuizSet from "./QuizSet";
 
 interface SetContainerProps {
@@ -46,15 +49,22 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
   }
 
   return (
-    <main className="py-5 px-4 md:p-0 max-w-4xl mx-auto ">
-      <section className="flex justify-between items-center md:items-end gap-2">
-        <div className="md:flex items-end gap-2">
-          <h1 className="text-[2rem] font-bold mb-2 md:mb-0 md:text-4xl">
+    <main className="p-4 md:p-0 max-w-4xl mx-auto">
+      <Link
+        href={`/languages/${set.language_id}`}
+        className="rounded-md text-base transition-all font-bold text-gray-600 hover:bg-color-5 hover:text-white hover:p-1.5"
+      >
+        <FontAwesomeIcon
+          icon={faFolderOpen}
+          className="text-color-2 text-lg mr-1"
+        />
+        {set.language_name}
+      </Link>
+      <section className="flex justify-between items-center md:items-end gap-2 my-4">
+        <div className="flex items-center gap-2 flex-wrap">
+          <h1 className="text-[2rem] leading-8 font-bold md:mb-0 md:text-4xl">
             {set.title}
           </h1>
-          <h2 className="bg-color-3 rounded-md p-2 text-base inline-block mb-2 md:mb-0">
-            {set.language_name}
-          </h2>
           {user && (
             <button
               className="text-3xl inline-block align-middle ml-2"
