@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserProvider";
@@ -15,6 +15,7 @@ import { FullSet } from "@/app/lib/definitions";
 import { language_voice_lang, waitForVoices } from "@/app/lib/voicesList";
 import ViewSet from "./(view)/ViewSet";
 import QuizSet from "./(quiz)/QuizSet";
+import Loading from "@/app/loading";
 
 interface SetContainerProps {
   fullSetData: FullSet;
@@ -133,6 +134,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
           </button>
         </div>
 
+        {isLoading && <Loading />}
         {mode === "view" && userVoice && (
           <ViewSet
             setSetData={setSetData}
