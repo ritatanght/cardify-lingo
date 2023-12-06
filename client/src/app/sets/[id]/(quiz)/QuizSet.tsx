@@ -32,10 +32,9 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
     }
     // move to the next question
     if (question < cards.length - 1) {
-      generateTestMode();
       setQuestion((prev) => prev + 1);
     } else {
-      console.log(`Quiz Finished!`);
+      setTestMode("finish");
     }
   };
 
@@ -57,16 +56,31 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
 
   return (
     <div className="mt-2 text-center md:mt-6 min-h-[200px]">
-      <h3 className="text-2xl">Q{question + 1}:</h3>
-      {testMode === "read" && (
-        <TestRead card={shuffledCards[question]} endQuestion={endQuestion} />
+      {testMode !== "finish" && (
+        <>
+          <h3 className="text-2xl">Q{question + 1}:</h3>
+          {testMode === "read" && (
+            <TestRead
+              card={shuffledCards[question]}
+              endQuestion={endQuestion}
+            />
+          )}
+          {testMode === "listen" && (
+            <TestListen
+              card={shuffledCards[question]}
+              speakText={speakText}
+              endQuestion={endQuestion}
+            />
+          )}
+        </>
       )}
-      {testMode === "listen" && (
-        <TestListen
-          card={shuffledCards[question]}
-          speakText={speakText}
-          endQuestion={endQuestion}
-        />
+
+      {testMode === "finish" && (
+        <>
+          <p>
+            You have finished the quiz scoring {score} out of {cards.length}.
+          </p>
+        </>
       )}
     </div>
   );
