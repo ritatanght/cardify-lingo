@@ -22,7 +22,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   const [shuffledCards, setShuffledCards] = useState(randomSort(cards));
   const [score, setScore] = useState(0);
   const [testMode, setTestMode] = useState(
-    Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]
+    "start"
   );
 
   // set the testMode to either read or listen randomly
@@ -32,8 +32,8 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   const resetQuiz = () => {
     setQuestion(0);
     setScore(0);
-    generateTestMode();
     setShuffledCards(randomSort(cards));
+    generateTestMode();
   };
 
   const endQuestion = (correct: boolean) => {
@@ -103,22 +103,39 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       >
         {message}
       </div>
-      {testMode !== "finish" && (
+      {testMode === "start" && (
+        <>
+          <div className="mt-6 mb-4 text-center px-4">
+            <p>
+              You will be represented with the vocabulary in{" "}
+              <span className="text-gray-500 underline font-bold">words</span>{" "}
+              or{" "}
+              <span className="text-gray-500 underline font-bold">sounds</span>.
+            </p>{" "}
+            <p>
+              Please input your answer in the box and submit it to proceed to
+              the next question.
+            </p>
+          </div>
+          <button className="btn" onClick={generateTestMode}>
+            Start
+          </button>
+        </>
+      )}
+      {testMode === "read" && (
+        <>
+          (<h3 className="text-2xl">Q{question + 1}:</h3>
+          <TestRead card={shuffledCards[question]} endQuestion={endQuestion} />)
+        </>
+      )}
+      {testMode === "listen" && (
         <>
           <h3 className="text-2xl">Q{question + 1}:</h3>
-          {testMode === "read" && (
-            <TestRead
-              card={shuffledCards[question]}
-              endQuestion={endQuestion}
-            />
-          )}
-          {testMode === "listen" && (
-            <TestListen
-              card={shuffledCards[question]}
-              speakText={speakText}
-              endQuestion={endQuestion}
-            />
-          )}
+          <TestListen
+            card={shuffledCards[question]}
+            speakText={speakText}
+            endQuestion={endQuestion}
+          />
         </>
       )}
 
