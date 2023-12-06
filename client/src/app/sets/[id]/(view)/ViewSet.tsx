@@ -1,45 +1,26 @@
-import { Dispatch, useEffect, useState } from "react";import Cards from "./Cards";
-import EditCardModal from "./EditCardModal";
+import { Dispatch, useState } from "react";import Cards from "./Cards";import EditCardModal from "./EditCardModal";
 import { Card, FullSet } from "@/app/lib/definitions";
-import { waitForVoices } from "@/app/lib/voicesList";
-import Loading from "@/app/loading";
+
 
 interface ViewSetProps {
   cards: Card[];
   isSetOwner: boolean;
   setSetData: Dispatch<React.SetStateAction<FullSet>>;
-  languageCode: string;
+  voices: {
+    userVoice: SpeechSynthesisVoice;
+    languageVoice: SpeechSynthesisVoice;
+  };
 }
 
 const ViewSet = ({
   cards,
   isSetOwner,
   setSetData,
-  languageCode,
+  voices
 }: ViewSetProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
-  const [userVoice, setUserVoice] = useState<SpeechSynthesisVoice | null>(null);
-  const [languageVoice, setLanguageVoice] =
-    useState<SpeechSynthesisVoice | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
-  // load and set voices to state based on the language of the set
-  useEffect(() => {
-    setIsLoading(true);
-    waitForVoices()
-      .then((voices) => {
-        if (languageCode) {
-          const selectedVoice = voices.find(
-            (voice) => voice.lang === languageCode
-          );
-          selectedVoice && setLanguageVoice(selectedVoice);
-        }
-        // assume user's language is English
-        setUserVoice(voices[7]);
-      })
-      .finally(() => setIsLoading(false));
-  }, [languageCode]);
 
   const handleCardEdit = (card: Card) => {
     setEditingCard(card);
@@ -64,20 +45,16 @@ const ViewSet = ({
     setShowEditModal(false);
   };
 
-  if (isLoading) {
-    return <Loading />;
-  }
+
 
   return (
-    <>
-      {userVoice && (
+    <>  
         <Cards
           cards={cards}
           onEdit={handleCardEdit}
           isSetOwner={isSetOwner}
-          voices={{ userVoice, languageVoice: languageVoice || userVoice }}
-        />
-      )}
+          voices={voices}
+        />   
 
       {/* Edit Card Modal */}
       {editingCard && (
