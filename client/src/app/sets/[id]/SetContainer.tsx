@@ -141,7 +141,9 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
             voices={{ userVoice, languageVoice: languageVoice || userVoice }}
           />
         )}
-        {mode === "quiz" && <QuizSet cards={cards} voice={languageVoice||userVoice}/>}
+        {mode === "quiz" && userVoice && (
+          <QuizSet cards={cards} voice={languageVoice || userVoice} />
+        )}
       </section>
       {/* Footer with set info */}
       <section className="px-0 flex gap-2 md:px-8 justify-between">
