@@ -1,4 +1,5 @@
-import { useEffect } from "react";import { FavoriteSet, Set } from "@/app/lib/definitions";
+import { useEffect } from "react";
+import { FavoriteSet, Set } from "@/app/lib/definitions";
 import Link from "next/link";
 import useFavButton from "@/app/hooks/useFavButton";
 import { useUser } from "@/app/context/UserProvider";
@@ -25,7 +26,7 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
     <div className="set-item-container border-4 border-color-2 rounded-2xl flex items-start flex-col justify-between p-4 md:flex-row items-center md:py-6 my-4">
       <Link
         href={`/sets/${set.id}`}
-        className="text-2xl self-start md:text-3xl font-bold"
+        className="text-2xl self-start mb-2 md:mb-0 md:text-3xl font-bold"
       >
         {set.title}
       </Link>

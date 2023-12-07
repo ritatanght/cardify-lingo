@@ -120,23 +120,23 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
         {message}
       </div>
       {testMode === "start" && (
-        <>
-          <div className="mt-6 mb-4 text-center px-4">
-            <p>
-              You will be represented with the vocabulary in{" "}
-              <span className="text-gray-500 underline font-bold">words</span>{" "}
-              or{" "}
-              <span className="text-gray-500 underline font-bold">sounds</span>.
-            </p>{" "}
-            <p>
-              Please input your answer in the box and submit it to proceed to
-              the next question.
-            </p>
-          </div>
-          <button className="btn" onClick={generateTestMode}>
+        <div className="mt-6 mb-4 text-center px-4">
+          <p className="mb-4">
+            You will be represented with the vocabulary in{" "}
+            <span className="text-gray-500 underline font-bold">words</span> or{" "}
+            <span className="text-gray-500 underline font-bold">sounds</span>.
+          </p>{" "}
+          <p className="mb-8">
+            Input your answer in the box and submit or skip to proceed to the
+            next question.
+          </p>
+          <button
+            className="rounded-md px-4 py-2 bg-color-2 font-bold text-gray-600 transition duration-300 hover:ring-2 ring-color-4"
+            onClick={generateTestMode}
+          >
             Start
           </button>
-        </>
+        </div>
       )}
       {testMode === "read" && (
         <>
