@@ -15,5 +15,22 @@ VALUES
 (7, 'Hello', 'Bonjour'),
 (7, 'Thank you very much', 'merci beaucoup'),
 (8, 'Hello', '¡Hola!'),
-(8, 'Goodbye', 'adiós');
+(8, 'Goodbye', 'adiós'),
+(9, 'Paella', 'Paella'),
+(9, 'Tortilla Española', 'Tortilla Española'),
+(10, 'To eat', 'Manger'),
+(10, 'To drink', 'Boire'),
+(11, 'Hello', 'Ciao'),
+(11, 'Thank you', 'Grazie'),
+(12, 'Hello', 'Olá'),
+(12, 'Thank you', 'Obrigado'),
+(12, 'How much?', 'Quanto costa?'),
+(13, 'Good morning', 'おはようございます'),
+(13, 'Excuse me', 'すみません'),
+(13, 'Family', 'かぞく'),
+(13, 'Nature', 'しぜん'),
+(14, 'Greeting', '인사'),
+(14, 'Travel', '여행'),
+(15, 'Chinese New Year', '新年快樂'),
+(15, 'Delicious', '好食');
 
