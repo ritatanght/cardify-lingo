@@ -1,4 +1,11 @@
-"use client";import Link from "next/link";import Image from "next/image";import { useState, Fragment } from "react";import SearchBar from "./SearchBar";import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";import {  faUser,  faBars,  faCaretDown,  faXmark,
+"use client";import Link from "next/link";import Image from "next/image";import { useState, Fragment } from "react";
+import SearchBar from "./SearchBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faUser,
+  faBars,
+  faCaretDown,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,12 +40,12 @@ export default function Header({ languages }: { languages: Language[] }) {
         <div className="flex gap-x-2 items-center">
           <Link href="/">
             <Image
-              src="/logo.png"
-              width={60}
-              height={35.2}
+              src="/new_logo.png"
+              width={81}
+              height={47}
               priority
               alt="Cardify logo"
-              className="h-10 md:h-12 w-auto"
+              className="h-12 md:h-14 w-auto pb-1"
             />
           </Link>
 
