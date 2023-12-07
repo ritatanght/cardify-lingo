@@ -75,11 +75,14 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
     }, 2000);
   };
 
-  const setCustomMessage = (messageNode: React.ReactNode) => {
+  const setCustomMessage = (
+    messageNode: React.ReactNode,
+    seconds: number = 2
+  ) => {
     setMessage(messageNode);
     setTimeout(() => {
       setMessage(null);
-    }, 2000);
+    }, seconds * 1000);
   };
 
   const changeQuestion = () => {
@@ -142,6 +145,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
             card={shuffledCards[question]}
             endQuestion={endQuestion}
             setCustomMessage={setCustomMessage}
+            handleSkip={changeQuestion}
           />
         </>
       )}
@@ -153,6 +157,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
             speakText={speakText}
             endQuestion={endQuestion}
             setCustomMessage={setCustomMessage}
+            handleSkip={changeQuestion}
           />
         </>
       )}
