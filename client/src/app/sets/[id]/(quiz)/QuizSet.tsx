@@ -21,9 +21,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   const [message, setMessage] = useState<React.ReactNode>(null);
   const [shuffledCards, setShuffledCards] = useState(randomSort(cards));
   const [score, setScore] = useState(0);
-  const [testMode, setTestMode] = useState(
-    "start"
-  );
+  const [testMode, setTestMode] = useState("start");
 
   // set the testMode to either read or listen randomly
   const generateTestMode = () =>
@@ -39,6 +37,10 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   const endQuestion = (correct: boolean) => {
     // show whether the input is correct
     if (correct) {
+      // play sound effect
+      const correctSound = new Audio("/correct-sound.mp3");
+      correctSound.volume = 0.5;
+      correctSound.play(); 
       setMessage(
         <p className="text-[#228B22]">
           <FontAwesomeIcon
@@ -51,6 +53,10 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       );
       setScore((prev) => prev + 1);
     } else {
+      // play sound effect
+      const wrongSound = new Audio("/wrong-sound.mp3");
+      wrongSound.volume = 0.5;
+      wrongSound.play(); 
       setMessage(
         <p className="text-[#C70039]">
           <FontAwesomeIcon
@@ -95,9 +101,9 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   };
 
   return (
-    <div className="mt-2 text-center md:mt-6 min-h-[200px] relative">
+    <div className="mt-2 text-center md:mt-6 pb-4 min-h-[250px] relative">
       <div
-        className={`transition-all duration-300 absolute mb-2 bg-color-3 top-0 inset-x-0 text-lg ${
+        className={`transition-all duration-300 absolute mb-2 bg-color-3 top-0 inset-x-0 text-xl ${
           message ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
         }`}
       >
@@ -124,8 +130,8 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       )}
       {testMode === "read" && (
         <>
-          (<h3 className="text-2xl">Q{question + 1}:</h3>
-          <TestRead card={shuffledCards[question]} endQuestion={endQuestion} />)
+          <h3 className="text-2xl">Q{question + 1}:</h3>
+          <TestRead card={shuffledCards[question]} endQuestion={endQuestion} />
         </>
       )}
       {testMode === "listen" && (
@@ -140,8 +146,8 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       )}
 
       {testMode === "finish" && (
-        <>
-          <p className="text-lg mt-6 mb-4">
+        <div className="mt-8 mb-4">
+          <p className="text-lg mb-6">
             You have finished the quiz scoring{" "}
             <span className="text-color-5 font-bold text-2xl">{score}</span> /{" "}
             {cards.length}
@@ -149,7 +155,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
           <button className="btn" onClick={resetQuiz}>
             Try Again
           </button>
-        </>
+        </div>
       )}
     </div>
   );
