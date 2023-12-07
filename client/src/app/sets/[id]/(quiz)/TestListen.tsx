@@ -7,12 +7,20 @@ interface TestListenProps {
   card: Card;
   endQuestion: (correct: boolean) => void;
   speakText: () => void;
+  setCustomMessage: (messageNode: React.ReactNode) => void;
 }
 
-const TestListen = ({ card, endQuestion, speakText }: TestListenProps) => {
+const TestListen = ({
+  card,
+  endQuestion,
+  speakText,
+  setCustomMessage,
+}: TestListenProps) => {
   const [answer, setAnswer] = useState("");
 
   const checkAnswer = () => {
+    if (!answer)
+      return setCustomMessage(<p className="bg-gray-600 text-color-1 text-lg ring-1 ring-color-1 rounded-md inline p-1">You have not typed in an answer</p>);
     if (answer.toLowerCase() === card.front.toLowerCase()) {
       endQuestion(true);
     } else {

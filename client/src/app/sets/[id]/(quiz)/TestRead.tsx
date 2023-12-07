@@ -5,14 +5,21 @@ import { useState } from "react";
 interface TestRead {
   card: Card;
   endQuestion: (correct: boolean) => void;
+  setCustomMessage: (messageNode: React.ReactNode) => void;
 }
-const TestRead = ({ card, endQuestion }: TestRead) => {
+const TestRead = ({ card, endQuestion, setCustomMessage }: TestRead) => {
   const [answer, setAnswer] = useState("");
   const [questionSide, setQuestionSide] = useState<keyof Card>(
     Math.random() < 0.5 ? "front" : "back"
   );
 
   const checkAnswer = () => {
+    if (!answer)
+      return setCustomMessage(
+        <p className="bg-gray-600 text-color-1 text-lg ring-1 ring-color-1 rounded-md inline p-1">
+          You have not typed in an answer
+        </p>
+      );
     if (questionSide === "front") {
       endQuestion(answer.toLowerCase() === card.back.toLowerCase());
     } else {
