@@ -6,7 +6,7 @@ export default function Loading() {
     randomColorNum[Math.floor(Math.random() * randomColorNum.length)]
   }`;
   return (
-    <main className={`text-center text-5xl my-8 ${color}`}>
+    <main className={`text-center text-5xl py-10 ${color}`}>
       <FontAwesomeIcon icon={faSpinner} spinPulse />
     </main>
   );

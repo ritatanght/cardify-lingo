@@ -56,7 +56,7 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
     ));
 
   return (
-    <div className="cards-container mt-2 text-center md:mt-6 grid">
+    <div className="cards-container mt-2 text-center md:mt-4 grid">
       {isFinished ? (
         <div
           className="card-finish rounded-lg border-8 md:border-[15px] overflow-hidden border-color-2 mx-auto relative flex justify-center
