@@ -26,7 +26,7 @@ const TestRead = ({
   const checkAnswer = () => {
     if (!answer)
       return setCustomMessage(
-        <p className="font-bold text-color-1 text-lg rounded-md inline px-2 py-1">
+        <p className="bg-white font-bold text-color-1 text-lg ring-1 ring-color-1 rounded-md inline px-2 py-1">
           You have not typed in an answer
         </p>
       );
