@@ -40,7 +40,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       // play sound effect
       const correctSound = new Audio("/correct-sound.mp3");
       correctSound.volume = 0.5;
-      correctSound.play(); 
+      correctSound.play();
       setMessage(
         <p className="text-[#228B22]">
           <FontAwesomeIcon
@@ -56,7 +56,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       // play sound effect
       const wrongSound = new Audio("/wrong-sound.mp3");
       wrongSound.volume = 0.5;
-      wrongSound.play(); 
+      wrongSound.play();
       setMessage(
         <p className="text-[#C70039]">
           <FontAwesomeIcon
@@ -72,6 +72,13 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
     setTimeout(() => {
       setMessage(null);
       changeQuestion();
+    }, 2000);
+  };
+
+  const setCustomMessage = (messageNode: React.ReactNode) => {
+    setMessage(messageNode);
+    setTimeout(() => {
+      setMessage(null);
     }, 2000);
   };
 
@@ -131,7 +138,11 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       {testMode === "read" && (
         <>
           <h3 className="text-2xl">Q{question + 1}:</h3>
-          <TestRead card={shuffledCards[question]} endQuestion={endQuestion} />
+          <TestRead
+            card={shuffledCards[question]}
+            endQuestion={endQuestion}
+            setCustomMessage={setCustomMessage}
+          />
         </>
       )}
       {testMode === "listen" && (
@@ -141,6 +152,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
             card={shuffledCards[question]}
             speakText={speakText}
             endQuestion={endQuestion}
+            setCustomMessage={setCustomMessage}
           />
         </>
       )}
