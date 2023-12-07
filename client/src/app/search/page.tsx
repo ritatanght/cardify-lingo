@@ -26,7 +26,7 @@ export default function Page() {
         })
         .finally(() => setIsLoading(false));
     }
-  }, [query]);
+  }, [query, setSets]);
 
   if (isLoading) {
     return (

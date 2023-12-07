@@ -33,7 +33,7 @@ const Page = () => {
       toast.info("Login to view your profile.");
       return router.replace("/login");
     }
-  }, [user]);
+  }, [clearUserInfo, router, setSets, user]);
 
   // Redirect to login page after mount
   if (!user)

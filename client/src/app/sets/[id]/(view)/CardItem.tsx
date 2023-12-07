@@ -18,10 +18,10 @@ const CardItem = (props: CardItemProps) => {
   const { front, back, currCard, seq, isSetOwner, voices, onEdit } = props;
 
   useEffect(() => {
-    if (isFlip) {
+    if (isFlip && currCard !== seq) {
       setIsFlip(false);
     }
-  }, [currCard]);
+  }, [currCard, isFlip, seq]);
 
   return (
     <div

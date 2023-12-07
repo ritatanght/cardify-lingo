@@ -18,7 +18,7 @@ const Page = () => {
     if (user) {
       router.replace("/profile");
     }
-  }, [user]);
+  }, [user, router]);
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
