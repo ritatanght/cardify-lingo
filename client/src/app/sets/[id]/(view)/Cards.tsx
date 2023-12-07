@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import CardItem from "./CardItem"; 
+import CardItem from "./CardItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
 import { Card } from "@/app/lib/definitions";
-//import Confetti from "react-confetti";
+import Confetti from "react-confetti";
 
 interface CardsProps {
   cards: Card[];
@@ -59,10 +59,10 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
     <div className="cards-container mt-2 text-center md:mt-4 grid">
       {isFinished ? (
         <div
-          className="card-finish rounded-lg border-8 md:border-[15px] overflow-hidden border-color-2 mx-auto relative flex justify-center
+          className="card-finish bg-white min-w-[min(90vw,730px)] rounded-lg border-8 md:border-[15px] overflow-hidden border-color-2 mx-auto relative flex justify-center
       items-center p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc]"
         >
-          {/* <Confetti width={700} height={335} opacity={0.8} /> */}
+          <Confetti width={700} height={335} opacity={0.8} />
           <p className={`text-2xl md:text-3xl ${playpen.className}`}>
             Congratulations! You&apos;ve finished the set!
           </p>
