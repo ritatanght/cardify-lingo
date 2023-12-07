@@ -1,13 +1,23 @@
 import { Card } from "@/app/lib/definitions";
-import { faQuoteLeft, faQuoteRight } from "@fortawesome/free-solid-svg-icons";
+import {
+  faForward,
+  faQuoteLeft,
+  faQuoteRight,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 interface TestRead {
   card: Card;
   endQuestion: (correct: boolean) => void;
   setCustomMessage: (messageNode: React.ReactNode) => void;
+  handleSkip: () => void;
 }
-const TestRead = ({ card, endQuestion, setCustomMessage }: TestRead) => {
+const TestRead = ({
+  card,
+  endQuestion,
+  setCustomMessage,
+  handleSkip,
+}: TestRead) => {
   const [answer, setAnswer] = useState("");
   const [questionSide, setQuestionSide] = useState<keyof Card>(
     Math.random() < 0.5 ? "front" : "back"
@@ -16,7 +26,7 @@ const TestRead = ({ card, endQuestion, setCustomMessage }: TestRead) => {
   const checkAnswer = () => {
     if (!answer)
       return setCustomMessage(
-        <p className="bg-gray-600 text-color-1 text-lg ring-1 ring-color-1 rounded-md inline p-1">
+        <p className="font-bold text-color-1 text-lg rounded-md inline px-2 py-1">
           You have not typed in an answer
         </p>
       );
@@ -49,6 +59,12 @@ const TestRead = ({ card, endQuestion, setCustomMessage }: TestRead) => {
       />
       <button className="btn" onClick={checkAnswer}>
         Submit Answer
+      </button>
+      <button
+        className="ml-2 p-2 bg-color-3 text-gray-600 rounded-md hover:bg-slate-300"
+        onClick={handleSkip}
+      >
+        Skip
       </button>
     </>
   );

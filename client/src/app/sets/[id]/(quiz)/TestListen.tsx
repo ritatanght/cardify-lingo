@@ -8,6 +8,7 @@ interface TestListenProps {
   endQuestion: (correct: boolean) => void;
   speakText: () => void;
   setCustomMessage: (messageNode: React.ReactNode) => void;
+  handleSkip: () => void;
 }
 
 const TestListen = ({
@@ -15,12 +16,17 @@ const TestListen = ({
   endQuestion,
   speakText,
   setCustomMessage,
+  handleSkip,
 }: TestListenProps) => {
   const [answer, setAnswer] = useState("");
 
   const checkAnswer = () => {
     if (!answer)
-      return setCustomMessage(<p className="bg-gray-600 text-color-1 text-lg ring-1 ring-color-1 rounded-md inline p-1">You have not typed in an answer</p>);
+      return setCustomMessage(
+        <p className="font-bold text-color-1 text-lg rounded-md inline px-2 py-1">
+          You have not typed in an answer
+        </p>
+      );
     if (answer.toLowerCase() === card.front.toLowerCase()) {
       endQuestion(true);
     } else {
@@ -44,6 +50,12 @@ const TestListen = ({
       />
       <button className="btn" onClick={checkAnswer}>
         Submit Answer
+      </button>
+      <button
+        className="ml-2 p-2 bg-color-3 text-gray-600 rounded-md hover:bg-slate-300"
+        onClick={handleSkip}
+      >
+        Skip
       </button>
     </>
   );
