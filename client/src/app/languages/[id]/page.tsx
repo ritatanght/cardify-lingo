@@ -1,7 +1,8 @@
-import { getLanguageById } from "@/app/lib/api";import { Language, Set } from "@/app/lib/definitions";
-import LanguageList from "./LanguageList";
+import { getLanguageById } from "@/app/lib/api";
+import { Language, Set } from "@/app/lib/definitions";
 import { AxiosError, isAxiosError } from "axios";
 import { notFound } from "next/navigation";
+import SetList from "@/app/ui/components/SetList";
 
 type languageData = {
   language: Language["name"];
@@ -18,7 +19,7 @@ export default async function Page({ params }: { params: { id: string } }) {
         <h1 className="text-3xl md:text-4xl mb-7">
           Language: <span className="text-color-5">{language}</span>
         </h1>
-        <LanguageList setsData={sets} />
+        <SetList from="language" setsData={sets} />
       </main>
     );
   } catch (err: any | AxiosError) {
