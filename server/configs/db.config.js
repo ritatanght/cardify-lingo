@@ -1,8 +1,14 @@
 // Database connections
 const { Pool } = require("pg");
 
+const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE, DB_PORT } = process.env;
 const pool = new Pool({
- connectionString: process.env.POSTGRES_URL + "?sslmode=require",
+  user: DB_USER,
+  host: DB_HOST,
+  password: DB_PASSWORD,
+  port: DB_PORT,
+  database: DB_DATABASE,
+  //connectionString: process.env.POSTGRES_URL + "?sslmode=require",
 });
 
 pool
