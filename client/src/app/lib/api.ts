@@ -59,8 +59,9 @@ export const unlikeSet = (setId: number, userId: string) => {
 export const createSet = (setData: {
   setFormData: NewSetData;
   cardFormData: CardFormData[];
+  userId:string
 }) => {
-  return instance.post("/api/sets/create", setData);
+  return instance.post("/api/sets/", setData);
 };
 
 export const getSet = (setId: string) => {
