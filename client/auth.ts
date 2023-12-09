@@ -11,6 +11,9 @@ import GoogleProvider from "next-auth/providers/google";
 
 // Pass this to `NextAuth` in `app/api/auth/[...nextauth]/route.ts`
 export const authOptions: NextAuthOptions = {
+   pages: {
+    signIn: '/login',
+  },
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
