@@ -89,3 +89,39 @@ export async function PUT(
     return Response.json(err, { status: 500 });
   }
 }
+
+// owner deleting a set
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  const session = await auth();
+  const setId = params.id;
+  const { userId } = await request.json();
+
+  // make sure the user is logged-in
+  if (!session)
+    return Response.json({ message: "Please log in first." }, { status: 401 });
+
+  try {
+    // make sure the user who deletes the set is the set owner
+    const data = await sets.getSetOwnerBySetId(setId);
+    if (!data)
+      return Response.json({ message: "Set not found." }, { status: 404 });
+    if (data.user_id !== userId)
+      return Response.json(
+        {
+          message: "You can only delete your own set.",
+        },
+        { status: 403 }
+      );
+
+    // set the set as deleted in the database
+    await sets.setSetToDeleted(setId);
+
+    return Response.json({ message: "Set deleted" }, { status: 200 });
+  } catch (err) {
+    console.error(err);
+    return Response.json(err, { status: 500 });
+  }
+}
