@@ -1,8 +1,4 @@
-"use client";
-import { useState, useEffect, Fragment } from "react";
-import { useRouter } from "next/navigation";
-import CardForm from "@/app/ui/components/CardForm";
-import { useUser } from "@/app/context/UserProvider";
+"use client";import { useState, useEffect, Fragment } from "react";import { useRouter } from "next/navigation";import CardForm from "@/app/ui/components/CardForm";import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
 import { createSet, editSet } from "@/app/lib/api";
 import { Listbox, Transition } from "@headlessui/react";
@@ -68,6 +64,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const onCreate = (data: {
     setFormData: NewSetData;
     cardFormData: CardFormData[];
+    userId: string
   }) => {
     createSet(data)
       .then((res) => {
@@ -90,6 +87,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const onEdit = (data: {
     setFormData: SetData;
     cardFormData: CardFormData[];
+    userId: string;
   }) => {
     const setId = setData?.set.id;
     const { setFormData, cardFormData } = data;
@@ -128,10 +126,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     };
     switch (mode) {
       case "create":
-        onCreate({ setFormData, cardFormData: cards });
+        onCreate({ setFormData, cardFormData: cards, userId: user.id });
         break;
       case "edit":
-        onEdit({ setFormData, cardFormData: cards });
+        onEdit({ setFormData, cardFormData: cards, userId: user.id });
         break;
       default:
         console.log("Invalid mode");
