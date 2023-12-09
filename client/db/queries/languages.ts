@@ -10,7 +10,7 @@ const getAllLanguages = () => {
     .then((data) => data.rows);
 };
 
-const getLanguageById = (languageId) => {
+const getLanguageById = (languageId:string) => {
   return db
     .query(
       `
