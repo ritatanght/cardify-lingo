@@ -1,4 +1,5 @@
 import { logInUser } from "@/app/lib/api";
+const { getUserByEmail, createExternalUser } = require("@/../db/queries/users");
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -41,6 +42,26 @@ export const authOptions: NextAuthOptions = {
       },
     }),
   ],
+  callbacks: {
+    async signIn({ user }) {
+      const { id, name, email } = user;
+
+      const existingUser = await getUserByEmail({ email });
+
+      // insert into database
+      if (!existingUser) {
+        try {
+          await createExternalUser(id, name, email);
+          return true;
+        } catch (err) {
+          console.log(err);
+          return false;
+        }
+      }
+      
+      return true;
+    },
+  },
 } satisfies NextAuthOptions;
 
 // Use it in server contexts
