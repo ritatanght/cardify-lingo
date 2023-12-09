@@ -1,4 +1,8 @@
-"use client";import { useState, useEffect, Fragment } from "react";import { useRouter } from "next/navigation";import CardForm from "@/app/ui/components/CardForm";import { useUser } from "@/app/context/UserProvider";
+"use client";
+import { useState, useEffect, Fragment } from "react";
+import { useRouter } from "next/navigation";
+import CardForm from "@/app/ui/components/CardForm";
+import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
 import { createSet, editSet } from "@/app/lib/api";
 import { Listbox, Transition } from "@headlessui/react";
@@ -64,7 +68,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const onCreate = (data: {
     setFormData: NewSetData;
     cardFormData: CardFormData[];
-    userId: string
+    userId: string;
   }) => {
     createSet(data)
       .then((res) => {
@@ -90,10 +94,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     userId: string;
   }) => {
     const setId = setData?.set.id;
-    const { setFormData, cardFormData } = data;
+    const { setFormData, cardFormData, userId } = data;
     if (setId) {
-      setFormData.set_id = setId;
-      editSet(setId, { setFormData, cardFormData })
+      setFormData.id = setId;
+      editSet(setId, { setFormData, cardFormData, userId })
         .then((res) => {
           if (res.status === 200) {
             toast.success(res.data.message, { position: "top-center" });
@@ -129,6 +133,8 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
         onCreate({ setFormData, cardFormData: cards, userId: user.id });
         break;
       case "edit":
+        if (user.id !== setData?.set.user_id)
+          return toast.error("You could only edit your own set");
         onEdit({ setFormData, cardFormData: cards, userId: user.id });
         break;
       default:
