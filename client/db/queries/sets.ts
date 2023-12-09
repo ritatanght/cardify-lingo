@@ -1,6 +1,7 @@
+import { Set } from "@/app/lib/definitions";
 import db from "../db.config";
 
-const postSetData = (setData) => {
+const postSetData = (setData: Set) => {
   const query = `
   INSERT INTO lang_sets (title, description, private, language_id, user_id)
   VALUES ($1, $2, $3, $4, $5) RETURNING id;
@@ -16,7 +17,7 @@ const postSetData = (setData) => {
     .then((data) => data.rows[0]);
 };
 
-const updateSetData = (setData) => {
+const updateSetData = (setData: Set) => {
   const query = `
   UPDATE lang_sets
   SET title = $1,
@@ -33,12 +34,12 @@ const updateSetData = (setData) => {
       setData.description,
       setData.private,
       setData.language_id,
-      setData.set_id,
+      setData.id,
     ])
     .then((data) => data.rows[0]);
 };
 
-const getSetsByUserId = (userId) => {
+const getSetsByUserId = (userId: string) => {
   const query = `
     SELECT lang_sets.*
     FROM lang_sets
@@ -49,7 +50,7 @@ const getSetsByUserId = (userId) => {
   return db.query(query, [userId]).then((data) => data.rows);
 };
 
-const getSetInfoById = (setId) => {
+const getSetInfoById = (setId: string) => {
   return db
     .query(
       `
@@ -64,7 +65,7 @@ const getSetInfoById = (setId) => {
     .then((data) => data.rows[0]);
 };
 
-const getSetsByLanguageId = (languageId) => {
+const getSetsByLanguageId = (languageId: string) => {
   return db
     .query(
       `
@@ -78,7 +79,7 @@ const getSetsByLanguageId = (languageId) => {
     .then((data) => data.rows);
 };
 
-const getSetOwnerBySetId = (setId) => {
+const getSetOwnerBySetId = (setId:string) => {
   return db
     .query(
       `
@@ -90,7 +91,7 @@ const getSetOwnerBySetId = (setId) => {
     .then((data) => data.rows[0]);
 };
 
-const setSetToDeleted = (setId) => {
+const setSetToDeleted = (setId:string) => {
   const query = `
    UPDATE lang_sets
    SET deleted = true
