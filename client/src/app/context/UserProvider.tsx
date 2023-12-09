@@ -1,5 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { getUserFavorites, logOutUser } from "@/app/lib/api";
+import { createContext, useContext, useState, useEffect } from "react";import { getUserFavorites, getUserInfo, logOutUser } from "@/app/lib/api";
 import {
   FavoriteSet,
   LoggedInUser,
@@ -7,6 +6,7 @@ import {
   User,
   userContextType,
 } from "../lib/definitions";
+import { useSession } from "next-auth/react";
 
 export const userContext = createContext({} as any);
 
@@ -15,9 +15,12 @@ export const useUser = () => {
 };
 
 export const UserProvider = (props: any) => {
+  const { data: session } = useSession();
   const [user, setUser] = useState<LoggedInUser | null>(null);
   const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | []>([]);
-  
+  // console.log("context user", user);
+  // console.log("context fav set", favoriteSets);
+  // console.log("context session", session);
   useEffect(() => {
     const loggedInUser = localStorage.getItem("loggedInUser");
     const favSets = localStorage.getItem("favoriteSets");
@@ -30,18 +33,22 @@ export const UserProvider = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (user) {
-      getUserFavorites()
-        .then(setFavoriteSets)
-        .catch((err) => {
-          if (err.response.status === 401) {
-            clearUserInfo();
-          } else {
-            console.error(err);
-          }
-        });
+    if (session) {
+      getUserInfo().then(setUser).catch(console.error);
+
+      // getUserFavorites()
+      //   .then(setFavoriteSets)
+      //   .catch((err) => {
+      //     if (err.response.status === 401) {
+      //       clearUserInfo();
+      //     } else {
+      //       console.error(err);
+      //     }
+      //   });
+    } else {
+      clearUserInfo();
     }
-  }, [user]);
+  }, [session]);
 
   useEffect(() => {
     localStorage.setItem("favoriteSets", JSON.stringify(favoriteSets));
@@ -63,13 +70,13 @@ export const UserProvider = (props: any) => {
     localStorage.removeItem("favoriteSets");
   };
 
-  const logout = () => {
-    logOutUser().then((res) => {
-      if (res.status === 200) {
-        clearUserInfo();
-      }
-    });
-  };
+  // const logout = () => {
+  //   logOutUser().then((res) => {
+  //     if (res.status === 200) {
+  //       clearUserInfo();
+  //     }
+  //   });
+  // };
 
   const addToFavList = (set: Set) => {
     const { id, title, user_id, username, private: isPrivate } = set;
@@ -87,7 +94,6 @@ export const UserProvider = (props: any) => {
     favoriteSets,
     addToFavList,
     removeFromFavList,
-    logout,
     storeUserInfo,
     clearUserInfo,
   };
