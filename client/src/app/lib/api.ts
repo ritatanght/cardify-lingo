@@ -59,7 +59,7 @@ export const unlikeSet = (setId: number, userId: string) => {
 export const createSet = (setData: {
   setFormData: NewSetData;
   cardFormData: CardFormData[];
-  userId:string
+  userId: string;
 }) => {
   return instance.post("/api/sets/", setData);
 };
@@ -77,9 +77,13 @@ export const searchSets = (query: string) => {
 
 export const editSet = (
   setId: number,
-  updatedSetInfo: { setFormData: SetData; cardFormData: CardFormData[] }
+  updatedSetInfo: {
+    setFormData: SetData;
+    cardFormData: CardFormData[];
+    userId: string;
+  }
 ) => {
-  return instance.put(`/api/sets/edit/${setId}`, updatedSetInfo);
+  return instance.put(`/api/sets/${setId}`, updatedSetInfo);
 };
 
 export const deleteSetById = (setId: number) => {
