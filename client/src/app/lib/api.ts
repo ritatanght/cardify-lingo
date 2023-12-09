@@ -47,12 +47,12 @@ export const getUserFavorites = (userId: string) => {
 };
 
 /* --- Favorites --- */
-export const likeSet = (setId: number) => {
-  return instance.post(`/api/favorites/${setId}`);
+export const likeSet = (setId: number, userId: string) => {
+  return instance.post(`/api/favorites/${setId}`, { userId });
 };
 
-export const unlikeSet = (setId: number) => {
-  return instance.delete(`/api/favorites/${setId}`);
+export const unlikeSet = (setId: number, userId: string) => {
+  return instance.delete(`/api/favorites/${setId}`, { data: { userId } });
 };
 
 /* --- Sets --- */
