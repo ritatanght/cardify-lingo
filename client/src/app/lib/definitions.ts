@@ -1,11 +1,11 @@
 export type User = {
-  id: number;
+  id: string;
   username: string;
   email: string;
   password: string;
 };
 
-export type LoggedInUser = Pick<User, "id" | "username">;
+export type LoggedInUser = Pick<User, "id" | "username" | "email">;
 
 export type Language = {
   id: number;
@@ -35,7 +35,7 @@ export type NewSetData = Omit<
 >;
 
 export interface SetData extends NewSetData {
-  set_id?: number;
+  id?: number;
 }
 
 export type FullSet = {
@@ -71,7 +71,6 @@ export interface userContextType {
   favoriteSets: [] | FavoriteSet[];
   addToFavList: (set: any) => void;
   removeFromFavList: (setId: number) => void;
-  logout: () => void;
   storeUserInfo: (userInfo: User) => void;
   clearUserInfo: () => void;
 }
