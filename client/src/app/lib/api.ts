@@ -4,7 +4,7 @@ const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
       ? process.env.PROD_BASEURL
-      : "http://localhost:8080/",
+      : "http://localhost:3000/",
   withCredentials: true,
 });
 
