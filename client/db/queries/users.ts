@@ -1,12 +1,13 @@
-import db from "../db.config";import { v4 as uuidv4 } from "uuid";
-const getUserUsername = (userId: string) => {
+import db from "../db.config";
+import { v4 as uuidv4 } from "uuid";
+const getUserInfoByEmail = (email: string) => {
   const query = `
-   SELECT id, username
+   SELECT id, username AS name, email
    FROM users
-   WHERE users.id = $1
+   WHERE email = $1
    AND deleted = false;
   `;
-  return db.query(query, [userId]).then((data) => data.rows[0]);
+  return db.query(query, [email]).then((data) => data.rows[0]);
 };
 
 const createCredUser = (email: string, username: string, hash: string) => {
@@ -43,7 +44,7 @@ const getUserByEmail = (email: string) => {
 };
 
 module.exports = {
-  getUserUsername,
+  getUserInfoByEmail,
   createCredUser,
   createExternalUser,
   getUserByEmail,
