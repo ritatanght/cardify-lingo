@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
+import { sign } from "crypto";
+import Link from "next/link";
 const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -51,6 +53,21 @@ const Login = () => {
           Login
         </button>
       </form>
+      <p className="mt-4">
+        Don&apos;t have an account?{" "}
+        <Link className="text-darken-5-200 hover:underline" href="/register">
+          Register
+        </Link>
+      </p>
+      <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-slate-300"></div>
+      <div className="text-center">
+        <button
+          className="p-4 ring-1 ring-slate-300 rounded-md transition hover:bg-color-3"
+          onClick={() => signIn("google")}
+        >
+          Sign in with Google
+        </button>
+      </div>
     </>
   );
 };
