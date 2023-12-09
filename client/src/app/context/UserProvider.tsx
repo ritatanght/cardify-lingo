@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";import { getUserFavorites, getUserInfo, logOutUser } from "@/app/lib/api";
+import { createContext, useContext, useState, useEffect } from "react";
+import { getUserFavorites, getUserInfo, logOutUser } from "@/app/lib/api";
 import {
   FavoriteSet,
   LoggedInUser,
@@ -34,17 +35,16 @@ export const UserProvider = (props: any) => {
 
   useEffect(() => {
     if (session) {
-      getUserInfo().then(setUser).catch(console.error);
-
-      // getUserFavorites()
-      //   .then(setFavoriteSets)
-      //   .catch((err) => {
-      //     if (err.response.status === 401) {
-      //       clearUserInfo();
-      //     } else {
-      //       console.error(err);
-      //     }
-      //   });
+      getUserInfo()
+        .then((userData) => {
+          setUser(userData);
+          return userData.id;
+        })
+        .then((userId) => {
+          getUserFavorites(userId)
+            .then(setFavoriteSets)
+            .catch(console.error);
+        });
     } else {
       clearUserInfo();
     }
