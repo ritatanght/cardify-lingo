@@ -34,21 +34,19 @@ export const UserProvider = (props: any) => {
   }, []);
 
   useEffect(() => {
-    if (session) {
+    if (session && !user) {
       getUserInfo()
         .then((userData) => {
           setUser(userData);
           return userData.id;
         })
         .then((userId) => {
-          getUserFavorites(userId)
-            .then(setFavoriteSets)
-            .catch(console.error);
+          getUserFavorites(userId).then(setFavoriteSets).catch(console.error);
         });
-    } else {
+    } else if (!session) {
       clearUserInfo();
     }
-  }, [session]);
+  }, [session, user]);
 
   useEffect(() => {
     localStorage.setItem("favoriteSets", JSON.stringify(favoriteSets));
