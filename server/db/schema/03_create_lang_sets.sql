@@ -6,6 +6,6 @@ CREATE TABLE lang_sets (
   description VARCHAR(255) NOT NULL,
   private BOOLEAN default false,
   language_id INT REFERENCES languages(id),
-  user_id INT REFERENCES users(id),
+  user_id VARCHAR(255) REFERENCES users(id),
   deleted BOOLEAN DEFAULT false
 );
