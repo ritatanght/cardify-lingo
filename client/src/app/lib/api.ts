@@ -5,7 +5,6 @@ const instance = axios.create({
     process.env.NODE_ENV === "production"
       ? process.env.PROD_BASEURL
       : "http://localhost:3000/",
-  withCredentials: true,
 });
 
 /* --- Languages --- */
@@ -33,6 +32,10 @@ export const logInUser = (loginInfo: { email: string; password: string }) => {
 
 export const logOutUser = () => {
   return instance.post(`/api/auth/logout`);
+};
+
+export const getUserInfo = () => {
+  return instance.get(`/api/users`).then((res) => res.data);
 };
 
 export const getUserSets = () => {
