@@ -6,12 +6,12 @@ import { FavoriteSet, Set } from "../lib/definitions";
 
 const useFavButton = (initialState = false) => {
   const [isLiked, setIsLiked] = useState(initialState);
-  const { addToFavList, removeFromFavList, clearUserInfo } = useUser();
+  const { user, addToFavList, removeFromFavList, clearUserInfo } = useUser();
 
   const toggleLike = (set: Set | FavoriteSet) => {
     if (isLiked) {
       // Unlike a set
-      unlikeSet(set.id)
+      unlikeSet(set.id, user.id)
         .then(({ status }) => {
           if (status === 200) {
             removeFromFavList(set.id);
@@ -28,7 +28,7 @@ const useFavButton = (initialState = false) => {
         });
     } else {
       // Like a set
-      likeSet(set.id)
+      likeSet(set.id, user.id)
         .then(({ status }) => {
           if (status === 201) {
             addToFavList(set);
