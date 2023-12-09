@@ -1,5 +1,4 @@
-const router = require("express").Router();
-const users = require("../db/queries/users");
+const router = require("express").Router();const users = require("../db/queries/users");
 const bcrypt = require("bcrypt");
 
 router.post("/login", (req, res) => {
@@ -20,7 +19,7 @@ router.post("/login", (req, res) => {
           user: {
             id: user.id,
             email: user.email,
-            username: user.username,
+            name: user.username,
           },
         });
       }
