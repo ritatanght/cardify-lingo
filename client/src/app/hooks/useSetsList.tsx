@@ -5,10 +5,10 @@ import { Set } from "../lib/definitions";
 
 const useSetsList = (initialSet:Set[]=[]) => {
   const [sets, setSets] = useState<Set[] | []>(initialSet);
-  const { clearUserInfo, removeFromFavList } = useUser();
+  const { user, clearUserInfo, removeFromFavList } = useUser();
 
   const deleteSet = (setId: number) => {
-    deleteSetById(setId)
+    deleteSetById(setId, user.id)
       .then((res) => {
         if (res.status === 200) {
           const updatedSets = sets.filter((set) => set.id !== setId);
