@@ -42,8 +42,8 @@ export const getUserSets = () => {
   return instance.get("/api/sets/user").then((res) => res.data);
 };
 
-export const getUserFavorites = () => {
-  return instance.get("/api/favorites").then((res) => res.data);
+export const getUserFavorites = (userId: string) => {
+  return instance.get(`/api/favorites/${userId}`).then((res) => res.data);
 };
 
 /* --- Favorites --- */
