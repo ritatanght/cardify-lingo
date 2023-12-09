@@ -1,6 +1,5 @@
 import db from "../db.config";
-
-const getFavoritesByUserId = (userId) => {
+const getFavoritesByUserId = (userId: string) => {
   return db
     .query(
       `
@@ -16,7 +15,7 @@ const getFavoritesByUserId = (userId) => {
     .then((data) => data.rows);
 };
 
-const addFavoriteByUserAndSet = (userId, setId) => {
+const addFavoriteByUserAndSet = (userId: string, setId: string) => {
   return db
     .query(
       `SELECT * FROM lang_favorites 
@@ -26,7 +25,7 @@ const addFavoriteByUserAndSet = (userId, setId) => {
     )
     .then((likeRecord) => {
       // update deleted column for a found existing record
-      if (likeRecord.rowCount > 0) {
+      if (likeRecord.rowCount && likeRecord.rowCount > 0) {
         return db
           .query(
             `UPDATE lang_favorites
@@ -41,7 +40,7 @@ const addFavoriteByUserAndSet = (userId, setId) => {
         return db
           .query(
             `INSERT INTO lang_favorites (user_id, lang_set_id)
-           VALUES ($1, $2);`,
+             VALUES ($1, $2);`,
             [userId, setId]
           )
           .then((data) => data.rows);
@@ -49,7 +48,7 @@ const addFavoriteByUserAndSet = (userId, setId) => {
     });
 };
 
-const removeFavoriteByUserAndSet = (userId, setId) => {
+const removeFavoriteByUserAndSet = (userId: string, setId: string) => {
   return db
     .query(
       `
