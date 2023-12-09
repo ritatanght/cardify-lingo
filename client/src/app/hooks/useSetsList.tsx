@@ -1,11 +1,10 @@
-import { useState } from "react";
-import { useUser } from "@/app/context/UserProvider";
+import { useState } from "react";import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
 import { deleteSetById } from "@/app/lib/api";
 import { Set } from "../lib/definitions";
 
-const useSetsList = () => {
-  const [sets, setSets] = useState<Set[] | []>([]);
+const useSetsList = (initialSet:Set[]=[]) => {
+  const [sets, setSets] = useState<Set[] | []>(initialSet);
   const { clearUserInfo, removeFromFavList } = useUser();
 
   const deleteSet = (setId: number) => {
