@@ -1,17 +1,18 @@
+import { CardFormData } from "@/app/lib/definitions";
 import db from "../db.config";
 
-const postCardsData = (cardsData) => {
+const postCardsData = (cardsData: CardFormData[]) => {
   const promises = cardsData.map((cardData) => {
     const query = `
       INSERT INTO lang_cards(front, back, lang_set_id)
       VALUES($1, $2, $3)
     `;
-    return db.query(query, [cardData.front, cardData.back, cardData.setId]);
+    return db.query(query, [cardData.front, cardData.back, cardData.set_id]);
   });
   return Promise.all(promises);
 };
 
-const updateCardsData = (cardsData) => {
+const updateCardsData = (cardsData: CardFormData[]) => {
   const promises = cardsData.map((cardData) => {
     if (cardData.id) {
       const query = `
@@ -40,7 +41,7 @@ const updateCardsData = (cardsData) => {
   return Promise.all(promises);
 };
 
-const getCardsBySetId = (setId) => {
+const getCardsBySetId = (setId: string) => {
   return db
     .query(
       `
@@ -53,7 +54,7 @@ const getCardsBySetId = (setId) => {
     .then((data) => data.rows);
 };
 
-const updateCardById = (id, cardData) => {
+const updateCardById = (id: string, cardData: CardFormData) => {
   const query = `
     UPDATE lang_cards
     SET front = $1, back = $2
@@ -62,7 +63,7 @@ const updateCardById = (id, cardData) => {
   return db.query(query, [cardData.front, cardData.back, id]);
 };
 
-const getCardOwnerByCardId = (cardId) => {
+const getCardOwnerByCardId = (cardId: string) => {
   return db
     .query(
       `
