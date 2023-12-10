@@ -1,4 +1,4 @@
-export type User = {
+import { Session } from "next-auth";export type User = {
   id: string;
   username: string;
   email: string;
