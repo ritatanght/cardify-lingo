@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import { getUserFavorites, getUserInfo, logOutUser } from "@/app/lib/api";
+import { getUserFavorites, getUserInfo } from "@/app/lib/api";
 import {
   FavoriteSet,
   LoggedInUser,
@@ -19,9 +19,7 @@ export const UserProvider = (props: any) => {
   const { data: session } = useSession();
   const [user, setUser] = useState<LoggedInUser | null>(null);
   const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | []>([]);
-  // console.log("context user", user);
-  // console.log("context fav set", favoriteSets);
-  // console.log("context session", session);
+ 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("loggedInUser");
     const favSets = localStorage.getItem("favoriteSets");
@@ -67,14 +65,6 @@ export const UserProvider = (props: any) => {
     setFavoriteSets([]);
     localStorage.removeItem("favoriteSets");
   };
-
-  // const logout = () => {
-  //   logOutUser().then((res) => {
-  //     if (res.status === 200) {
-  //       clearUserInfo();
-  //     }
-  //   });
-  // };
 
   const addToFavList = (set: Set) => {
     const { id, title, user_id, username, private: isPrivate } = set;
