@@ -23,7 +23,7 @@ const createCredUser = (email: string, username: string, hash: string) => {
     .then((data) => data.rows[0]);
 };
 
-const createExternalUser = (id: string, email: string, name: string) => {
+const createExternalUser = (id: string, name: string, email: string) => {
   const query = `
   INSERT INTO users (id, username, email)
   VALUES 
