@@ -1,5 +1,9 @@
 import { logInUser } from "@/app/lib/api";
-const { getUserByEmail, createExternalUser } = require("@/../db/queries/users");
+const {
+  getUserByEmail,
+  createExternalUser,
+  getUserInfoByEmail,
+} = require("@/../db/queries/users");
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -47,7 +51,7 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       const { id, name, email } = user;
-   
+
       try {
         const existingUser = await getUserByEmail(email);
         /*
@@ -69,6 +73,21 @@ export const authOptions: NextAuthOptions = {
         return false;
       }
       return true;
+    },
+    async jwt({ token, account, profile }) {
+      // adding user id to token
+      if (account) {
+        token.id = account.providerAccountId;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      // adding user id to session.user
+      if (session.user) {
+        session.user.id = token.id;
+      }
+      return session;
     },
   },
 } satisfies NextAuthOptions;
