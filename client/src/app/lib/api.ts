@@ -95,5 +95,5 @@ export const editCardById = (
   cardId: number,
   card: { front: string; back: string }
 ) => {
-  return instance.put(`/api/cards/update/${cardId}`, card);
+  return instance.put(`/api/cards/${cardId}`, card);
 };
