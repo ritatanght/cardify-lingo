@@ -1,10 +1,4 @@
-import SetItem from "@/app/ui/components/SetItem";import useSetsList from "@/app/hooks/useSetsList";
-import { Tab } from "@headlessui/react";
-import { getUserSets } from "@/app/lib/api";
-import Link from "next/link";
-import Loading from "../loading";
-import { playpen } from "../ui/fonts";
-import { FavoriteSet } from "../lib/definitions";
+import Link from "next/link";import { playpen } from "../ui/fonts";
 import { auth } from "../../../auth";
 import { redirect } from "next/navigation";
 import Profile from "./Profile";
