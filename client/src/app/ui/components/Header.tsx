@@ -12,7 +12,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
 import "react-toastify/dist/ReactToastify.css";
-// import { useUser } from "@/app/context/UserProvider";
+import { useUser } from "@/app/context/UserProvider";
 import { Language } from "../../lib/definitions";
 import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
@@ -23,12 +23,11 @@ function classNames(...classes: string[]) {
 }
 interface HeaderProps {
   languages: Language[];
-  user: string | null | undefined;
 }
 
-export default function Header({ languages, user }: HeaderProps) {
+export default function Header({ languages }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const { user, logout } = useUser();
+  const { user } = useUser();
 
   return (
     <header className="px-4 md:px-6 bg-color-3">
@@ -136,7 +135,7 @@ export default function Header({ languages, user }: HeaderProps) {
                   className="p-0 text-xl transition-transform duration-300 hover:-translate-y-1 text-darken-5-200"
                   href="/profile"
                 >
-                  <strong className="mr-1">{user}</strong>
+                  <strong className="mr-1">{user.name}</strong>
                   <FontAwesomeIcon icon={faUser} />
                 </Link>
 
