@@ -23,7 +23,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
   const languages = await getAllLanguages();
-  const session = await auth();
+
 
   return (
     <html lang="en">
@@ -32,7 +32,7 @@ export default async function RootLayout({
         suppressHydrationWarning={true}
       >
         <Providers>
-          <Header languages={languages} user={session?.user?.name} />
+          <Header languages={languages} />
           <div className="content-container md:px-6 md:py-8">{children}</div>
         </Providers>
       </body>
