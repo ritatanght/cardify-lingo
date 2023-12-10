@@ -1,5 +1,5 @@
 import db from "../db.config";
-const searchByText = (searchQuery) => {
+const searchByText = (searchQuery: string) => {
   const searchTerm = `%${searchQuery}%`;
 
   const query = `
@@ -11,7 +11,7 @@ const searchByText = (searchQuery) => {
     AND lang_sets.deleted = false
   `;
 
-  return db.query(query, [searchTerm]);
+  return db.query(query, [searchTerm]).then((data) => data.rows);
 };
 
 module.exports = {
