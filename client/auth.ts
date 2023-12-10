@@ -47,9 +47,10 @@ export const authOptions: NextAuthOptions = {
   callbacks: {
     async signIn({ user }) {
       const { id, name, email } = user;
-
-      const existingUser = await getUserByEmail(email);
-      /*
+   
+      try {
+        const existingUser = await getUserByEmail(email);
+        /*
       sample existingUser {
             id: '1231',
             username: 'john_doe',
@@ -58,17 +59,15 @@ export const authOptions: NextAuthOptions = {
             deleted: false
           }
       */
-      // insert into database
-      if (!existingUser) {
-        try {
+        // insert into database
+        if (!existingUser) {
           await createExternalUser(id, name, email);
           return true;
-        } catch (err) {
-          console.log(err);
-          return false;
         }
+      } catch (err) {
+        console.log(err);
+        return false;
       }
-
       return true;
     },
   },
