@@ -30,10 +30,6 @@ export const logInUser = (loginInfo: { email: string; password: string }) => {
   return instance.post("/api/auth/login", loginInfo).then((res) => res.data);
 };
 
-export const logOutUser = () => {
-  return instance.post(`/api/auth/logout`);
-};
-
 export const getUserInfo = () => {
   return instance.get(`/api/users`).then((res) => res.data);
 };
