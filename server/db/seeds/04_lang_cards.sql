@@ -32,5 +32,8 @@ VALUES
 (14, 'Greeting', '인사'),
 (14, 'Travel', '여행'),
 (15, 'Chinese New Year', '新年快樂'),
-(15, 'Delicious', '好食');
-
+(15, 'Delicious', '好食'),
+(16, 'Milk', '牛奶'),
+(16, 'Egg', '雞蛋'),
+(16, 'Salt', '鹽'),
+(16, 'Sugar', '砂糖');

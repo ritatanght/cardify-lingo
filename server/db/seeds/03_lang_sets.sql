@@ -14,5 +14,6 @@ VALUES
 ('Portuguese Culture', 'Understanding cultural aspects of Portugal.', false, 4, '4341'),
 ('Japanese Hiragana', 'Mastering Hiragana writing system.', false, 5, '1231'),
 ('Korean Vocabulary', 'Expanding vocabulary in Korean language.', false, 6, '1434324'),
-('Cantonese Slang', 'Learning colloquial expressions in Cantonese.', false, 8, '34342424');
+('Cantonese Slang', 'Learning colloquial expressions in Cantonese.', false, 8, '34342424'),
+('Cantonese Food', '日常食品', false, 8, '1231');
 
