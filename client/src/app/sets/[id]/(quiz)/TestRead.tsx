@@ -1,6 +1,5 @@
-import { Card } from "@/app/lib/definitions";
+import { Card } from "@/app/types/definitions";
 import {
-  faForward,
   faQuoteLeft,
   faQuoteRight,
 } from "@fortawesome/free-solid-svg-icons";

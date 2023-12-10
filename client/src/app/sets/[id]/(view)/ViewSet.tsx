@@ -1,6 +1,7 @@
-import { Dispatch, useState } from "react";import Cards from "./Cards";import EditCardModal from "./EditCardModal";
-import { Card, FullSet } from "@/app/lib/definitions";
-
+import { Dispatch, useState } from "react";
+import Cards from "./Cards";
+import EditCardModal from "./EditCardModal";
+import { Card, FullSet } from "@/app/types/definitions";
 
 interface ViewSetProps {
   cards: Card[];
@@ -12,15 +13,9 @@ interface ViewSetProps {
   };
 }
 
-const ViewSet = ({
-  cards,
-  isSetOwner,
-  setSetData,
-  voices
-}: ViewSetProps) => {
+const ViewSet = ({ cards, isSetOwner, setSetData, voices }: ViewSetProps) => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [editingCard, setEditingCard] = useState<Card | null>(null);
-
 
   const handleCardEdit = (card: Card) => {
     setEditingCard(card);
@@ -45,16 +40,14 @@ const ViewSet = ({
     setShowEditModal(false);
   };
 
-
-
   return (
-    <>  
-        <Cards
-          cards={cards}
-          onEdit={handleCardEdit}
-          isSetOwner={isSetOwner}
-          voices={voices}
-        />   
+    <>
+      <Cards
+        cards={cards}
+        onEdit={handleCardEdit}
+        isSetOwner={isSetOwner}
+        voices={voices}
+      />
 
       {/* Edit Card Modal */}
       {editingCard && (

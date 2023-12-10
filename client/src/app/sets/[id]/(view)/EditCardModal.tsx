@@ -1,4 +1,4 @@
-import { Card } from "@/app/lib/definitions";
+import { Card } from "@/app/types/definitions";
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { useUser } from "@/app/context/UserProvider";

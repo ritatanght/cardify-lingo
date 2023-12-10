@@ -1,4 +1,3 @@
-import { Card, Set } from "@/app/lib/definitions";
 import { auth } from "../../../../../auth";
 const cards = require("@/../db/queries/cards");
 const users = require("@/../db/queries/users");

@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
 
 import React, { useState } from "react";
-import { Card } from "@/app/lib/definitions";
+import { Card } from "@/app/types/definitions";
 interface TestListenProps {
   card: Card;
   endQuestion: (correct: boolean) => void;

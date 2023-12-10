@@ -3,15 +3,14 @@ import { useEffect, useState } from "react";
 import SetItem from "@/app/ui/components/SetItem";
 import useSetsList from "@/app/hooks/useSetsList";
 import { useUser } from "@/app/context/UserProvider";
-import { toast } from "react-toastify";
 import { Tab } from "@headlessui/react";
 import { getUserSets } from "@/app/lib/api";
 import Loading from "../loading";
 import { playpen } from "../ui/fonts";
-import { FavoriteSet } from "../lib/definitions";
+import { FavoriteSet } from "../types/definitions";
 
 const Profile = () => {
-  const { user, favoriteSets } = useUser();
+  const { favoriteSets } = useUser();
   const { sets, setSets, deleteSet } = useSetsList();
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,6 +31,7 @@ const Profile = () => {
   if (isLoading) {
     return <Loading />;
   }
+
   return (
     <Tab.Group>
       <Tab.List className="flex space-x-1 rounded-xl bg-color-3 p-1">
@@ -64,7 +64,7 @@ const Profile = () => {
               <SetItem
                 key={set.id}
                 set={set}
-                setOwner={user.name}
+                setOwner="" // It is not displayed
                 onDelete={() => deleteSet(set.id)}
               />
             ))

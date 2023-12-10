@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import SetItem from "@/app/ui/components/SetItem";
 import useSetsList from "@/app/hooks/useSetsList";
 import { useUser } from "@/app/context/UserProvider";
-import { Set } from "@/app/lib/definitions";
+import { Set } from "@/app/types/definitions";
 
 interface SetListProps {
   from: string;

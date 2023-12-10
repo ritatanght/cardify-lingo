@@ -6,7 +6,7 @@ import {
   Set,
   User,
   userContextType,
-} from "../lib/definitions";
+} from "../types/definitions";
 import { useSession } from "next-auth/react";
 
 export const userContext = createContext({} as any);
@@ -19,7 +19,7 @@ export const UserProvider = (props: any) => {
   const { data: session } = useSession();
   const [user, setUser] = useState<LoggedInUser | null>(null);
   const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | []>([]);
- 
+
   useEffect(() => {
     const loggedInUser = localStorage.getItem("loggedInUser");
     const favSets = localStorage.getItem("favoriteSets");

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import CardItem from "./CardItem";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
-import { Card } from "@/app/lib/definitions";
+import { Card } from "@/app/types/definitions";
 import Confetti from "react-confetti";
 
 interface CardsProps {

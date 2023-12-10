@@ -13,7 +13,7 @@ import {
 import "../Header.scss";
 import "react-toastify/dist/ReactToastify.css";
 import { useUser } from "@/app/context/UserProvider";
-import { Language } from "../../lib/definitions";
+import { Language } from "../../types/definitions";
 import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 import { signOut } from "next-auth/react";

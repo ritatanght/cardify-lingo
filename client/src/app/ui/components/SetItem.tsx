@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { FavoriteSet, Set } from "@/app/lib/definitions";
+import { FavoriteSet, Set } from "@/app/types/definitions";
 import Link from "next/link";
 import useFavButton from "@/app/hooks/useFavButton";
 import { useUser } from "@/app/context/UserProvider";

@@ -1,5 +1,6 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";import { faTrash } from "@fortawesome/free-solid-svg-icons";
-import { CardFormData } from "@/app/lib/definitions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { CardFormData } from "@/app/types/definitions";
 
 interface CardFormProps {
   card: CardFormData;

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CardFormData, NewSetData, SetData } from "./definitions";
+import { CardFormData, NewSetData, SetData } from "../types/definitions";
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"

@@ -14,7 +14,7 @@ import {
   NewSetData,
   SetData,
   Language,
-} from "@/app/lib/definitions";
+} from "@/app/types/definitions";
 import { playpen } from "@/app/ui/fonts";
 import "../Create-Edit-Set.scss";
 

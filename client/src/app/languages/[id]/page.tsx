@@ -1,5 +1,5 @@
 import { getLanguageById } from "@/app/lib/api";
-import { Language, Set } from "@/app/lib/definitions";
+import { Language, Set } from "@/app/types/definitions";
 import { AxiosError, isAxiosError } from "axios";
 import { notFound } from "next/navigation";
 import SetList from "@/app/ui/components/SetList";

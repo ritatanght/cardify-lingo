@@ -1,5 +1,4 @@
-import { Card } from "./definitions";
-
+import { Card } from "../types/definitions";
 export const randomSort = (array: Card[]) => {
   return array
     .map((value) => ({ value, sort: Math.random() }))

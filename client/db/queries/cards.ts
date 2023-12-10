@@ -1,4 +1,4 @@
-import { CardFormData } from "@/app/lib/definitions";
+import { CardFormData } from "@/app/types/definitions";
 import db from "../db.config";
 
 const postCardsData = (cardsData: CardFormData[]) => {

@@ -1,4 +1,6 @@
-import { useState } from "react";import { Card } from "@/app/lib/definitions";import { randomSort } from "@/app/lib/utils";
+import { useState } from "react";
+import { Card } from "@/app/types/definitions";
+import { randomSort } from "@/app/lib/utils";
 import TestRead from "./TestRead";
 import TestListen from "./TestListen";
 import { toast } from "react-toastify";
@@ -20,7 +22,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   const [shuffledCards, setShuffledCards] = useState(randomSort(cards));
   const [score, setScore] = useState(0);
   const [testMode, setTestMode] = useState("start");
-  
+
   // set the testMode to either read or listen randomly
   const generateTestMode = () =>
     setTestMode(Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]);

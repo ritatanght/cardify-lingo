@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
 import { likeSet, unlikeSet } from "@/app/lib/api";
-import { FavoriteSet, Set } from "../lib/definitions";
+import { FavoriteSet, Set } from "../types/definitions";
 
 const useFavButton = (initialState = false) => {
   const [isLiked, setIsLiked] = useState(initialState);

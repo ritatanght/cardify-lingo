@@ -1,4 +1,4 @@
-import { Set } from "@/app/lib/definitions";
+import { Set } from "@/app/types/definitions";
 import db from "../db.config";
 
 const postSetData = (setData: Set) => {
@@ -79,7 +79,7 @@ const getSetsByLanguageId = (languageId: string) => {
     .then((data) => data.rows);
 };
 
-const getSetOwnerBySetId = (setId:string) => {
+const getSetOwnerBySetId = (setId: string) => {
   return db
     .query(
       `
@@ -91,7 +91,7 @@ const getSetOwnerBySetId = (setId:string) => {
     .then((data) => data.rows[0]);
 };
 
-const setSetToDeleted = (setId:string) => {
+const setSetToDeleted = (setId: string) => {
   const query = `
    UPDATE lang_sets
    SET deleted = true
