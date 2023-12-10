@@ -33,6 +33,8 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
         const { user } = await logInUser({ email, password });
+        //sample user { id: '1231', email: 'john.doe@example.com', name: 'john_doe' }
+
         if (user) {
           return user;
         }
@@ -46,8 +48,16 @@ export const authOptions: NextAuthOptions = {
     async signIn({ user }) {
       const { id, name, email } = user;
 
-      const existingUser = await getUserByEmail({ email });
-
+      const existingUser = await getUserByEmail(email);
+      /*
+      sample existingUser {
+            id: '1231',
+            username: 'john_doe',
+            email: 'john.doe@example.com',
+            hashed_password: '$2b$10$va/PwaIzWlsvUFmjrrMMl.c3WS0PbBhfe8i8mVqpB9u46dU3jWDEO',
+            deleted: false
+          }
+      */
       // insert into database
       if (!existingUser) {
         try {
@@ -58,7 +68,7 @@ export const authOptions: NextAuthOptions = {
           return false;
         }
       }
-      
+
       return true;
     },
   },
