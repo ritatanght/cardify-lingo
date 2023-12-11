@@ -80,7 +80,7 @@ const Profile = () => {
             "focus:outline-none"
           )}
         >
-          {favoriteSets.length > 0 ? (
+          {Array.isArray(favoriteSets) && favoriteSets.length > 0 ? (
             favoriteSets.map((favoriteSet: FavoriteSet) => (
               <SetItem
                 key={favoriteSet.id}
