@@ -1,7 +1,6 @@
 import { Card } from "@/app/types/definitions";
 import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { useUser } from "@/app/context/UserProvider";
 import { toast } from "react-toastify";
 import { editCardById } from "@/app/lib/api";
 import { useRouter } from "next/navigation";
@@ -14,8 +13,6 @@ interface modalProps {
 }
 const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
   const router = useRouter();
-  const { clearUserInfo } = useUser();
-
   const [front, setFront] = useState(card.front);
   const [back, setBack] = useState(card.back);
 
@@ -39,7 +36,6 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
       .catch((err) => {
         if (err.response.status === 401) {
           toast.info(err.response.data.message);
-          clearUserInfo();
           return router.replace("/login");
         } else {
           toast.error(err);

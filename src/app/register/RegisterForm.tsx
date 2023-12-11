@@ -1,6 +1,5 @@
 "use client";
 import { useState } from "react";
-// import { useUser } from "../context/UserProvider";
 import { toast } from "react-toastify";
 import { registerUser } from "@/app/lib/api";
 import { useRouter } from "next/navigation";
@@ -8,8 +7,6 @@ import { signIn } from "next-auth/react";
 
 const Register = () => {
   const router = useRouter();
-  // const { user, storeUserInfo } = useUser();
-
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +22,6 @@ const Register = () => {
     registerUser({ email, username, password })
       .then((res) => {
         if (res.status === 200) {
-          // res.data;
           signIn("credentials", { email, password, redirect: false }).then(
             ({ ok, error }: any) => {
               if (ok) {

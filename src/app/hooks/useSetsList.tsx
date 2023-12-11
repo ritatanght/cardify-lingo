@@ -5,7 +5,7 @@ import { Set } from "../types/definitions";
 
 const useSetsList = (initialSet: Set[] = []) => {
   const [sets, setSets] = useState<Set[] | []>(initialSet);
-  const { clearUserInfo, removeFromFavList } = useUser();
+  const { removeFromFavList } = useUser();
 
   const deleteSet = (setId: number) => {
     deleteSetById(setId)
@@ -20,7 +20,6 @@ const useSetsList = (initialSet: Set[] = []) => {
       .catch((err) => {
         if (err.response.status === 401) {
           toast.info(err.response.data.message);
-          clearUserInfo();
         } else {
           console.error("Error deleting the set: ", err);
         }

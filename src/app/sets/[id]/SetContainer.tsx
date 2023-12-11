@@ -1,5 +1,4 @@
-"use client";
-import { useEffect, useState } from "react";
+"use client";import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserProvider";
@@ -16,15 +15,17 @@ import { language_voice_lang, waitForVoices } from "@/app/lib/voicesList";
 import ViewSet from "./(view)/ViewSet";
 import QuizSet from "./(quiz)/QuizSet";
 import Loading from "@/app/loading";
+import { useSession } from "next-auth/react";
 
 interface SetContainerProps {
   fullSetData: FullSet;
 }
 
 const SetContainer = ({ fullSetData }: SetContainerProps) => {
-  const setId = fullSetData.set.id;
+  const { data: session } = useSession();
   const router = useRouter();
-  const { user, favoriteSets } = useUser();
+  const setId = fullSetData.set.id;
+  const { favoriteSets } = useUser();
   const { isLiked, checkLiked, toggleLike } = useFavButton();
   const [mode, setMode] = useState("view");
   const [setData, setSetData] = useState<FullSet>(fullSetData);
@@ -58,7 +59,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
 
   const { set, cards } = setData;
 
-  if (set.private && (!user || user.id !== set.user_id)) {
+  if (set.private && (!session || session.user.id !== set.user_id)) {
     return (
       <main className="mt-8 text-center">
         <h2 className="text-xl mb-4">This set is marked as private.</h2>
@@ -85,7 +86,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
         <h1 className="text-[1.8rem] leading-8 font-bold mb-0 md:text-4xl">
           {set.title}
         </h1>
-        {user && (
+        {session && (
           <button
             className="text-3xl inline-block align-middle ml-2"
             onClick={() => toggleLike(set)}
@@ -103,7 +104,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
             )}
           </button>
         )}
-        {user && user.id === set.user_id && (
+        {session && session.user.id === set.user_id && (
           <Link className="btn ml-auto" href={`/sets/edit/${setId}`}>
             Edit Set
           </Link>
@@ -139,7 +140,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
           <ViewSet
             setSetData={setSetData}
             cards={cards}
-            isSetOwner={user && user.id === set.user_id}
+            isSetOwner={session?.user?.id === set.user_id}
             voices={{ userVoice, languageVoice: languageVoice || userVoice }}
           />
         )}

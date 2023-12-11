@@ -2,7 +2,6 @@
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import CardForm from "@/app/ui/components/CardForm";
-import { useUser } from "@/app/context/UserProvider";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { createSet, editSet } from "@/app/lib/api";
@@ -28,7 +27,6 @@ interface SetFormProps {
 const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const router = useRouter();
   const { data: session } = useSession();
-  const { clearUserInfo } = useUser();
 
   const [userId, setUserId] = useState(setData?.set.user_id || "");
   const [title, setTitle] = useState(setData?.set.title || "");
@@ -81,7 +79,6 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       .catch((err) => {
         if (err.response.status === 401) {
           toast.info(err.response.data.message);
-          clearUserInfo();
           return router.replace("/login");
         } else {
           toast.error(err.response.data.message);

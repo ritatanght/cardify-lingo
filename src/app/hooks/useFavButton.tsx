@@ -6,7 +6,7 @@ import { FavoriteSet, Set } from "../types/definitions";
 
 const useFavButton = (initialState = false) => {
   const [isLiked, setIsLiked] = useState(initialState);
-  const { addToFavList, removeFromFavList, clearUserInfo } = useUser();
+  const { addToFavList, removeFromFavList } = useUser();
 
   const toggleLike = (set: Set | FavoriteSet) => {
     if (isLiked) {
@@ -21,7 +21,6 @@ const useFavButton = (initialState = false) => {
         .catch((err) => {
           if (err.response.status === 401) {
             toast.info(err.response.data.message);
-            clearUserInfo();
           } else {
             toast.error(err);
           }
@@ -38,7 +37,6 @@ const useFavButton = (initialState = false) => {
         .catch((err) => {
           if (err.response.status === 401) {
             toast.info(err.response.data.message);
-            clearUserInfo();
           } else {
             toast.error(err);
           }
@@ -47,7 +45,7 @@ const useFavButton = (initialState = false) => {
   };
 
   const checkLiked = (favoriteSets: FavoriteSet[], currentSetId: number) => {
-    setIsLiked(favoriteSets.some((set) => set.id === currentSetId));
+    setIsLiked(Array.isArray(favoriteSets) && favoriteSets.some((set) => set.id === currentSetId));
   };
 
   return { isLiked, setIsLiked, toggleLike, checkLiked };
