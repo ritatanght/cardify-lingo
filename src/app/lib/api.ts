@@ -33,7 +33,7 @@ export const getUserInfo = () => {
 
 export const getUserSets = () => {
   return instance
-    .get("/api/sets", { withCredentials:true })
+    .get("/api/sets")
     .then((res) => res.data);
 };
 
@@ -54,7 +54,7 @@ export const unlikeSet = (setId: number, userId: string) => {
 export const createSet = (setData: {
   setFormData: NewSetData;
   cardFormData: CardFormData[];
-  userId: string;
+
 }) => {
   return instance.post("/api/sets/", setData);
 };
@@ -75,7 +75,6 @@ export const editSet = (
   updatedSetInfo: {
     setFormData: SetData;
     cardFormData: CardFormData[];
-    userId: string;
   }
 ) => {
   return instance.put(`/api/sets/${setId}`, updatedSetInfo);

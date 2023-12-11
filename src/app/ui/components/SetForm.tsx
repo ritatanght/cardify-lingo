@@ -3,6 +3,7 @@ import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import CardForm from "@/app/ui/components/CardForm";
 import { useUser } from "@/app/context/UserProvider";
+import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { createSet, editSet } from "@/app/lib/api";
 import { Listbox, Transition } from "@headlessui/react";
@@ -26,7 +27,8 @@ interface SetFormProps {
 
 const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const router = useRouter();
-  const { user, clearUserInfo } = useUser();
+  const { data: session } = useSession();
+  const { clearUserInfo } = useUser();
 
   const [userId, setUserId] = useState(setData?.set.user_id || "");
   const [title, setTitle] = useState(setData?.set.title || "");
@@ -47,16 +49,16 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
 
   useEffect(() => {
     // display upon redirect to login page
-    if (!user) {
+    if (!session) {
       toast.info(
         mode === "create" ? "Login to create set." : "Login to edit set."
       );
       return router.replace("/login");
     }
-  }, [user, mode, router]);
+  }, [session, mode, router]);
 
   // If user is not logged-in, redirect to login page
-  if (!user)
+  if (!session)
     return (
       <main>
         <h1 className="text-center">
@@ -68,7 +70,6 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const onCreate = (data: {
     setFormData: NewSetData;
     cardFormData: CardFormData[];
-    userId: string;
   }) => {
     createSet(data)
       .then((res) => {
@@ -91,13 +92,12 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const onEdit = (data: {
     setFormData: SetData;
     cardFormData: CardFormData[];
-    userId: string;
   }) => {
     const setId = setData?.set.id;
-    const { setFormData, cardFormData, userId } = data;
+    const { setFormData, cardFormData } = data;
     if (setId) {
       setFormData.id = setId;
-      editSet(setId, { setFormData, cardFormData, userId })
+      editSet(setId, { setFormData, cardFormData })
         .then((res) => {
           if (res.status === 200) {
             toast.success(res.data.message, { position: "top-center" });
@@ -130,12 +130,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     };
     switch (mode) {
       case "create":
-        onCreate({ setFormData, cardFormData: cards, userId: user.id });
+        onCreate({ setFormData, cardFormData: cards });
         break;
       case "edit":
-        if (user.id !== setData?.set.user_id)
-          return toast.error("You could only edit your own set");
-        onEdit({ setFormData, cardFormData: cards, userId: user.id });
+        onEdit({ setFormData, cardFormData: cards });
         break;
       default:
         console.log("Invalid mode");
@@ -179,7 +177,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     }
   };
   // display when it is edit mode and user is not the set's owner
-  if (mode === "edit" && user.id !== userId) {
+  if (mode === "edit" && session.user.id !== userId) {
     return (
       <main>
         <h1 className="text-xl text-center">

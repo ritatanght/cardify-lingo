@@ -2,26 +2,31 @@ import { Card } from "@/app/types/definitions";
 import { auth } from "../../../../auth";
 const sets = require("@/../db/queries/sets");
 const cards = require("@/../db/queries/cards");
-const users = require("@/../db/queries/users");
 
 // profile page getting user's sets
 export async function GET(request: Request) {
   const session = await auth();
 
-  const userId = session?.user?.id;
-  try {
-    const data = await sets.getSetsByUserId(userId);
-    return Response.json(data, { status: 200 });
-  } catch (err) {
-    console.error(err);
-    return Response.json({ message: "Error fetching sets" }, { status: 500 });
+  if (session) {
+    const userId = session.user?.id;
+    try {
+      const data = await sets.getSetsByUserId(userId);
+      return Response.json(data, { status: 200 });
+    } catch (err) {
+      console.error(err);
+      return Response.json({ message: "Error fetching sets" }, { status: 500 });
+    }
+  } else {
+    return Response.json({ message: "Login to view profile" }, { status: 400 });
   }
 }
 
 // creating a set
 export async function POST(request: Request) {
   const session = await auth();
-  const { setFormData, cardFormData, userId } = await request.json();
+  const userId = session?.user.id
+
+  const { setFormData, cardFormData } = await request.json();
   const { title, description, language_id } = setFormData;
 
   if (!session || !userId)
@@ -60,7 +65,7 @@ export async function POST(request: Request) {
       setId,
     }));
 
-    await cards.postCardsData(cardDataWithSetId);
+     await cards.postCardsData(cardDataWithSetId);
 
     return Response.json(
       {
