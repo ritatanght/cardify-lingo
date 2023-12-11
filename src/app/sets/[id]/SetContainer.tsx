@@ -1,14 +1,14 @@
-"use client";import { useEffect, useState } from "react";
+"use client";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserProvider";
 import useFavButton from "@/app/hooks/useFavButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faFolderOpen,
-  faHeart as fillHeart,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
+  FaFolderOpen,
+  FaHeart as FillHeart,
+  FaRegHeart as EmptyHeart,
+} from "react-icons/fa";
 import "./ViewSet.scss";
 import { FullSet } from "@/app/types/definitions";
 import { language_voice_lang, waitForVoices } from "@/app/lib/voicesList";
@@ -74,11 +74,11 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
     <main className="p-3 md:p-0 max-w-4xl mx-auto">
       <Link
         href={`/languages/${set.language_id}`}
-        className="rounded-md text-base transition-all font-bold text-gray-600 hover:bg-color-5 hover:text-white hover:p-1.5 mb-4"
+        className="rounded-md text-base transition-all inline-flex items-center font-bold text-gray-600 hover:bg-color-5 hover:text-white py-1.5 hover:p-1.5 mb-4"
       >
-        <FontAwesomeIcon
-          icon={faFolderOpen}
+        <FaFolderOpen
           className="text-color-2 text-lg mr-1"
+          aria-hidden="true"
         />
         {set.language_name}
       </Link>
@@ -88,19 +88,13 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
         </h1>
         {session && (
           <button
-            className="text-3xl inline-block align-middle ml-2"
+            className="text-3xl inline-block align-middle ml-2 text-color-heart transition duration-300 hover:scale-125"
             onClick={() => toggleLike(set)}
           >
             {isLiked ? (
-              <FontAwesomeIcon
-                icon={fillHeart}
-                className="icon-primary heart-icon"
-              />
+              <FillHeart aria-label="Unlike" />
             ) : (
-              <FontAwesomeIcon
-                icon={emptyHeart}
-                className="icon-primary heart-icon"
-              />
+              <EmptyHeart aria-label="Like" />
             )}
           </button>
         )}
