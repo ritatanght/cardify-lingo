@@ -7,8 +7,6 @@ import { toast } from "react-toastify";
 import { createSet, editSet } from "@/app/lib/api";
 import { Listbox, Transition } from "@headlessui/react";
 import { FaCheck, FaAngleDown } from "react-icons/fa";
-// import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   FullSet,
   CardFormData,
