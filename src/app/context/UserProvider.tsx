@@ -17,73 +17,61 @@ export const useUser = () => {
 
 export const UserProvider = (props: any) => {
   const { data: session } = useSession();
-  const [user, setUser] = useState<LoggedInUser | null>(null);
-  const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | []>([]);
+  const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | null>(null);
 
   useEffect(() => {
-    const loggedInUser = localStorage.getItem("loggedInUser");
+    
     const favSets = localStorage.getItem("favoriteSets");
-    if (loggedInUser) {
-      setUser(JSON.parse(loggedInUser));
-    }
     if (favSets) {
       setFavoriteSets(JSON.parse(favSets));
     }
   }, []);
 
   useEffect(() => {
-    if (session && !user) {
-      getUserInfo()
-        .then((userData) => {
-          setUser(userData);
-          return userData.id;
-        })
-        .then((userId) => {
-          getUserFavorites(userId).then(setFavoriteSets).catch(console.error);
-        });
-    } else if (!session) {
-      clearUserInfo();
+    if (session && !favoriteSets) {
+      getUserFavorites(session?.user.id)
+        .then(setFavoriteSets)
+        .catch(console.error);
+    } else if (!session && favoriteSets) {
+      setFavoriteSets(null);
     }
-  }, [session, user]);
+  }, [session, favoriteSets]);
 
   useEffect(() => {
-    localStorage.setItem("favoriteSets", JSON.stringify(favoriteSets));
+    if (favoriteSets) {
+      localStorage.setItem("favoriteSets", JSON.stringify(favoriteSets));
+    } else {
+      localStorage.removeItem("favoriteSets");
+    }
   }, [favoriteSets]);
 
-  /**
-   * store the userObject in state and local storage
-   * @param {id, username, email} userInfo
-   */
-  const storeUserInfo = (userInfo: User) => {
-    setUser(userInfo);
-    localStorage.setItem("loggedInUser", JSON.stringify(userInfo));
-  };
-
-  const clearUserInfo = () => {
-    setUser(null);
-    localStorage.removeItem("loggedInUser");
-    setFavoriteSets([]);
-    localStorage.removeItem("favoriteSets");
-  };
 
   const addToFavList = (set: Set) => {
     const { id, title, user_id, username, private: isPrivate } = set;
     const newSet = { id, title, user_id, username, private: isPrivate };
-    setFavoriteSets((prev: FavoriteSet[]) => [...prev, newSet]);
+
+    setFavoriteSets((prev: FavoriteSet[] | null) => {
+      if (prev) {
+        return [...prev, newSet];
+      } else {
+        return [newSet];
+      }
+    });
   };
 
   const removeFromFavList = (setId: number) =>
-    setFavoriteSets((prevSet: FavoriteSet[]) =>
-      prevSet.filter((set: FavoriteSet) => set.id !== setId)
-    );
+    setFavoriteSets((prevSet: FavoriteSet[] | null) => {
+      if (prevSet) {
+        return prevSet.filter((set: FavoriteSet) => set.id !== setId);
+      } else {
+        return null;
+      }
+    });
 
   const userData: userContextType = {
-    user,
     favoriteSets,
     addToFavList,
     removeFromFavList,
-    storeUserInfo,
-    clearUserInfo,
   };
 
   return (
