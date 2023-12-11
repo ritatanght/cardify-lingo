@@ -2,8 +2,8 @@
 import { useEffect } from "react";
 import SetItem from "@/app/ui/components/SetItem";
 import useSetsList from "@/app/hooks/useSetsList";
-import { useUser } from "@/app/context/UserProvider";
 import { Set } from "@/app/types/definitions";
+import { useSession } from "next-auth/react";
 
 interface SetListProps {
   from: string;
@@ -11,7 +11,7 @@ interface SetListProps {
 }
 
 export default function Page({ from, setsData }: SetListProps) {
-  const { user } = useUser();
+  const { data: session } = useSession();
   const { sets, setSets, deleteSet } = useSetsList(setsData);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function Page({ from, setsData }: SetListProps) {
     Array.isArray(sets) &&
     sets.filter((set) => {
       if (set.private) {
-        if (user && user.id === set.user_id) return set;
+        if (session && session.user.id === set.user_id) return set;
       } else {
         return set;
       }
