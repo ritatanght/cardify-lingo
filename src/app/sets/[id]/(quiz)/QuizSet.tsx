@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Card } from "@/app/types/definitions";
 import { randomSort } from "@/app/lib/utils";
 import TestRead from "./TestRead";
@@ -14,6 +14,7 @@ interface QuizSetProps {
 const testModeArr = ["read", "listen"];
 
 const QuizSet = ({ cards, voice }: QuizSetProps) => {
+  const timeOutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [question, setQuestion] = useState(0);
   const [message, setMessage] = useState<React.ReactNode>(null);
   const [shuffledCards, setShuffledCards] = useState(randomSort(cards));
@@ -37,11 +38,13 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       const correctSound = new Audio("/correct-sound.mp3");
       correctSound.volume = 0.5;
       correctSound.play();
-      setMessage(
+      setCustomMessage(
         <p className="text-[#228B22] inline-flex items-center">
           <FaCheckCircle aria-hidden="true" className="pr-1 text-2xl" />
           Correct
-        </p>
+        </p>,
+        2,
+        changeQuestion
       );
       setScore((prev) => prev + 1);
     } else {
@@ -49,27 +52,27 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       const wrongSound = new Audio("/wrong-sound.mp3");
       wrongSound.volume = 0.5;
       wrongSound.play();
-      setMessage(
+      setCustomMessage(
         <p className="text-[#C70039] inline-flex items-center">
           <FaCircleXmark aria-hidden="true" className="pr-1 text-2xl" />
           Wrong
-        </p>
+        </p>,
+        2,
+        changeQuestion
       );
     }
-    // change question and set the message back to null
-    setTimeout(() => {
-      setMessage(null);
-      changeQuestion();
-    }, 2000);
   };
 
   const setCustomMessage = (
     messageNode: React.ReactNode,
-    seconds: number = 2
+    seconds: number = 2,
+    customCb?: () => void
   ) => {
+    timeOutRef.current && clearTimeout(timeOutRef.current);
     setMessage(messageNode);
-    setTimeout(() => {
+    timeOutRef.current = setTimeout(() => {
       setMessage(null);
+      customCb && customCb();
     }, seconds * 1000);
   };
 
@@ -100,9 +103,9 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
   };
 
   return (
-    <div className="mt-2 text-center md:mt-6 pb-4 min-h-[250px] relative">
+    <div className="text-center md:mt-6 p-2 pb-4 min-h-[250px] relative">
       <div
-        className={`transition-all duration-300 absolute mb-2 bg-color-3 top-0 inset-x-0 text-xl ${
+        className={`transition-all duration-300 absolute mb-2 p-1.5 bg-color-3 top-0 inset-x-0 text-xl ${
           message ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
         }`}
       >
