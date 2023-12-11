@@ -1,12 +1,13 @@
 import { useState } from "react";
 import CardItem from "./CardItem";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
 import { Card } from "@/app/types/definitions";
 import Confetti from "react-confetti";
-
+import {
+  PiArrowFatLineLeftFill,
+  PiArrowFatLineRightFill,
+  PiArrowFatLinesLeftDuotone,
+} from "react-icons/pi";
 interface CardsProps {
   cards: Card[];
   isSetOwner: boolean;
@@ -66,12 +67,15 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
           <p className={`text-2xl md:text-3xl ${playpen.className}`}>
             Congratulations! You&apos;ve finished the set!
           </p>
-          <div className="card-finish__icons-container absolute left-2 bottom-1 md:left-4 bottom-2">
+          <div className="card-finish__icons-container absolute left-3 bottom-1 md:left-4 bottom-2">
             <button
               className="text-xl flex items-center text-darken-5-100 duration-300 gap-2 transition-transform hover:-translate-x-1.5"
               onClick={resetCard}
             >
-              <FontAwesomeIcon icon={faArrowLeft} />{" "}
+              <PiArrowFatLinesLeftDuotone
+                aria-hidden="true"
+                className="text-2xl"
+              />
               <span>Go back to first card</span>
             </button>
           </div>
@@ -81,27 +85,27 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
       )}
 
       <div
-        className={`flex justify-center items-center text-xl cards-navigation${
+        className={`flex justify-center items-center text-xl my-4 cards-navigation${
           isFinished ? " invisible" : ""
         }`}
       >
         <button
-          className={`text-3xl text-color-5 p-4 hover:text-darken-5-100${
+          className={`text-3xl text-color-5 p-2 rounded-full transition hover:text-white hover:bg-color-5${
             currCard === 1 ? " invisible" : ""
           }`}
           onClick={prevCard}
         >
-          <FontAwesomeIcon icon={faArrowLeft} />
+          <PiArrowFatLineLeftFill />
         </button>
 
-        <span className="tracking-[0.3em] pl-1">
+        <span className="tracking-[0.3em] pl-3 pr-1.5">
           {currCard}/{cards.length}
         </span>
         <button
-          className="text-3xl text-color-5 p-4 hover:text-darken-5-100"
+          className="text-3xl text-color-5 p-2 rounded-full transition hover:text-white hover:bg-color-5"
           onClick={nextCard}
         >
-          <FontAwesomeIcon icon={faArrowRight} />
+          <PiArrowFatLineRightFill />
         </button>
       </div>
     </div>

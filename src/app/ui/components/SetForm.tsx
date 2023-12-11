@@ -6,8 +6,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { createSet, editSet } from "@/app/lib/api";
 import { Listbox, Transition } from "@headlessui/react";
-import { faCheck, faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FaCheck, FaAngleDown } from "react-icons/fa";
 import {
   FullSet,
   CardFormData,
@@ -104,7 +103,6 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
         .catch((err) => {
           if (err.response.status === 401) {
             toast.info(err.response.data.message);
-            clearUserInfo();
             return router.replace("/login");
           } else {
             toast.error(err.response.data.message);
@@ -227,11 +225,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
                       {selectedLanguage || "Select a language"}
                     </span>
                     <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                      <FontAwesomeIcon
-                        icon={faChevronDown}
-                        className="h-5 w-5 text-gray-400"
-                        aria-hidden="true"
-                      />
+                      <FaAngleDown className="text-lg" aria-hidden="true" />
                     </span>
                   </Listbox.Button>
                   <Transition
@@ -264,9 +258,8 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
                               </span>
                               {selected ? (
                                 <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-color-4">
-                                  <FontAwesomeIcon
-                                    icon={faCheck}
-                                    className="h-5 w-5"
+                                  <FaCheck
+                                    className="text-lg"
                                     aria-hidden="true"
                                   />
                                 </span>

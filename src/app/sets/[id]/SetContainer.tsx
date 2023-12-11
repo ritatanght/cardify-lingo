@@ -1,21 +1,22 @@
-"use client";import { useEffect, useState } from "react";
+"use client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/app/context/UserProvider";
 import useFavButton from "@/app/hooks/useFavButton";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faFolderOpen,
-  faHeart as fillHeart,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHeart as emptyHeart } from "@fortawesome/free-regular-svg-icons";
-import "./ViewSet.scss";
+  FaFolderOpen,
+  FaHeart as FillHeart,
+  FaRegHeart as EmptyHeart,
+} from "react-icons/fa";
 import { FullSet } from "@/app/types/definitions";
 import { language_voice_lang, waitForVoices } from "@/app/lib/voicesList";
 import ViewSet from "./(view)/ViewSet";
 import QuizSet from "./(quiz)/QuizSet";
 import Loading from "@/app/loading";
 import { useSession } from "next-auth/react";
+import "./ViewSet.scss";
+import { playpen } from "@/app/ui/fonts";
 
 interface SetContainerProps {
   fullSetData: FullSet;
@@ -74,33 +75,27 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
     <main className="p-3 md:p-0 max-w-4xl mx-auto">
       <Link
         href={`/languages/${set.language_id}`}
-        className="rounded-md text-base transition-all font-bold text-gray-600 hover:bg-color-5 hover:text-white hover:p-1.5 mb-4"
+        className="rounded-md text-base transition-all inline-flex items-center font-bold text-gray-600 hover:bg-color-5 hover:text-white py-1.5 hover:p-1.5 mb-2"
       >
-        <FontAwesomeIcon
-          icon={faFolderOpen}
+        <FaFolderOpen
           className="text-color-2 text-lg mr-1"
+          aria-hidden="true"
         />
         {set.language_name}
       </Link>
-      <section className="flex justify-between items-center gap-2 gap-y-4 my-4 flex-wrap md:mb-6">
+      <section className="flex justify-between items-center gap-2 gap-y-4 mb-4 flex-wrap md:mb-6">
         <h1 className="text-[1.8rem] leading-8 font-bold mb-0 md:text-4xl">
           {set.title}
         </h1>
         {session && (
           <button
-            className="text-3xl inline-block align-middle ml-2"
+            className="text-3xl inline-block align-middle ml-2 text-color-heart transition duration-300 hover:scale-125"
             onClick={() => toggleLike(set)}
           >
             {isLiked ? (
-              <FontAwesomeIcon
-                icon={fillHeart}
-                className="icon-primary heart-icon"
-              />
+              <FillHeart aria-label="Unlike" />
             ) : (
-              <FontAwesomeIcon
-                icon={emptyHeart}
-                className="icon-primary heart-icon"
-              />
+              <EmptyHeart aria-label="Like" />
             )}
           </button>
         )}
@@ -114,7 +109,9 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
       <section className="text-center bg-color-3 rounded-md">
         <div className="border-b-2 border-white">
           <button
-            className={`w-28 rounded px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors ${
+            className={`w-28 rounded px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors text-lg ${
+              playpen.className
+            } ${
               mode === "view"
                 ? "bg-color-4 text-white border-color-2 font-bold hover:border-transparent cursor-default hover:bg-color-4"
                 : "bg-color-3 hover:border-color-2 hover:bg-white"
@@ -124,7 +121,9 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
             View
           </button>{" "}
           <button
-            className={`w-28 rounded px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors ${
+            className={`w-28 rounded px-4 pb-2 pt-3 border-b-4 border-transparent transition-colors text-lg ${
+              playpen.className
+            } ${
               mode === "quiz"
                 ? "bg-color-4 text-white border-color-2 font-bold  hover:border-transparent cursor-default hover:bg-color-4"
                 : "bg-color-3 hover:border-color-2 hover:bg-white"

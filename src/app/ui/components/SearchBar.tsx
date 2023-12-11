@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { FaSearch } from "react-icons/fa";
 import { useSearchParams, useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -28,7 +27,7 @@ export default function SearchBar({ closeMenu }: { closeMenu: () => void }) {
   };
 
   return (
-    <form className="m-0 md:mx-auto">
+    <form className="m-0 md:mx-auto flex">
       <input
         name="query"
         placeholder="Search"
@@ -39,10 +38,10 @@ export default function SearchBar({ closeMenu }: { closeMenu: () => void }) {
         onKeyDown={handleKeyDown}
       />
       <button
-        className="btn rounded-l-none rounded-r-md px-3"
+        className="btn rounded-l-none rounded-r-md px-3 text-lg"
         onClick={handleSearch}
       >
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
+        <FaSearch />
       </button>
     </form>
   );

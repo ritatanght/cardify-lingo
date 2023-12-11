@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { registerUser } from "@/app/lib/api";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { FcGoogle } from "react-icons/fc";
 
 const Register = () => {
   const router = useRouter();
@@ -93,9 +94,10 @@ const Register = () => {
       <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute md:before:bg-gray-50 before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-gray-500"></div>
       <div className="text-center">
         <button
-          className="p-4 ring-1 ring-slate-300 rounded-md font-bold transition bg-white hover:bg-color-3"
+          className="p-4 ring-1 ring-slate-300 rounded-md inline-flex items-center gap-1.5 font-bold transition bg-white hover:shadow-md"
           onClick={() => signIn("google")}
         >
+          <FcGoogle className="text-2xl" aria-hidden="true" />
           Sign up with Google
         </button>
       </div>

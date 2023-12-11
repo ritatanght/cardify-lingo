@@ -1,7 +1,5 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { CardFormData } from "@/app/types/definitions";
-
+import { FaRegTrashCan } from "react-icons/fa6";
 interface CardFormProps {
   card: CardFormData;
   onUpdate: (e: React.BaseSyntheticEvent) => void;
@@ -34,11 +32,10 @@ const CardForm = ({ card, onUpdate, onDelete }: CardFormProps) => {
             onChange={onUpdate}
           />
         </div>
-        <FontAwesomeIcon
-          icon={faTrash}
+        <FaRegTrashCan
           onClick={onDelete}
           aria-label="Remove Card"
-          className="absolute cursor-pointer top-2 right-2 hover:text-gray-600"
+          className="absolute cursor-pointer p-1 rounded transition text-2xl top-0.5 right-1 hover:text-gray-600"
         />
       </div>
     </div>

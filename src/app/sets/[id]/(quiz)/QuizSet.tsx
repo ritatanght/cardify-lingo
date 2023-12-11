@@ -4,11 +4,8 @@ import { randomSort } from "@/app/lib/utils";
 import TestRead from "./TestRead";
 import TestListen from "./TestListen";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCircleCheck,
-  faCircleXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { FaCheckCircle } from "react-icons/fa";
+import { FaCircleXmark } from "react-icons/fa6";
 
 interface QuizSetProps {
   cards: Card[];
@@ -41,12 +38,8 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       correctSound.volume = 0.5;
       correctSound.play();
       setMessage(
-        <p className="text-[#228B22]">
-          <FontAwesomeIcon
-            aria-hidden="true"
-            className="pr-1"
-            icon={faCircleCheck}
-          />
+        <p className="text-[#228B22] inline-flex items-center">
+          <FaCheckCircle aria-hidden="true" className="pr-1 text-2xl" />
           Correct
         </p>
       );
@@ -57,12 +50,8 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
       wrongSound.volume = 0.5;
       wrongSound.play();
       setMessage(
-        <p className="text-[#C70039]">
-          <FontAwesomeIcon
-            aria-hidden="true"
-            className="pr-1 "
-            icon={faCircleXmark}
-          />
+        <p className="text-[#C70039] inline-flex items-center">
+          <FaCircleXmark aria-hidden="true" className="pr-1 text-2xl" />
           Wrong
         </p>
       );

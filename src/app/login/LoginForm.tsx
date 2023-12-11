@@ -1,9 +1,10 @@
 "use client";
+import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 import { signIn } from "next-auth/react";
-import Link from "next/link";
+import { FcGoogle } from "react-icons/fc";
 
 const Login = () => {
   const router = useRouter();
@@ -62,9 +63,10 @@ const Login = () => {
       <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute md:before:bg-gray-50 before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-gray-500"></div>
       <div className="text-center">
         <button
-          className="p-4 ring-1 ring-slate-300 rounded-md font-bold transition bg-white hover:bg-color-3"
+          className="p-4 ring-1 ring-slate-300 rounded-md inline-flex items-center gap-1.5 font-bold transition bg-white hover:shadow-md"
           onClick={() => signIn("google")}
         >
+          <FcGoogle className="text-2xl" aria-hidden="true" />
           Sign in with Google
         </button>
       </div>
