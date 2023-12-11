@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { playpen } from "./ui/fonts";
 import "./ui/Home.scss";
@@ -46,8 +45,8 @@ export default function Home() {
           </h3>
           <p>
             Dive into a world of knowledge with flashcard sets crafted by our
-            community of avid learners. Browse and study from a wide range of
-            topics.
+            vibrant language-learning community. Explore diverse language sets
+            and glean insights from fellow learners to master any language.
           </p>
         </div>
       </div>
