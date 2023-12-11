@@ -33,7 +33,7 @@ export async function PUT(
   if (!session)
     return Response.json({ message: "Please log in first." }, { status: 401 });
 
-  const { setFormData, cardFormData, userId } = await request.json();
+  const { setFormData, cardFormData } = await request.json();
   const { title, description, language_id } = setFormData;
 
   if (!title || !description)
@@ -60,6 +60,7 @@ export async function PUT(
   if (emptyCard)
     return Response.json({ message: "Cards cannot be empty" }, { status: 400 });
   try {
+    const userId = session.user.id;
     // make sure the user who edits the set is the set owner
     const data = await sets.getSetOwnerBySetId(setId);
     if (!data)

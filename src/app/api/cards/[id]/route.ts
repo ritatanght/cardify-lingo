@@ -21,10 +21,11 @@ export async function PUT(
     );
   }
   try {
-    const user = await users.getUserInfoByEmail(session.user?.email);
+    const userId = session.user.id;
+
     // make sure the user who edits the card is the owner
     const data = await cards.getCardOwnerByCardId(cardId);
-    if (data.user_id !== user.id)
+    if (data.user_id !== userId)
       return Response.json(
         { message: "You can only edit your own card." },
         { status: 403 }
