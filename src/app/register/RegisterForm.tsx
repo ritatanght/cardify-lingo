@@ -38,57 +38,68 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-2">
-      <input
-        className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
-        type="email"
-        aria-label="email"
-        placeholder="Enter email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-
-      <label className="mb-3">
+    <>
+      <form onSubmit={handleSubmit} className="mt-2">
         <input
           className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
-          type="text"
-          aria-label="username"
-          placeholder="Enter username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          type="email"
+          aria-label="email"
+          placeholder="Enter email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
           required
         />
-      </label>
 
-      <label className="mb-3">
-        <input
-          className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
-          type="password"
-          aria-label="Password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
+        <label className="mb-3">
+          <input
+            className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
+            type="text"
+            aria-label="username"
+            placeholder="Enter username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+          />
+        </label>
 
-      <label className="mb-3">
-        <input
-          className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
-          type="password"
-          aria-label="Confirm Password"
-          placeholder="Confirm Password"
-          value={confirm}
-          onChange={(e) => setConfirm(e.target.value)}
-          required
-        />
-      </label>
+        <label className="mb-3">
+          <input
+            className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
+            type="password"
+            aria-label="Password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
 
-      <button className="btn" type="submit">
-        Register
-      </button>
-    </form>
+        <label className="mb-3">
+          <input
+            className="block p-2 border-2 mb-4 w-full rounded-md border-color-3  outline-gray-500"
+            type="password"
+            aria-label="Confirm Password"
+            placeholder="Confirm Password"
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
+            required
+          />
+        </label>
+
+        <button className="btn" type="submit">
+          Register
+        </button>
+      </form>
+      <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-slate-300"></div>
+      <div className="text-center">
+        <button
+          className="p-4 ring-1 ring-slate-300 rounded-md font-bold transition hover:bg-color-3"
+          onClick={() => signIn("google")}
+        >
+          Sign up with Google
+        </button>
+      </div>
+    </>
   );
 };
 
