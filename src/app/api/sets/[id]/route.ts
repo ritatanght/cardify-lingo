@@ -2,6 +2,7 @@ const sets = require("@/../db/queries/sets");
 const cards = require("@/../db/queries/cards");
 import { Card } from "@/app/types/definitions";
 import { auth } from "../../../../../auth";
+
 // Get the sets and cards for ViewSets and EditSet
 export async function GET(
   request: Request,
@@ -97,11 +98,11 @@ export async function DELETE(
 ) {
   const session = await auth();
   const setId = params.id;
-  const { userId } = await request.json();
 
   // make sure the user is logged-in
   if (!session)
     return Response.json({ message: "Please log in first." }, { status: 401 });
+  const userId = session?.user.id;
 
   try {
     // make sure the user who deletes the set is the set owner
