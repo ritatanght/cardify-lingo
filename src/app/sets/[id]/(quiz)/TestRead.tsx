@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Card } from "@/app/types/definitions";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
-
 interface TestRead {
   card: Card;
   endQuestion: (correct: boolean) => void;
-  setCustomMessage: (messageNode: React.ReactNode) => void;
+  setCustomMessage: (
+    messageNode: React.ReactNode,
+    seconds: number,
+    customCb?: () => void
+  ) => void;
   handleSkip: () => void;
 }
 
@@ -25,7 +28,8 @@ const TestRead = ({
       return setCustomMessage(
         <p className="bg-white font-bold text-color-1 text-lg ring-1 ring-color-1 rounded-md inline px-2 py-1">
           You have not typed in an answer
-        </p>
+        </p>,
+        2
       );
     if (questionSide === "front") {
       endQuestion(answer.toLowerCase() === card.back.toLowerCase());
@@ -33,6 +37,12 @@ const TestRead = ({
       endQuestion(answer.toLowerCase() === card.front.toLowerCase());
     }
     setAnswer("");
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      checkAnswer();
+    }
   };
 
   return (
@@ -53,6 +63,8 @@ const TestRead = ({
         className="block mx-auto my-4 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
+        onKeyDown={handleKeyDown}
+        autoFocus
       />
       <button className="btn" onClick={checkAnswer}>
         Submit Answer

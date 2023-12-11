@@ -1,12 +1,15 @@
 import { HiVolumeUp } from "react-icons/hi";
-
 import React, { useState } from "react";
 import { Card } from "@/app/types/definitions";
 interface TestListenProps {
   card: Card;
   endQuestion: (correct: boolean) => void;
   speakText: () => void;
-  setCustomMessage: (messageNode: React.ReactNode) => void;
+  setCustomMessage: (
+    messageNode: React.ReactNode,
+    seconds: number,
+    customCb?: () => void
+  ) => void;
   handleSkip: () => void;
 }
 
@@ -25,7 +28,7 @@ const TestListen = ({
         <p className="bg-white font-bold text-color-1 text-lg ring-1 ring-color-1 rounded-md inline px-2 py-1">
           You have not typed in an answer
         </p>
-      );
+      ,2);
     if (answer.toLowerCase() === card.front.toLowerCase()) {
       endQuestion(true);
     } else {
@@ -33,11 +36,18 @@ const TestListen = ({
     }
     setAnswer("");
   };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter") {
+      checkAnswer();
+    }
+  };
+
   return (
     <>
       <p className="text-2xl">What does this mean in your language?</p>
       <button
-        className="text-3xl text-color-1 transition-colors hover:text-gray-500"
+        className="text-3xl text-color-1 transition-colors mt-2 hover:text-gray-500"
         onClick={speakText}
         aria-label="Play speech"
       >
@@ -47,6 +57,8 @@ const TestListen = ({
         className="block mx-auto my-4 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
+        onKeyDown={handleKeyDown}
+        autoFocus
       />
       <button className="btn" onClick={checkAnswer}>
         Submit Answer
