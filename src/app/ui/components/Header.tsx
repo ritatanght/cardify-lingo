@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,11 +12,12 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "../Header.scss";
 import "react-toastify/dist/ReactToastify.css";
-import { useUser } from "@/app/context/UserProvider";
+
 import { Language } from "../../types/definitions";
 import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -26,8 +27,8 @@ interface HeaderProps {
 }
 
 export default function Header({ languages }: HeaderProps) {
+  const { data: session } = useSession();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user } = useUser();
 
   return (
     <header className="px-4 md:px-6 bg-color-3">
@@ -129,13 +130,13 @@ export default function Header({ languages }: HeaderProps) {
 
             <SearchBar closeMenu={() => setIsMenuOpen(false)} />
 
-            {user ? (
+            {session ? (
               <div className="flex justify-center items-center">
                 <Link
                   className="p-0 text-xl transition-transform duration-300 hover:-translate-y-1 text-darken-5-200"
                   href="/profile"
                 >
-                  <strong className="mr-1">{user.name}</strong>
+                  <strong className="mr-1">{session.user.name}</strong>
                   <FontAwesomeIcon icon={faUser} />
                 </Link>
 
