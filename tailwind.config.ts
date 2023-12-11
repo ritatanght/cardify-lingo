@@ -14,6 +14,7 @@ const config: Config = {
       "color-5": "#5da2d5",
       "darken-5-100": "#358bcb",
       "darken-5-200": "#25618e",
+      "color-heart": "#e7525b",
     },
     extend: {
       colors: {
