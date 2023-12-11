@@ -3,12 +3,7 @@ import { roboto } from "./ui/fonts";
 import Providers from "./providers";
 import Header from "./ui/components/Header";
 import { getAllLanguages } from "./lib/api";
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import "./globals.scss";
-import { auth } from "../../auth";
-
-config.autoAddCss = false;
 
 export const metadata: Metadata = {
   title: "Cardify",

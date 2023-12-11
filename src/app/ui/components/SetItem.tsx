@@ -41,14 +41,12 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
               className="text-gray-600 hover:text-gray-500"
             >
               <FaRegTrashCan className="icon-primary" />
-              {/* <FontAwesomeIcon icon={faTrashCan} className="icon-primary" /> */}
             </button>
             <Link
               href={`/sets/edit/${set.id}`}
               className="text-2xl ml-3 text-gray-600 hover:text-gray-500"
             >
               <FiEdit />
-              {/* <FontAwesomeIcon icon={faPenToSquare} className="icon-primary" /> */}
             </Link>
           </div>
         ) : (
