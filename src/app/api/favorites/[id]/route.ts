@@ -21,9 +21,13 @@ export async function POST(
   { params }: { params: { id: string } }
 ) {
   const setId = params.id;
-  const { userId } = await request.json();
-  console.log(userId);
   try {
+    const session = await auth();
+
+    if (!session)
+      return Response.json({ message: "Login to like a set" }, { status: 400 });
+    const userId = session?.user.id;
+
     await favorites.addFavoriteByUserAndSet(userId, setId);
     return Response.json("success", { status: 201 });
   } catch (err) {
@@ -37,10 +41,17 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   const setId = params.id;
-  const { userId } = await request.json();
+
   try {
+    const session = await auth();
+
+    if (!session)
+      return Response.json({ message: "Login to unlike a set" }, { status: 400 });
+    const userId = session?.user.id;
+    
     await favorites.removeFavoriteByUserAndSet(userId, setId);
     return Response.json("success", { status: 200 });
+
   } catch (err) {
     console.log(err);
     return Response.json(
