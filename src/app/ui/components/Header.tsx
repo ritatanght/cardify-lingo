@@ -2,13 +2,9 @@
 import Image from "next/image";
 import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faUser,
-  faBars,
-  faCaretDown,
-  faXmark,
-} from "@fortawesome/free-solid-svg-icons";
+import { FaUser, FaCaretDown } from "react-icons/fa";
+import { FiMenu } from "react-icons/fi";
+import { IoClose } from "react-icons/io5";
 import { Language } from "../../types/definitions";
 import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
@@ -61,8 +57,7 @@ export default function Header({ languages }: HeaderProps) {
           >
             <Menu.Button className="inline-flex w-full justify-center items-center gap-x-0.5 rounded-md px-3 pb-4 pt-5 text-sm font-bold text-gray-600">
               Languages
-              <FontAwesomeIcon
-                icon={faCaretDown}
+              <FaCaretDown
                 className="-mr-1 h-5 w-5 text-gray-400 scale-75"
                 aria-hidden="true"
               />
@@ -104,11 +99,11 @@ export default function Header({ languages }: HeaderProps) {
 
         <div className="md:grow">
           <button
-            className="btn menu block md:hidden px-3 transition-colors duration-300 hover:bg-color-1"
+            className="btn menu block md:hidden px-2 transition duration-300 hover:bg-color-1"
             aria-label="Open menu"
             onClick={() => setIsMenuOpen(true)}
           >
-            <FontAwesomeIcon icon={faBars} />
+            <FiMenu />
           </button>
           <div
             className={`nav-menu shadow-[-2px_0_10px_rgba(0,0,0,0.3)] md:shadow-none bg-color-3 fixed flex grow flex-col gap-6 justify-start md:flex-row md:static md:justify-between inset-y-0 right-0 left-auto z-10 p-6 md:p-0 transition-transform duration-300 ${
@@ -119,10 +114,10 @@ export default function Header({ languages }: HeaderProps) {
           >
             <button
               aria-label="Close menu"
-              className="block text-left md:hidden"
+              className="text-left text-xl md:hidden"
               onClick={() => setIsMenuOpen(false)}
             >
-              <FontAwesomeIcon icon={faXmark} />
+              <IoClose />
             </button>
 
             <SearchBar closeMenu={() => setIsMenuOpen(false)} />
@@ -130,11 +125,11 @@ export default function Header({ languages }: HeaderProps) {
             {session ? (
               <div className="flex justify-center items-center">
                 <Link
-                  className="p-0 text-xl transition-transform duration-300 hover:-translate-y-1 text-darken-5-200"
+                  className="p-0 text-xl transition-transform duration-300 hover:-translate-y-1 text-darken-5-200 flex items-center gap-1"
                   href="/profile"
                 >
-                  <strong className="mr-1">{session.user.name}</strong>
-                  <FontAwesomeIcon icon={faUser} />
+                  <strong>{session.user.name}</strong>
+                  <FaUser />
                 </Link>
 
                 <button
