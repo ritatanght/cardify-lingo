@@ -1,4 +1,5 @@
-import { Session } from "next-auth";export type User = {
+import { Session } from "next-auth";
+export type User = {
   id: string;
   username: string;
   email: string;
@@ -67,10 +68,7 @@ export type FavoriteSet = Omit<
 >;
 
 export interface userContextType {
-  user: LoggedInUser | null;
-  favoriteSets: [] | FavoriteSet[];
+  favoriteSets: FavoriteSet[] | null;
   addToFavList: (set: any) => void;
   removeFromFavList: (setId: number) => void;
-  storeUserInfo: (userInfo: User) => void;
-  clearUserInfo: () => void;
 }
