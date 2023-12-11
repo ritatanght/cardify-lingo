@@ -49,20 +49,20 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button type="submit" className="btn">
-          Login
+        <button type="submit" className="btn px-6">
+          Submit
         </button>
       </form>
-      <p className="mt-4">
+      <p className="mt-4 text-center">
         Don&apos;t have an account?{" "}
         <Link className="text-darken-5-200 hover:underline" href="/register">
           Register
         </Link>
       </p>
-      <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-slate-300"></div>
+      <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute md:before:bg-gray-50 before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-gray-500"></div>
       <div className="text-center">
         <button
-          className="p-4 ring-1 ring-slate-300 rounded-md transition hover:bg-color-3"
+          className="p-4 ring-1 ring-slate-300 rounded-md font-bold transition bg-white hover:bg-color-3"
           onClick={() => signIn("google")}
         >
           Sign in with Google

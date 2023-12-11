@@ -86,14 +86,14 @@ const Register = () => {
           />
         </label>
 
-        <button className="btn" type="submit">
-          Register
+        <button className="btn px-6" type="submit">
+          Submit
         </button>
       </form>
-      <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-slate-300"></div>
+      <div className="relative my-6 border-b-2 border-slate-300 before:content-['OR'] before:absolute md:before:bg-gray-50 before:left-[47%] before:-top-5 before:bg-white before:p-2 before:text-gray-500"></div>
       <div className="text-center">
         <button
-          className="p-4 ring-1 ring-slate-300 rounded-md font-bold transition hover:bg-color-3"
+          className="p-4 ring-1 ring-slate-300 rounded-md font-bold transition bg-white hover:bg-color-3"
           onClick={() => signIn("google")}
         >
           Sign up with Google
