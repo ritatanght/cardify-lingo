@@ -80,8 +80,8 @@ export const editSet = (
   return instance.put(`/api/sets/${setId}`, updatedSetInfo);
 };
 
-export const deleteSetById = (setId: number, userId: string) => {
-  return instance.delete(`/api/sets/${setId}`, { data: { userId } });
+export const deleteSetById = (setId: number) => {
+  return instance.delete(`/api/sets/${setId}`);
 };
 
 /* --- Card --- */
