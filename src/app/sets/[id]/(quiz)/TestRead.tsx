@@ -1,16 +1,14 @@
-import { Card } from "@/app/types/definitions";
-import {
-  faQuoteLeft,
-  faQuoteRight,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
+import { Card } from "@/app/types/definitions";
+import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
+
 interface TestRead {
   card: Card;
   endQuestion: (correct: boolean) => void;
   setCustomMessage: (messageNode: React.ReactNode) => void;
   handleSkip: () => void;
 }
+
 const TestRead = ({
   card,
   endQuestion,
@@ -41,14 +39,14 @@ const TestRead = ({
     <>
       <p className="text-2xl">
         What is the translation of{" "}
-        <FontAwesomeIcon
-          className="align-top text-sm text-gray-500 px-1"
-          icon={faQuoteLeft}
+        <BiSolidQuoteAltLeft
+          className="align-top text-sm text-gray-500 px-1 inline text-xl"
+          aria-hidden="true"
         />
         {card[questionSide]}
-        <FontAwesomeIcon
-          className="align-top text-sm text-gray-500 px-1"
-          icon={faQuoteRight}
+        <BiSolidQuoteAltRight
+          className="align-top text-sm text-gray-500 px-1 inline text-xl"
+          aria-hidden="true"
         />
       </p>
       <input

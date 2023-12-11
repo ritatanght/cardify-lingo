@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeHigh } from "@fortawesome/free-solid-svg-icons";
+import { HiVolumeUp } from "react-icons/hi";
 
 import React, { useState } from "react";
 import { Card } from "@/app/types/definitions";
@@ -36,12 +35,13 @@ const TestListen = ({
   };
   return (
     <>
-      <p>What does this mean in your language?</p>
+      <p className="text-2xl">What does this mean in your language?</p>
       <button
-        className="text-2xl text-color-1 transition-colors hover:text-gray-500"
+        className="text-3xl text-color-1 transition-colors hover:text-gray-500"
         onClick={speakText}
+        aria-label="Play speech"
       >
-        <FontAwesomeIcon icon={faVolumeHigh} />
+        <HiVolumeUp />
       </button>
       <input
         className="block mx-auto my-4 p-2 rounded"

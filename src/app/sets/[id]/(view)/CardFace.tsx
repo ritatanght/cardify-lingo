@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faVolumeHigh, faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { playpen } from "@/app/ui/fonts";
+import { HiVolumeUp } from "react-icons/hi";
+import { GrEdit } from "react-icons/gr";
 
 interface CardFaceProps {
   position: string;
@@ -50,22 +50,24 @@ const CardFace = ({
     >
       <div
         className={
-          "card__icons-container absolute top-1 right-1 md:top-2 md:right-2"
+          "card__icons-container flex items-center absolute top-1 right-1 md:top-2 md:right-2"
         }
       >
         {isSetOwner && (
           <button
-            className={`p-2 md:p-4 text-2xl md:text-3xl transition-colors duration-300 ${style.textColor}`}
+            className={`p-2 md:p-4 text-xl md:text-2xl transition-colors duration-300 ${style.textColor}`}
+            aria-label="Edit card"
             onClick={handleCardEdit}
           >
-            <FontAwesomeIcon icon={faPenToSquare} />
+            <GrEdit />
           </button>
         )}
         <button
           className={`p-2 md:p-4 text-2xl md:text-3xl transition-colors duration-300 ${style.textColor}`}
+          aria-label="Text to speech"
           onClick={speakText}
         >
-          <FontAwesomeIcon icon={faVolumeHigh} />
+          <HiVolumeUp />
         </button>
       </div>
       <p
