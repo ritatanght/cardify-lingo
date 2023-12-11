@@ -1,8 +1,0 @@
-@use "./variables" as var;
-
-.login-btn {
-  background-color: darken(var.$color-2, 15);
-  &:hover {
-    background-color: darken(var.$color-2, 25);
-  }
-}

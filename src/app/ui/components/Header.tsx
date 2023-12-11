@@ -1,7 +1,6 @@
-"use client";
-import Link from "next/link";
+"use client";import Link from "next/link";
 import Image from "next/image";
-import { useState, useEffect, Fragment } from "react";
+import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,14 +9,12 @@ import {
   faCaretDown,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import "../Header.scss";
-import "react-toastify/dist/ReactToastify.css";
-
 import { Language } from "../../types/definitions";
 import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import "react-toastify/dist/ReactToastify.css";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -149,7 +146,10 @@ export default function Header({ languages }: HeaderProps) {
               </div>
             ) : (
               <div className="flex justify-center items-center">
-                <Link className="btn login-btn" href="/login">
+                <Link
+                  className="btn bg-[#e7bb10] hover:bg-[#b7940d]"
+                  href="/login"
+                >
                   Login
                 </Link>
                 <Link href="/register" className="btn ml-4">
