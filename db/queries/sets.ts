@@ -1,7 +1,7 @@
 import { Set } from "@/app/types/definitions";
 import db from "../db.config";
 
-const postSetData = (setData: Set) => {
+export const postSetData = (setData: Set) => {
   const query = `
   INSERT INTO lang_sets (title, description, private, language_id, user_id)
   VALUES ($1, $2, $3, $4, $5) RETURNING id;
@@ -17,7 +17,7 @@ const postSetData = (setData: Set) => {
     .then((data) => data.rows[0]);
 };
 
-const updateSetData = (setData: Set) => {
+export const updateSetData = (setData: Set) => {
   const query = `
   UPDATE lang_sets
   SET title = $1,
@@ -39,7 +39,7 @@ const updateSetData = (setData: Set) => {
     .then((data) => data.rows[0]);
 };
 
-const getSetsByUserId = (userId: string) => {
+export const getSetsByUserId = (userId: string) => {
   const query = `
     SELECT lang_sets.*
     FROM lang_sets
@@ -50,7 +50,7 @@ const getSetsByUserId = (userId: string) => {
   return db.query(query, [userId]).then((data) => data.rows);
 };
 
-const getSetInfoById = (setId: string) => {
+export const getSetInfoById = (setId: string) => {
   return db
     .query(
       `
@@ -65,7 +65,7 @@ const getSetInfoById = (setId: string) => {
     .then((data) => data.rows[0]);
 };
 
-const getSetsByLanguageId = (languageId: string) => {
+export const getSetsByLanguageId = (languageId: string) => {
   return db
     .query(
       `
@@ -79,7 +79,7 @@ const getSetsByLanguageId = (languageId: string) => {
     .then((data) => data.rows);
 };
 
-const getSetOwnerBySetId = (setId: string) => {
+export const getSetOwnerBySetId = (setId: string) => {
   return db
     .query(
       `
@@ -91,7 +91,7 @@ const getSetOwnerBySetId = (setId: string) => {
     .then((data) => data.rows[0]);
 };
 
-const setSetToDeleted = (setId: string) => {
+export const setSetToDeleted = (setId: string) => {
   const query = `
    UPDATE lang_sets
    SET deleted = true
@@ -99,14 +99,4 @@ const setSetToDeleted = (setId: string) => {
   `;
 
   return db.query(query, [setId]);
-};
-
-module.exports = {
-  postSetData,
-  updateSetData,
-  getSetsByUserId,
-  getSetInfoById,
-  getSetsByLanguageId,
-  getSetOwnerBySetId,
-  setSetToDeleted,
 };
