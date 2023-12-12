@@ -1,36 +1,19 @@
-"use client";
-import { useEffect, useState } from "react";
-import SetItem from "@/app/ui/components/SetItem";
+"use client";import SetItem from "@/app/ui/components/SetItem";
 import useSetsList from "@/app/hooks/useSetsList";
 import { useUser } from "@/app/context/UserProvider";
 import { Tab } from "@headlessui/react";
-import { getUserSets } from "@/app/lib/api";
-import Loading from "../loading";
 import { playpen } from "../ui/fonts";
-import { FavoriteSet } from "../types/definitions";
+import { FavoriteSet, Set } from "../types/definitions";
 
-const Profile = () => {
+const Profile = ({ userSets }: { userSets: Set[] }) => {
   const { favoriteSets } = useUser();
-  const { sets, setSets, deleteSet } = useSetsList();
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    setIsLoading(true);
-    getUserSets()
-      .then(setSets)
-      .catch((err) => console.log(err))
-      .finally(() => setIsLoading(false));
-  }, [setSets]);
+  const { sets, deleteSet } = useSetsList(userSets);
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(" ");
   }
 
   const tabs = ["My Set", "Favorite Sets"];
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   return (
     <Tab.Group>
