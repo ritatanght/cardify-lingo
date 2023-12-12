@@ -5,6 +5,7 @@ import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { toast } from "react-toastify";
 
 interface TestRead {
   card: Card;
@@ -36,8 +37,23 @@ const TestRead = ({
     },
   ];
 
-  const { transcript, listening, browserSupportsSpeechRecognition } =
-    useSpeechRecognition({ commands });
+  const {
+    transcript,
+    listening,
+    browserSupportsSpeechRecognition,
+    isMicrophoneAvailable,
+  } = useSpeechRecognition({ commands });
+
+  const handleSpeechFunction = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (!isMicrophoneAvailable) {
+      toast.error("Microphone access is needed");
+    }
+    return questionSide === "front"
+      ? SpeechRecognition.startListening({ language: languageCode })
+      : SpeechRecognition.startListening({ language: "en-US" });
+  };
 
   const submitAnswer = () => {
     if (!answer)
@@ -88,11 +104,7 @@ const TestRead = ({
         <>
           <button
             aria-label="Start Listening"
-            onClick={(e) =>
-              questionSide === "front"
-                ? SpeechRecognition.startListening({ language: languageCode })
-                : SpeechRecognition.startListening({ language: "en-US" })
-            }
+            onClick={handleSpeechFunction}
             className={`text-2xl p-2 align-middle ${
               listening ? " text-color-1 animate-bounce" : " text-gray-500"
             }`}
