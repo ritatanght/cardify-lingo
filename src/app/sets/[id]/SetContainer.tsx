@@ -144,7 +144,11 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
           />
         )}
         {mode === "quiz" && userVoice && (
-          <QuizSet cards={cards} voice={languageVoice || userVoice} />
+          <QuizSet
+            cards={cards}
+            voice={languageVoice || userVoice}
+            languageCode={languageCode}
+          />
         )}
       </section>
       {/* Footer with set info */}
