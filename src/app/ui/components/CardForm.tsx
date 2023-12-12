@@ -4,9 +4,15 @@ interface CardFormProps {
   card: CardFormData;
   onUpdate: (e: React.BaseSyntheticEvent) => void;
   onDelete: () => void;
+  selectedLanguage: string;
 }
 
-const CardForm = ({ card, onUpdate, onDelete }: CardFormProps) => {
+const CardForm = ({
+  card,
+  onUpdate,
+  onDelete,
+  selectedLanguage,
+}: CardFormProps) => {
   return (
     <div className="card-container">
       <div className="flex w-full border-2 border-color-3 rounded-md mb-4 relative">
@@ -20,6 +26,7 @@ const CardForm = ({ card, onUpdate, onDelete }: CardFormProps) => {
             className="p-2 w-full"
             value={card.front}
             onChange={onUpdate}
+            placeholder="English"
           />
         </div>
         <div className="grow bg-color-4 rounded-md p-1">
@@ -30,6 +37,7 @@ const CardForm = ({ card, onUpdate, onDelete }: CardFormProps) => {
             className="p-2 w-full"
             value={card.back}
             onChange={onUpdate}
+            placeholder={selectedLanguage}
           />
         </div>
         <FaRegTrashCan

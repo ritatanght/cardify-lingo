@@ -294,6 +294,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
                 card={card}
                 onUpdate={(e) => handleCardUpdate(index, e)}
                 onDelete={() => handleCardDelete(index)}
+                selectedLanguage={selectedLanguage}
               />
             )
         )}
