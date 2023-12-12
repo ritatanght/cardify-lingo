@@ -1,6 +1,12 @@
+import { useState } from "react";
 import { HiVolumeUp } from "react-icons/hi";
-import React, { useState } from "react";
+import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+
 import { Card } from "@/app/types/definitions";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+
 interface TestListenProps {
   card: Card;
   endQuestion: (correct: boolean) => void;
@@ -21,14 +27,24 @@ const TestListen = ({
   handleSkip,
 }: TestListenProps) => {
   const [answer, setAnswer] = useState("");
+  const commands = [
+    {
+      command: card.front,
+      callback: () => endQuestion(true),
+    },
+  ];
 
-  const checkAnswer = () => {
+  const { transcript, listening, browserSupportsSpeechRecognition } =
+    useSpeechRecognition({ commands });
+
+  const submitAnswer = () => {
     if (!answer)
       return setCustomMessage(
         <p className="bg-white font-bold text-color-1 text-lg ring-1 ring-color-1 rounded-md inline px-2 py-1">
           You have not typed in an answer
-        </p>
-      ,2);
+        </p>,
+        2
+      );
     if (answer.toLowerCase() === card.front.toLowerCase()) {
       endQuestion(true);
     } else {
@@ -39,7 +55,7 @@ const TestListen = ({
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
-      checkAnswer();
+      submitAnswer();
     }
   };
 
@@ -60,7 +76,24 @@ const TestListen = ({
         onKeyDown={handleKeyDown}
         autoFocus
       />
-      <button className="btn" onClick={checkAnswer}>
+      {/* Speech Recognition Button */}
+      {browserSupportsSpeechRecognition && (
+        <>
+        <button
+          aria-label="Start Listening"
+          onClick={(e) =>
+            SpeechRecognition.startListening({ language: "en-US" })
+          }
+          className={`text-2xl p-2 align-middle ${
+            listening ? " text-color-1 animate-bounce" : " text-gray-500"
+          }`}
+          >
+          {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
+        </button>
+          <p className="hidden">{transcript}</p>
+          </>
+      )}
+      <button className="btn" onClick={submitAnswer}>
         Submit Answer
       </button>
       <button
