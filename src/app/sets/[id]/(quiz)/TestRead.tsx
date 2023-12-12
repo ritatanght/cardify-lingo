@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { Card } from "@/app/types/definitions";
+import { useState } from "react";import { Card } from "@/app/types/definitions";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import SpeechRecognition, {
@@ -48,7 +47,7 @@ const TestRead = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (!isMicrophoneAvailable) {
-      toast.error("Microphone access is needed");
+      toast.info("Microphone access is needed");
     }
     return questionSide === "front"
       ? SpeechRecognition.startListening({ language: languageCode })

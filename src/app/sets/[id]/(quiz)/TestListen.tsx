@@ -46,7 +46,7 @@ const TestListen = ({
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     if (!isMicrophoneAvailable) {
-      toast.error("Microphone access is needed");
+      toast.info("Microphone access is needed");
     }
     return SpeechRecognition.startListening({ language: "en-US" });
   };
