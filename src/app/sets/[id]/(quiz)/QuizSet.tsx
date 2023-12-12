@@ -4,7 +4,7 @@ import { randomSort } from "@/app/lib/utils";
 import TestRead from "./TestRead";
 import TestListen from "./TestListen";
 import { toast } from "react-toastify";
-import { FaCheckCircle, FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+import { FaCheckCircle, FaMicrophone } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 
 interface QuizSetProps {
