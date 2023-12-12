@@ -139,7 +139,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
       )}
       {testMode === "read" && (
         <>
-          <h3 className="text-2xl">Q{question + 1}:</h3>
+          <h3 className="text-2xl mb-1">Q{question + 1}:</h3>
           <TestRead
             card={shuffledCards[question]}
             endQuestion={endQuestion}
@@ -151,7 +151,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
       )}
       {testMode === "listen" && (
         <>
-          <h3 className="text-2xl">Q{question + 1}:</h3>
+          <h3 className="text-2xl mb-1">Q{question + 1}:</h3>
           <TestListen
             card={shuffledCards[question]}
             speakText={speakText}
