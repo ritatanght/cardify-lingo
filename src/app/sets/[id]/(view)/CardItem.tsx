@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";import CardFace from "./CardFace";
+import { useEffect, useState } from "react";
+import CardFace from "./CardFace";
 
 interface CardItemProps {
   front: string;
@@ -7,8 +8,8 @@ interface CardItemProps {
   seq: number;
   isSetOwner: boolean;
   voices: {
-    userVoice: SpeechSynthesisVoice;
-    languageVoice: SpeechSynthesisVoice;
+    userVoice: SpeechSynthesisVoice | null;
+    languageVoice: SpeechSynthesisVoice | null;
   };
   onEdit: () => void;
 }

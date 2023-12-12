@@ -9,7 +9,7 @@ import { FaCircleXmark } from "react-icons/fa6";
 
 interface QuizSetProps {
   cards: Card[];
-  voice: SpeechSynthesisVoice;
+  voice: SpeechSynthesisVoice | null;
   languageCode: string;
 }
 const testModeArr = ["read", "listen"];
@@ -23,8 +23,13 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const [testMode, setTestMode] = useState("start");
 
   // set the testMode to either read or listen randomly
-  const generateTestMode = () =>
-    setTestMode(Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]);
+  const generateTestMode = () => {
+    if (voice) {
+      setTestMode(Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]);
+    } else {
+      setTestMode("read");
+    }
+  };
   const resetQuiz = () => {
     setQuestion(0);
     setScore(0);
@@ -90,7 +95,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const speakText = () => {
     const synth = window.speechSynthesis;
     if (!synth)
-      return toast.error("Your browser does not support Speech Synthesis");
+      return toast.info("Your browser does not support Speech Synthesis");
     const utterance = new SpeechSynthesisUtterance(
       shuffledCards[question].back
     );
