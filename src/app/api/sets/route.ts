@@ -24,7 +24,7 @@ export async function GET(request: Request) {
 // creating a set
 export async function POST(request: Request) {
   const session = await auth();
-  const userId = session?.user.id
+  const userId = session?.user.id;
 
   const { setFormData, cardFormData } = await request.json();
   const { title, description, language_id } = setFormData;
@@ -58,14 +58,14 @@ export async function POST(request: Request) {
 
   try {
     const set = await sets.postSetData({ ...setFormData, user_id: userId });
-    const setId = set.id;
+
     // get the id returned from creating the set to create the cards
     const cardDataWithSetId = cardFormData.map((card: Card) => ({
       ...card,
-      setId,
+      set_id: set.id,
     }));
 
-     await cards.postCardsData(cardDataWithSetId);
+    await cards.postCardsData(cardDataWithSetId);
 
     return Response.json(
       {
