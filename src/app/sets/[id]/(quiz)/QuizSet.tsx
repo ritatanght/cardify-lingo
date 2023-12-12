@@ -95,7 +95,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const speakText = () => {
     const synth = window.speechSynthesis;
     if (!synth)
-      return toast.error("Your browser does not support Speech Synthesis");
+      return toast.info("Your browser does not support Speech Synthesis");
     const utterance = new SpeechSynthesisUtterance(
       shuffledCards[question].back
     );

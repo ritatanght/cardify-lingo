@@ -6,6 +6,7 @@ import { Card } from "@/app/types/definitions";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
+import { toast } from "react-toastify";
 
 interface TestListenProps {
   card: Card;
@@ -34,8 +35,21 @@ const TestListen = ({
     },
   ];
 
-  const { transcript, listening, browserSupportsSpeechRecognition } =
-    useSpeechRecognition({ commands });
+  const {
+    transcript,
+    listening,
+    browserSupportsSpeechRecognition,
+    isMicrophoneAvailable,
+  } = useSpeechRecognition({ commands });
+
+  const handleSpeechFunction = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    if (!isMicrophoneAvailable) {
+      toast.info("Microphone access is needed");
+    }
+    return SpeechRecognition.startListening({ language: "en-US" });
+  };
 
   const submitAnswer = () => {
     if (!answer)
@@ -79,19 +93,17 @@ const TestListen = ({
       {/* Speech Recognition Button */}
       {browserSupportsSpeechRecognition && (
         <>
-        <button
-          aria-label="Start Listening"
-          onClick={(e) =>
-            SpeechRecognition.startListening({ language: "en-US" })
-          }
-          className={`text-2xl p-2 align-middle ${
-            listening ? " text-color-1 animate-bounce" : " text-gray-500"
-          }`}
+          <button
+            aria-label="Start Listening"
+            onClick={handleSpeechFunction}
+            className={`text-2xl p-2 align-middle ${
+              listening ? " text-color-1 animate-bounce" : " text-gray-500"
+            }`}
           >
-          {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
-        </button>
+            {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
+          </button>
           <p className="hidden">{transcript}</p>
-          </>
+        </>
       )}
       <button className="btn" onClick={submitAnswer}>
         Submit Answer
