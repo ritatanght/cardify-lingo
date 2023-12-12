@@ -6,11 +6,10 @@ import { Set } from "@/app/types/definitions";
 import { useSession } from "next-auth/react";
 
 interface SetListProps {
-  from: string;
   setsData: Set[];
 }
 
-export default function Page({ from, setsData }: SetListProps) {
+export default function Page({ setsData }: SetListProps) {
   const { data: session } = useSession();
   const { sets, setSets, deleteSet } = useSetsList(setsData);
 
@@ -40,17 +39,5 @@ export default function Page({ from, setsData }: SetListProps) {
       />
     ));
 
-  return (
-    <>
-      {displaySet && displaySet.length === 0 ? (
-        from === "language" ? (
-          <h2>There are currently no sets in this language.</h2>
-        ) : (
-          <h2>~ No set found matching your query ~</h2>
-        )
-      ) : (
-        <section>{setsElements}</section>
-      )}
-    </>
-  );
+  return <>{displaySet && <section>{setsElements}</section>}</>;
 }
