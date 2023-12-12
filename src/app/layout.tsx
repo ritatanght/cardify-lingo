@@ -1,7 +1,8 @@
-import type { Metadata } from "next";import { roboto } from "./ui/fonts";
+import type { Metadata } from "next";
+import { roboto } from "./ui/fonts";
 import Providers from "./providers";
 import Header from "./ui/components/Header";
-import { getAllLanguages } from "./lib/api";
+import { getAllLanguages } from "@/../db/queries/languages";
 import "./globals.scss";
 
 export const metadata: Metadata = {

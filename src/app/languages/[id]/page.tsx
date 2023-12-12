@@ -1,32 +1,28 @@
-import { getLanguageById } from "@/app/lib/api";
-import { Language, Set } from "@/app/types/definitions";
-import { AxiosError, isAxiosError } from "axios";
+import { getLanguageById } from "@/../db/queries/languages";
+import { getSetsByLanguageId } from "@/../db/queries/sets";
 import { notFound } from "next/navigation";
 import SetList from "@/app/ui/components/SetList";
 
-type languageData = {
-  language: Language["name"];
-  sets: Set[];
-};
-
 export default async function Page({ params }: { params: { id: string } }) {
   const languageId = params.id;
+  const languagePromise = getLanguageById(languageId);
+  const setsPromise = getSetsByLanguageId(languageId);
   try {
-    const { language, sets } = await getLanguageById(languageId);
+    const [language, sets] = await Promise.all([languagePromise, setsPromise]);
 
     return (
       <main>
         <h1 className="text-3xl md:text-4xl mb-7">
-          Language: <span className="text-color-5">{language}</span>
+          Language: <span className="text-color-5">{language.name}</span>
         </h1>
-        <SetList from="language" setsData={sets} />
+        {sets && sets.length > 0 ? (
+          <SetList setsData={sets} />
+        ) : (
+          <h2>There are currently no sets in this language.</h2>
+        )}
       </main>
     );
-  } catch (err: any | AxiosError) {
-    if (isAxiosError(err) && err.response?.status === 404) {
-      notFound();
-    } else {
-      console.log(err);
-    }
+  } catch (err: any) {
+    notFound();
   }
 }
