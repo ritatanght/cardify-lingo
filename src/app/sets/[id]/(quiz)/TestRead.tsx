@@ -32,7 +32,10 @@ const TestRead = ({
   const commands = [
     {
       command: questionSide === "front" ? card.back : card.front,
-      callback: () => endQuestion(true),
+      callback: () => {
+        endQuestion(true);
+        resetTranscript();
+      },
     },
   ];
 
@@ -41,6 +44,7 @@ const TestRead = ({
     listening,
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
+    resetTranscript,
   } = useSpeechRecognition({ commands });
 
   const handleSpeechFunction = (
@@ -91,7 +95,7 @@ const TestRead = ({
         />
       </p>
       <input
-        className="block mx-auto my-4 p-2 rounded"
+        className="block mx-auto mb-4 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -100,7 +104,7 @@ const TestRead = ({
       {/* Speech Recognition Button */}
 
       {browserSupportsSpeechRecognition && (
-        <>
+        <span className="relative">
           <button
             aria-label="Start Listening"
             onClick={handleSpeechFunction}
@@ -110,8 +114,12 @@ const TestRead = ({
           >
             {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
           </button>
-          <p className="hidden">{transcript}</p>
-        </>
+          {transcript && (
+            <p className="absolute top-[calc(100%+1rem)] -left-3/4 -right-3/4 leading-5 bg-white p-1 rounded before:content-['▴'] before:absolute before:-top-[1.4rem] before:text-white before:text-3xl before:-left-3/4 before:-right-3/4 before:pointer-events-none">
+              {transcript}
+            </p>
+          )}
+        </span>
       )}
       <button className="btn" onClick={submitAnswer}>
         Submit Answer

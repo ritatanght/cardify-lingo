@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { HiVolumeUp } from "react-icons/hi";
+import { useState } from "react";import { HiVolumeUp } from "react-icons/hi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 
 import { Card } from "@/app/types/definitions";
@@ -31,7 +30,10 @@ const TestListen = ({
   const commands = [
     {
       command: card.front,
-      callback: () => endQuestion(true),
+      callback: () => {
+        endQuestion(true);
+        resetTranscript();
+      },
     },
   ];
 
@@ -40,6 +42,7 @@ const TestListen = ({
     listening,
     browserSupportsSpeechRecognition,
     isMicrophoneAvailable,
+    resetTranscript,
   } = useSpeechRecognition({ commands });
 
   const handleSpeechFunction = (
@@ -77,14 +80,14 @@ const TestListen = ({
     <>
       <p className="text-2xl">What does this mean in your language?</p>
       <button
-        className="text-3xl text-color-1 transition-colors mt-2 hover:text-gray-500"
+        className="text-3xl text-color-1 transition-colors my-1 hover:text-gray-500"
         onClick={speakText}
         aria-label="Play speech"
       >
         <HiVolumeUp />
       </button>
       <input
-        className="block mx-auto my-4 p-2 rounded"
+        className="block mx-auto mb-4 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         onKeyDown={handleKeyDown}
@@ -92,7 +95,7 @@ const TestListen = ({
       />
       {/* Speech Recognition Button */}
       {browserSupportsSpeechRecognition && (
-        <>
+        <span className="relative">
           <button
             aria-label="Start Listening"
             onClick={handleSpeechFunction}
@@ -102,8 +105,12 @@ const TestListen = ({
           >
             {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
           </button>
-          <p className="hidden">{transcript}</p>
-        </>
+          {transcript && (
+            <p className="absolute top-[calc(100%+1rem)] -left-3/4 -right-3/4 leading-5 bg-white p-1 rounded before:content-['▴'] before:absolute before:-top-[1.4rem] before:text-white before:text-3xl before:-left-3/4 before:-right-3/4 before:pointer-events-none">
+              {transcript}
+            </p>
+          )}
+        </span>
       )}
       <button className="btn" onClick={submitAnswer}>
         Submit Answer
