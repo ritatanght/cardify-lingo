@@ -13,8 +13,8 @@ interface CardsProps {
   isSetOwner: boolean;
   onEdit: (card: Card) => void;
   voices: {
-    userVoice: SpeechSynthesisVoice;
-    languageVoice: SpeechSynthesisVoice;
+    userVoice: SpeechSynthesisVoice | null;
+    languageVoice: SpeechSynthesisVoice | null;
   };
 }
 

@@ -40,6 +40,10 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
   // load and set voices to state based on the language of the set
   useEffect(() => {
     setIsLoading(true);
+    // If the browser does not support Speech Synthesis
+    const synth = window.speechSynthesis;
+    if (!synth) return setIsLoading(false);
+    // loading voices
     waitForVoices()
       .then((voices) => {
         if (languageCode) {
@@ -48,8 +52,9 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
           );
           selectedVoice && setLanguageVoice(selectedVoice);
         }
-        // assume user's language is English
-        setUserVoice(voices[7]);
+        // assume user's language is US English
+        const usEngVoices = voices.filter((voice) => voice.lang === "en-US");
+        setUserVoice(usEngVoices[usEngVoices.length - 1]);
       })
       .finally(() => setIsLoading(false));
   }, [languageCode]);
@@ -135,7 +140,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
         </div>
 
         {isLoading && <Loading />}
-        {mode === "view" && userVoice && (
+        {mode === "view" && !isLoading && (
           <ViewSet
             setSetData={setSetData}
             cards={cards}
@@ -143,7 +148,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
             voices={{ userVoice, languageVoice: languageVoice || userVoice }}
           />
         )}
-        {mode === "quiz" && userVoice && (
+        {mode === "quiz" && !isLoading && (
           <QuizSet
             cards={cards}
             voice={languageVoice || userVoice}
