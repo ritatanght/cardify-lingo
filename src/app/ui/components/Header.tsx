@@ -74,7 +74,7 @@ export default function Header({ languages }: HeaderProps) {
             >
               <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none">
                 <div className="py-1">
-                  {languages.map((language) => (
+                  {Array.isArray(languages) && languages.map((language) => (
                     <Menu.Item key={language.name}>
                       {({ active }) => (
                         <Link
