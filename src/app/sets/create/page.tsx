@@ -1,4 +1,4 @@
-import { getAllLanguages } from "@/app/lib/api";
+import { getAllLanguages } from "@/../db/queries/languages";
 import SetForm from "@/app/ui/components/SetForm";
 const Page = async () => {
   const languages = await getAllLanguages();

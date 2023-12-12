@@ -1,17 +1,18 @@
-import { getSet } from "@/app/lib/api";
+import { getSetInfoById } from "@/../db/queries/sets";
+import { getCardsBySetId } from "@/../db/queries/cards";
 import SetContainer from "./SetContainer";
-import { AxiosError, isAxiosError } from "axios";
 import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: { id: string } }) {
+  const setId = params.id;
+  const setPromise = getSetInfoById(setId);
+  const cardsPromise = getCardsBySetId(setId);
+
   try {
-    const setData = await getSet(params.id);
-    return <SetContainer fullSetData={setData} />;
-  } catch (err: any | AxiosError) {
-    if (isAxiosError(err) && err.response?.status === 404) {
-      notFound();
-    } else {
-      console.log(err);
-    }
+    const [setData, cardsData] = await Promise.all([setPromise, cardsPromise]);
+
+    return <SetContainer fullSetData={{ set: setData, cards: cardsData }} />;
+  } catch (err: any) {
+    notFound();
   }
 }

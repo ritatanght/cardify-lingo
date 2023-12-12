@@ -1,6 +1,5 @@
-import db from "../db.config";
-import { v4 as uuidv4 } from "uuid";
-const getUserInfoByEmail = (email: string) => {
+import db from "../db.config";import { v4 as uuidv4 } from "uuid";
+export const getUserInfoByEmail = (email: string) => {
   const query = `
    SELECT id, username AS name, email
    FROM users
@@ -10,7 +9,11 @@ const getUserInfoByEmail = (email: string) => {
   return db.query(query, [email]).then((data) => data.rows[0]);
 };
 
-const createCredUser = (email: string, username: string, hash: string) => {
+export const createCredUser = (
+  email: string,
+  username: string,
+  hash: string
+) => {
   const id = uuidv4();
   const query = `
   INSERT INTO users (id, username, email, hashed_password)
@@ -23,7 +26,7 @@ const createCredUser = (email: string, username: string, hash: string) => {
     .then((data) => data.rows[0]);
 };
 
-const createExternalUser = (id: string, name: string, email: string) => {
+export const createExternalUser = (id: string, name: string, email: string) => {
   const query = `
   INSERT INTO users (id, username, email)
   VALUES 
@@ -33,7 +36,7 @@ const createExternalUser = (id: string, name: string, email: string) => {
   return db.query(query, [id, name, email]).then((data) => data.rows[0]);
 };
 
-const getUserByEmail = (email: string) => {
+export const getUserByEmail = (email: string) => {
   const query = `
    SELECT *
    FROM users
@@ -41,11 +44,4 @@ const getUserByEmail = (email: string) => {
    AND deleted = false;
   `;
   return db.query(query, [email]).then((data) => data.rows[0]);
-};
-
-module.exports = {
-  getUserInfoByEmail,
-  createCredUser,
-  createExternalUser,
-  getUserByEmail,
 };

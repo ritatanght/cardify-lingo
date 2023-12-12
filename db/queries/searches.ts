@@ -1,5 +1,5 @@
 import db from "../db.config";
-const searchByText = (searchQuery: string) => {
+export const searchByText = (searchQuery: string) => {
   const searchTerm = `%${searchQuery}%`;
 
   const query = `
@@ -12,8 +12,4 @@ const searchByText = (searchQuery: string) => {
   `;
 
   return db.query(query, [searchTerm]).then((data) => data.rows);
-};
-
-module.exports = {
-  searchByText,
 };

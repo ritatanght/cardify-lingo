@@ -1,5 +1,5 @@
 import db from "../db.config";
-const getFavoritesByUserId = (userId: string) => {
+export const getFavoritesByUserId = (userId: string) => {
   return db
     .query(
       `
@@ -15,7 +15,7 @@ const getFavoritesByUserId = (userId: string) => {
     .then((data) => data.rows);
 };
 
-const addFavoriteByUserAndSet = (userId: string, setId: string) => {
+export const addFavoriteByUserAndSet = (userId: string, setId: string) => {
   return db
     .query(
       `SELECT * FROM lang_favorites 
@@ -48,7 +48,7 @@ const addFavoriteByUserAndSet = (userId: string, setId: string) => {
     });
 };
 
-const removeFavoriteByUserAndSet = (userId: string, setId: string) => {
+export const removeFavoriteByUserAndSet = (userId: string, setId: string) => {
   return db
     .query(
       `
@@ -59,10 +59,4 @@ const removeFavoriteByUserAndSet = (userId: string, setId: string) => {
       [userId, setId]
     )
     .then((data) => data.rows);
-};
-
-module.exports = {
-  getFavoritesByUserId,
-  addFavoriteByUserAndSet,
-  removeFavoriteByUserAndSet,
 };
