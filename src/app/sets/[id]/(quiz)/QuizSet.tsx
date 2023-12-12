@@ -4,16 +4,17 @@ import { randomSort } from "@/app/lib/utils";
 import TestRead from "./TestRead";
 import TestListen from "./TestListen";
 import { toast } from "react-toastify";
-import { FaCheckCircle } from "react-icons/fa";
+import { FaCheckCircle, FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 
 interface QuizSetProps {
   cards: Card[];
   voice: SpeechSynthesisVoice;
+  languageCode: string;
 }
 const testModeArr = ["read", "listen"];
 
-const QuizSet = ({ cards, voice }: QuizSetProps) => {
+const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const timeOutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [question, setQuestion] = useState(0);
   const [message, setMessage] = useState<React.ReactNode>(null);
@@ -119,8 +120,14 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
             <span className="text-gray-500 underline font-bold">sounds</span>.
           </p>{" "}
           <p className="mb-8">
-            Input your answer in the box and submit or skip to proceed to the
-            next question.
+            Either input your answer in the provided box and submit it, speak
+            into the microphone while the{" "}
+            <FaMicrophone className="text-color-1 inline align-text-top" /> icon
+            is active, or skip and move on to the next question.
+          </p>
+          <p className="mb-8 text-gray-500">
+            Please note that the accuracy of recognizing shorter phrases might
+            be limited.
           </p>
           <button
             className="rounded-md px-4 py-2 bg-color-2 font-bold text-gray-600 transition duration-300 hover:ring-2 ring-color-4"
@@ -138,6 +145,7 @@ const QuizSet = ({ cards, voice }: QuizSetProps) => {
             endQuestion={endQuestion}
             setCustomMessage={setCustomMessage}
             handleSkip={changeQuestion}
+            languageCode={languageCode}
           />
         </>
       )}
