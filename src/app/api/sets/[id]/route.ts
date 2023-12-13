@@ -1,7 +1,5 @@
-const sets = require("@/../db/queries/sets");
-const cards = require("@/../db/queries/cards");
-import { Card } from "@/app/types/definitions";
-import { auth } from "../../../../../auth";
+const sets = require("@/../db/queries/sets");const cards = require("@/../db/queries/cards");import { Card } from "@/app/types/definitions";import { auth } from "../../../../../auth";
+import { revalidatePath } from "next/cache";
 
 // Get the sets and cards for ViewSets and EditSet
 export async function GET(
@@ -82,6 +80,10 @@ export async function PUT(
     );
 
     await Promise.all([updateSetPromise, updateCardsPromise]);
+    revalidatePath("/profile", "page");
+    revalidatePath("/languages/[id]", "page");
+    revalidatePath(`/sets/${setId}`);
+
     return Response.json(
       { message: "Set updated successfully" },
       { status: 200 }

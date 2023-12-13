@@ -76,11 +76,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
         }
       })
       .catch((err) => {
-        if (err.response.status === 401) {
+        if (err.response.data) {
           toast.info(err.response.data.message);
-          return router.replace("/login");
         } else {
-          toast.error(err.response.data.message);
+          console.log(err);
         }
       });
   };
@@ -101,11 +100,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
           }
         })
         .catch((err) => {
-          if (err.response.status === 401) {
+          if (err.response.data) {
             toast.info(err.response.data.message);
-            return router.replace("/login");
           } else {
-            toast.error(err.response.data.message);
+            console.log(err);
           }
         });
     }
