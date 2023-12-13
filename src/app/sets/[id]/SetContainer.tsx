@@ -145,13 +145,13 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
             setSetData={setSetData}
             cards={cards}
             isSetOwner={session?.user?.id === set.user_id}
-            voices={{ userVoice, languageVoice: languageVoice || userVoice }}
+            voices={{ userVoice, languageVoice }}
           />
         )}
         {mode === "quiz" && !isLoading && (
           <QuizSet
             cards={cards}
-            voice={languageVoice || userVoice}
+            voice={languageVoice}
             languageCode={languageCode}
           />
         )}
