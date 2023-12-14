@@ -138,7 +138,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
           <h3 className="text-2xl">Q{question + 1}:</h3>
           <TestContainer
             card={shuffledCards[question]}
-            speakText={speakText}
+            speakText={voice ? speakText : null}
             endQuestion={endQuestion}
             setCustomMessage={setCustomMessage}
             handleSkip={changeQuestion}
