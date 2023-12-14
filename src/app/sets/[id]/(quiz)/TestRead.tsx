@@ -1,4 +1,5 @@
-import { useState } from "react";import { Card } from "@/app/types/definitions";
+import { useEffect, useState } from "react";
+import { Card } from "@/app/types/definitions";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import SpeechRecognition, {
@@ -29,12 +30,13 @@ const TestRead = ({
   const [questionSide, setQuestionSide] = useState<keyof Card>(
     Math.random() < 0.5 ? "front" : "back"
   );
+
   const commands = [
     {
       command: questionSide === "front" ? card.back : card.front,
       callback: () => {
         endQuestion(true);
-        resetTranscript();
+        setTimeout(() => resetTranscript(), 2000);
       },
     },
   ];
@@ -83,53 +85,54 @@ const TestRead = ({
   return (
     <>
       <p className="text-2xl">
-        What is the translation of{" "}
+        Translation of{" "}
         <BiSolidQuoteAltLeft
           className="align-top text-sm text-gray-500 px-1 inline text-xl"
           aria-hidden="true"
         />
-        {card[questionSide]}
+        <strong>{card[questionSide]}</strong>
         <BiSolidQuoteAltRight
           className="align-top text-sm text-gray-500 px-1 inline text-xl"
           aria-hidden="true"
         />
       </p>
       <input
-        className="block mx-auto mb-4 p-2 rounded"
+        className="my-3 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         onKeyDown={handleKeyDown}
         autoFocus
       />
-      {/* Speech Recognition Button */}
-
-      {browserSupportsSpeechRecognition && (
-        <span className="relative">
-          <button
-            aria-label="Start Listening"
-            onClick={handleSpeechFunction}
-            className={`text-2xl p-2 align-middle ${
-              listening ? " text-color-1 animate-bounce" : " text-gray-500"
-            }`}
-          >
-            {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
-          </button>
-          {transcript && (
-            <p className="absolute top-[calc(100%+1rem)] -left-3/4 -right-3/4 leading-5 bg-white p-1 rounded before:content-['▴'] before:absolute before:-top-[1.4rem] before:text-white before:text-3xl before:-left-3/4 before:-right-3/4 before:pointer-events-none">
-              {transcript}
-            </p>
-          )}
-        </span>
-      )}
-      <button className="btn" onClick={submitAnswer}>
-        Submit Answer
-      </button>
-      <button
-        className="ml-2 p-2 bg-color-3 text-gray-600 rounded-md hover:bg-slate-300"
-        onClick={handleSkip}
-      >
-        Skip
-      </button>
+      <div>
+        {/* Speech Recognition Button */}
+        {browserSupportsSpeechRecognition && (
+          <span className="relative">
+            <button
+              aria-label="Start Listening"
+              onClick={handleSpeechFunction}
+              className={`text-2xl p-2 align-middle ${
+                listening ? " text-color-1 animate-bounce" : " text-gray-500"
+              }`}
+            >
+              {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
+            </button>
+            {transcript && (
+              <p className="absolute top-[calc(100%+1rem)] shadow -left-full -right-full leading-5 bg-white p-1 rounded before:content-['▴'] before:absolute before:-top-[1.4rem] before:text-white before:text-3xl before:-left-3/4 before:-right-3/4 before:pointer-events-none">
+                {transcript}
+              </p>
+            )}
+          </span>
+        )}
+        <button className="btn" onClick={submitAnswer}>
+          Submit Answer
+        </button>
+        <button
+          className="ml-2 p-2 bg-color-3 text-gray-600 rounded-md hover:bg-slate-300"
+          onClick={handleSkip}
+        >
+          Skip
+        </button>
+      </div>
     </>
   );
 };

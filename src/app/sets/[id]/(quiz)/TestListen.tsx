@@ -1,4 +1,5 @@
-import { useState } from "react";import { HiVolumeUp } from "react-icons/hi";
+import { useState } from "react";
+import { HiVolumeUp } from "react-icons/hi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 
 import { Card } from "@/app/types/definitions";
@@ -32,7 +33,7 @@ const TestListen = ({
       command: card.front,
       callback: () => {
         endQuestion(true);
-        resetTranscript();
+        setTimeout(() => resetTranscript(), 2000);
       },
     },
   ];
@@ -51,6 +52,7 @@ const TestListen = ({
     if (!isMicrophoneAvailable) {
       toast.info("Microphone access is needed");
     }
+
     return SpeechRecognition.startListening({ language: "en-US" });
   };
 
@@ -87,40 +89,46 @@ const TestListen = ({
         <HiVolumeUp />
       </button>
       <input
-        className="block mx-auto mb-4 p-2 rounded"
+        className="my-3 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         onKeyDown={handleKeyDown}
         autoFocus
       />
-      {/* Speech Recognition Button */}
-      {browserSupportsSpeechRecognition && (
-        <span className="relative">
-          <button
-            aria-label="Start Listening"
-            onClick={handleSpeechFunction}
-            className={`text-2xl p-2 align-middle ${
-              listening ? " text-color-1 animate-bounce" : " text-gray-500"
-            }`}
-          >
-            {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
-          </button>
-          {transcript && (
-            <p className="absolute top-[calc(100%+1rem)] -left-3/4 -right-3/4 leading-5 bg-white p-1 rounded before:content-['▴'] before:absolute before:-top-[1.4rem] before:text-white before:text-3xl before:-left-3/4 before:-right-3/4 before:pointer-events-none">
-              {transcript}
-            </p>
-          )}
-        </span>
-      )}
-      <button className="btn" onClick={submitAnswer}>
-        Submit Answer
-      </button>
-      <button
-        className="ml-2 p-2 bg-color-3 text-gray-600 rounded-md hover:bg-slate-300"
-        onClick={handleSkip}
-      >
-        Skip
-      </button>
+      <div>
+        {/* Speech Recognition Button */}
+        {browserSupportsSpeechRecognition && (
+          <span className="relative">
+            <button
+              aria-label="Start Listening"
+              onClick={handleSpeechFunction}
+              className={`text-2xl p-2 align-middle ${
+                listening ? " text-color-1 animate-bounce" : " text-gray-500"
+              }`}
+            >
+              {listening ? <FaMicrophone /> : <FaMicrophoneSlash />}
+            </button>
+            {transcript && (
+              <p
+                className={`absolute top-[calc(100%+1rem)] max-w-[40vw] ${
+                  transcript.length > 15 ? "w-72" : "w-20"
+                } shadow left-1/2 -translate-x-1/2 leading-5 bg-white p-1 rounded before:content-['▴'] before:absolute before:-top-[1.4rem] before:text-white before:text-3xl before:-left-3/4 before:-right-3/4 before:pointer-events-none`}
+              >
+                {transcript}
+              </p>
+            )}
+          </span>
+        )}
+        <button className="btn mx-2" onClick={submitAnswer}>
+          Submit Answer
+        </button>
+        <button
+          className="p-2 bg-color-3 text-gray-600 rounded-md hover:bg-slate-300"
+          onClick={handleSkip}
+        >
+          Skip
+        </button>
+      </div>
     </>
   );
 };
