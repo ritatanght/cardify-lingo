@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Card } from "@/app/types/definitions";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
@@ -10,7 +10,7 @@ import { toast } from "react-toastify";
 
 interface TestContainerProps {
   card: Card;
-  speakText: () => void;
+  speakText: (() => void) | null;
   endQuestion: (correct: boolean) => void;
   setCustomMessage: (
     messageNode: React.ReactNode,
@@ -32,19 +32,23 @@ const TestContainer = ({
   const [answer, setAnswer] = useState("");
   const [questionSide, setQuestionSide] = useState<keyof Card>("front");
   const [testMode, setTestMode] = useState("");
+  const [speakFunc, setSpeakFunc] = useState<(() => void) | null>(speakText);
 
   // set the testMode to either read or listen randomly and asking the front or back
-  const generateTestMode = () => {
+  const generateTestMode = useCallback(() => {
     const testModeArr = ["read", "listen"];
     // increase the rate for "read", as there are two possible read testing options
-    setTestMode(Math.random() < 0.7 ? testModeArr[0] : testModeArr[1]);
+    if (speakFunc) {
+      setTestMode(Math.random() < 0.7 ? testModeArr[0] : testModeArr[1]);
+    } else {
+      setTestMode("read");
+    }
     setQuestionSide(Math.random() < 0.5 ? "front" : "back");
-  };
+  }, [speakFunc]);
 
-  // run generateTestMode for render of a new card
   useEffect(() => {
     generateTestMode();
-  }, [card]);
+  }, [card, generateTestMode]);
 
   const commands = [
     {
@@ -92,7 +96,7 @@ const TestContainer = ({
     if (testMode === "read" && questionSide === "front") {
       endQuestion(answer.toLowerCase() === card.back.toLowerCase());
     } else {
-      // work for questionSide 'back' and for "listen" tests
+      // work for questionSide 'back' and for listen tests
       endQuestion(answer.toLowerCase() === card.front.toLowerCase());
     }
     setAnswer("");
@@ -120,12 +124,12 @@ const TestContainer = ({
           />
         </p>
       )}
-      {testMode === "listen" && (
+      {testMode === "listen" && speakFunc && (
         <>
           <p className="text-2xl">What does this mean in your language?</p>
           <button
             className="text-3xl text-color-1 transition-colors my-1 hover:text-gray-500"
-            onClick={speakText}
+            onClick={speakFunc}
             aria-label="Play speech"
           >
             <HiVolumeUp />
