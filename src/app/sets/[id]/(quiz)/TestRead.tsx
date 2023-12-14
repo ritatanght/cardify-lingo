@@ -52,6 +52,9 @@ const TestRead = ({
   const handleSpeechFunction = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
+    // clicking the microphone button again when listening toggles it off
+    if (listening) return SpeechRecognition.stopListening();
+
     if (!isMicrophoneAvailable) {
       toast.info("Microphone access is needed");
     }
