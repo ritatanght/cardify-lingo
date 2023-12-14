@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import { Card } from "@/app/types/definitions";
 import { randomSort } from "@/app/lib/utils";
-import TestRead from "./TestRead";
-import TestListen from "./TestListen";
+import TestContainer from "./TestContainer";
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaMicrophone } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
@@ -12,7 +11,6 @@ interface QuizSetProps {
   voice: SpeechSynthesisVoice | null;
   languageCode: string;
 }
-const testModeArr = ["read", "listen"];
 
 const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const timeOutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -20,21 +18,13 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const [message, setMessage] = useState<React.ReactNode>(null);
   const [shuffledCards, setShuffledCards] = useState(randomSort(cards));
   const [score, setScore] = useState(0);
-  const [testMode, setTestMode] = useState("start");
+  const [mode, setMode] = useState("start");
 
-  // set the testMode to either read or listen randomly
-  const generateTestMode = () => {
-    if (voice) {
-      setTestMode(Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]);
-    } else {
-      setTestMode("read");
-    }
-  };
   const resetQuiz = () => {
     setQuestion(0);
     setScore(0);
     setShuffledCards(randomSort(cards));
-    generateTestMode();
+    setMode("test");
   };
 
   const endQuestion = (correct: boolean) => {
@@ -85,10 +75,10 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const changeQuestion = () => {
     // move to the next question
     if (question < cards.length - 1) {
-      generateTestMode(); // randomly pick a test mode
+      //generateTestMode(); // randomly pick a test mode
       setQuestion((prev) => prev + 1);
     } else {
-      setTestMode("finish");
+      setMode("finish");
     }
   };
 
@@ -109,19 +99,19 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   };
 
   return (
-    <div className="text-center md:mt-6 p-2 pb-4 min-h-[250px] relative">
+    <div className="text-center pt-4 pb-10 md:my-6 md:pt-2 min-h-[280px] md:min-h-[300px] flex flex-col justify-start items-center gap-0.5 relative">
       <div
-        className={`transition-all duration-300 absolute mb-2 p-1.5 bg-color-3 top-0 inset-x-0 text-xl ${
+        className={`transition-all duration-300 absolute md:mt-0 mt-2 p-1 bg-color-3 top-0 inset-x-0 text-xl ${
           message ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
         }`}
       >
         {message}
       </div>
-      {testMode === "start" && (
+      {mode === "start" && (
         <div className="mt-6 mb-4 text-center px-4">
           <p className="mb-4">
-            You will be represented with the vocabulary in{" "}
-            <span className="text-gray-500 underline font-bold">words</span> or{" "}
+            You will be represented with{" "}
+            <span className="text-gray-500 underline font-bold">text</span> or{" "}
             <span className="text-gray-500 underline font-bold">sounds</span>.
           </p>{" "}
           <p className="mb-8">
@@ -136,17 +126,19 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
           </p>
           <button
             className="rounded-md px-4 py-2 bg-color-2 font-bold text-gray-600 transition duration-300 hover:ring-2 ring-color-4"
-            onClick={generateTestMode}
+            onClick={() => setMode("test")}
           >
             Start
           </button>
         </div>
       )}
-      {testMode === "read" && (
+
+      {mode === "test" && (
         <>
           <h3 className="text-2xl">Q{question + 1}:</h3>
-          <TestRead
+          <TestContainer
             card={shuffledCards[question]}
+            speakText={voice ? speakText : null}
             endQuestion={endQuestion}
             setCustomMessage={setCustomMessage}
             handleSkip={changeQuestion}
@@ -154,20 +146,8 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
           />
         </>
       )}
-      {testMode === "listen" && (
-        <>
-          <h3 className="text-2xl">Q{question + 1}:</h3>
-          <TestListen
-            card={shuffledCards[question]}
-            speakText={speakText}
-            endQuestion={endQuestion}
-            setCustomMessage={setCustomMessage}
-            handleSkip={changeQuestion}
-          />
-        </>
-      )}
 
-      {testMode === "finish" && (
+      {mode === "finish" && (
         <div className="mt-8 mb-4">
           <p className="text-lg mb-6">
             You have finished the quiz scoring{" "}
