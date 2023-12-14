@@ -62,13 +62,15 @@ const CardFace = ({
             <GrEdit />
           </button>
         )}
-        <button
-          className={`p-2 md:p-4 text-2xl md:text-3xl transition-colors duration-300 ${style.textColor}`}
-          aria-label="Text to speech"
-          onClick={speakText}
-        >
-          <HiVolumeUp />
-        </button>
+        {voice && (
+          <button
+            className={`p-2 md:p-4 text-2xl md:text-3xl transition-colors duration-300 ${style.textColor}`}
+            aria-label="Text to speech"
+            onClick={speakText}
+          >
+            <HiVolumeUp />
+          </button>
+        )}
       </div>
       <p
         className={`text-2xl md:text-[2rem] leading-snug ${playpen.className}`}

@@ -8,7 +8,7 @@ import { FaCircleXmark } from "react-icons/fa6";
 
 interface QuizSetProps {
   cards: Card[];
-  voice: SpeechSynthesisVoice;
+  voice: SpeechSynthesisVoice | null;
   languageCode: string;
 }
 

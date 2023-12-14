@@ -8,8 +8,8 @@ interface ViewSetProps {
   isSetOwner: boolean;
   setSetData: Dispatch<React.SetStateAction<FullSet>>;
   voices: {
-    userVoice: SpeechSynthesisVoice;
-    languageVoice: SpeechSynthesisVoice;
+    userVoice: SpeechSynthesisVoice | null;
+    languageVoice: SpeechSynthesisVoice | null;
   };
 }
 
