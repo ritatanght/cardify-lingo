@@ -24,7 +24,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
     setQuestion(0);
     setScore(0);
     setShuffledCards(randomSort(cards));
-    // generateTestMode();
+    setMode("test");
   };
 
   const endQuestion = (correct: boolean) => {
