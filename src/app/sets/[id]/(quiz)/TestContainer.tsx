@@ -102,12 +102,6 @@ const TestContainer = ({
     setAnswer("");
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") {
-      submitAnswer();
-    }
-  };
-
   return (
     <>
       {testMode === "read" && (
@@ -140,7 +134,7 @@ const TestContainer = ({
         className="my-3 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
-        onKeyDown={handleKeyDown}
+        onKeyDown={(e) => e.key === "Enter" && submitAnswer()}
         autoFocus
       />
       <div>
