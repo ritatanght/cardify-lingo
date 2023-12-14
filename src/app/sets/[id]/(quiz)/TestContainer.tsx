@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card } from "@/app/types/definitions";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
+import { HiVolumeUp } from "react-icons/hi";
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
@@ -20,8 +21,6 @@ interface TestContainerProps {
   languageCode: string;
 }
 
-const testModeArr = ["read", "listen"];
-
 const TestContainer = ({
   card,
   speakText,
@@ -31,17 +30,28 @@ const TestContainer = ({
   languageCode,
 }: TestContainerProps) => {
   const [answer, setAnswer] = useState("");
-  const [questionSide, setQuestionSide] = useState<keyof Card>(
-    Math.random() < 0.5 ? "front" : "back"
-  );
+  const [questionSide, setQuestionSide] = useState<keyof Card>("front");
   const [testMode, setTestMode] = useState("");
-  // set the testMode to either read or listen randomly
-  const generateTestMode = () =>
-    setTestMode(Math.random() < 0.5 ? testModeArr[0] : testModeArr[1]);
+
+  // set the testMode to either read or listen randomly and asking the front or back
+  const generateTestMode = () => {
+    const testModeArr = ["read", "listen"];
+    // increase the rate for "read", as there are two possible read testing options
+    setTestMode(Math.random() < 0.7 ? testModeArr[0] : testModeArr[1]);
+    setQuestionSide(Math.random() < 0.5 ? "front" : "back");
+  };
+
+  // run generateTestMode for render of a new card
+  useEffect(() => {
+    generateTestMode();
+  }, [card]);
 
   const commands = [
     {
-      command: questionSide === "front" ? card.back : card.front,
+      command:
+        questionSide === "front" && testMode === "read"
+          ? card.back
+          : card.front,
       callback: () => {
         endQuestion(true);
         setTimeout(() => resetTranscript(), 2000);
@@ -66,7 +76,7 @@ const TestContainer = ({
     if (!isMicrophoneAvailable) {
       toast.info("Microphone access is needed");
     }
-    return questionSide === "front"
+    return questionSide === "front" && testMode === "read"
       ? SpeechRecognition.startListening({ language: languageCode })
       : SpeechRecognition.startListening({ language: "en-US" });
   };
@@ -79,9 +89,10 @@ const TestContainer = ({
         </p>,
         2
       );
-    if (questionSide === "front") {
+    if (testMode === "read" && questionSide === "front") {
       endQuestion(answer.toLowerCase() === card.back.toLowerCase());
     } else {
+      // work for questionSide 'back' and for "listen" tests
       endQuestion(answer.toLowerCase() === card.front.toLowerCase());
     }
     setAnswer("");
@@ -95,18 +106,32 @@ const TestContainer = ({
 
   return (
     <>
-      <p className="text-2xl">
-        Translation of{" "}
-        <BiSolidQuoteAltLeft
-          className="align-top text-sm text-gray-500 px-1 inline text-xl"
-          aria-hidden="true"
-        />
-        <strong>{card[questionSide]}</strong>
-        <BiSolidQuoteAltRight
-          className="align-top text-sm text-gray-500 px-1 inline text-xl"
-          aria-hidden="true"
-        />
-      </p>
+      {testMode === "read" && (
+        <p className="text-2xl">
+          Translation of{" "}
+          <BiSolidQuoteAltLeft
+            className="align-top text-sm text-gray-500 px-1 inline text-xl"
+            aria-hidden="true"
+          />
+          <strong>{card[questionSide]}</strong>
+          <BiSolidQuoteAltRight
+            className="align-top text-sm text-gray-500 px-1 inline text-xl"
+            aria-hidden="true"
+          />
+        </p>
+      )}
+      {testMode === "listen" && (
+        <>
+          <p className="text-2xl">What does this mean in your language?</p>
+          <button
+            className="text-3xl text-color-1 transition-colors my-1 hover:text-gray-500"
+            onClick={speakText}
+            aria-label="Play speech"
+          >
+            <HiVolumeUp />
+          </button>
+        </>
+      )}
       <input
         className="my-3 p-2 rounded"
         value={answer}
@@ -119,7 +144,7 @@ const TestContainer = ({
         {browserSupportsSpeechRecognition && (
           <span className="relative">
             <button
-              aria-label="Start Listening"
+              aria-label="Toggle Listening"
               onClick={handleSpeechFunction}
               className={`text-2xl p-2 align-middle ${
                 listening ? " text-color-1 animate-bounce" : " text-gray-500"
