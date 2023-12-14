@@ -104,9 +104,9 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   };
 
   return (
-    <div className="text-center md:mt-6 p-2 pb-4 min-h-[250px] relative">
+    <div className="text-center pt-4 pb-10 md:my-6 md:pt-2 min-h-[280px] md:min-h-[300px] flex flex-col justify-start items-center gap-0.5 relative">
       <div
-        className={`transition-all duration-300 absolute mb-2 p-1.5 bg-color-3 top-0 inset-x-0 text-xl ${
+        className={`transition-all duration-300 absolute md:mt-0 mt-2 p-1 bg-color-3 top-0 inset-x-0 text-xl ${
           message ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-3"
         }`}
       >
@@ -115,8 +115,8 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
       {testMode === "start" && (
         <div className="mt-6 mb-4 text-center px-4">
           <p className="mb-4">
-            You will be represented with the vocabulary in{" "}
-            <span className="text-gray-500 underline font-bold">words</span> or{" "}
+            You will be represented with{" "}
+            <span className="text-gray-500 underline font-bold">text</span> or{" "}
             <span className="text-gray-500 underline font-bold">sounds</span>.
           </p>{" "}
           <p className="mb-8">
@@ -139,7 +139,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
       )}
       {testMode === "read" && (
         <>
-          <h3 className="text-2xl mb-1">Q{question + 1}:</h3>
+          <h3 className="text-2xl">Q{question + 1}:</h3>
           <TestRead
             card={shuffledCards[question]}
             endQuestion={endQuestion}
@@ -151,7 +151,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
       )}
       {testMode === "listen" && (
         <>
-          <h3 className="text-2xl mb-1">Q{question + 1}:</h3>
+          <h3 className="text-2xl">Q{question + 1}:</h3>
           <TestListen
             card={shuffledCards[question]}
             speakText={speakText}
