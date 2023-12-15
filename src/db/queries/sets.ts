@@ -1,4 +1,4 @@
-import { Set } from "@/app/types/definitions";
+import { Set } from "@/types/definitions";
 import db from "../db.config";
 
 export const postSetData = (setData: Set) => {

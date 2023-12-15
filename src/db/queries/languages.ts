@@ -1,6 +1,4 @@
-import db from "../db.config";
-
-export const getAllLanguages = () => {
+import db from "../db.config";export const getAllLanguages = () => {
   return db
     .query(
       `
@@ -10,7 +8,7 @@ export const getAllLanguages = () => {
     .then((data) => data.rows);
 };
 
-export const getLanguageById = (languageId:string) => {
+export const getLanguageById = (languageId: string) => {
   return db
     .query(
       `
@@ -21,4 +19,3 @@ export const getLanguageById = (languageId:string) => {
     )
     .then((data) => data.rows[0]);
 };
-
