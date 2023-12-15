@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Card } from "@/app/types/definitions";
+import { Card } from "../../../../../types/definitions";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import { HiVolumeUp } from "react-icons/hi";

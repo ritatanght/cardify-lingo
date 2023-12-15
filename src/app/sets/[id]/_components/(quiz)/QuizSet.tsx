@@ -1,6 +1,5 @@
-import { useState, useRef } from "react";
-import { Card } from "@/app/types/definitions";
-import { randomSort } from "@/app/lib/utils";
+import { useState, useRef } from "react";import { Card } from "../../../../../types/definitions";
+import { randomSort } from "../../../../../lib/utils";
 import TestContainer from "./TestContainer";
 import { toast } from "react-toastify";
 import { FaCheckCircle, FaMicrophone } from "react-icons/fa";

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { playpen } from "@/app/ui/fonts";
+import { playpen } from "../../../../../lib/fonts";
 import { HiVolumeUp } from "react-icons/hi";
 import { GrEdit } from "react-icons/gr";
 
