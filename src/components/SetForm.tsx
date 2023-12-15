@@ -15,7 +15,7 @@ import {
   Language,
 } from "../types/definitions";
 import { playpen } from "../lib/fonts";
-import "../Create-Edit-Set.scss";
+import "@/styles/Create-Edit-Set.scss";
 
 interface SetFormProps {
   mode: "create" | "edit";
