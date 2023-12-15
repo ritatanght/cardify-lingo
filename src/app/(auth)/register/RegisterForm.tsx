@@ -1,7 +1,6 @@
-"use client";
-import { useState } from "react";
+"use client";import { useState } from "react";
 import { toast } from "react-toastify";
-import { registerUser } from "@/app/lib/api";
+import { registerUser } from "../../../lib/api";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
