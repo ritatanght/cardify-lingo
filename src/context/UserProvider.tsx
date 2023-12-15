@@ -1,5 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { getUserFavorites, getUserInfo } from "@/app/lib/api";
+import { createContext, useContext, useState, useEffect } from "react";import { getUserFavorites, getUserInfo } from "../lib/api";
 import {
   FavoriteSet,
   LoggedInUser,
@@ -20,7 +19,6 @@ export const UserProvider = (props: any) => {
   const [favoriteSets, setFavoriteSets] = useState<FavoriteSet[] | null>(null);
 
   useEffect(() => {
-    
     const favSets = localStorage.getItem("favoriteSets");
     if (favSets) {
       setFavoriteSets(JSON.parse(favSets));
@@ -44,7 +42,6 @@ export const UserProvider = (props: any) => {
       localStorage.removeItem("favoriteSets");
     }
   }, [favoriteSets]);
-
 
   const addToFavList = (set: Set) => {
     const { id, title, user_id, username, private: isPrivate } = set;
