@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useUser } from "@/app/context/UserProvider";
+import { useUser } from "@/context/UserProvider";
 import { toast } from "react-toastify";
-import { likeSet, unlikeSet } from "@/app/lib/api";
+import { likeSet, unlikeSet } from "../lib/api";
 import { FavoriteSet, Set } from "../types/definitions";
 
 const useFavButton = (initialState = false) => {
@@ -45,7 +45,10 @@ const useFavButton = (initialState = false) => {
   };
 
   const checkLiked = (favoriteSets: FavoriteSet[], currentSetId: number) => {
-    setIsLiked(Array.isArray(favoriteSets) && favoriteSets.some((set) => set.id === currentSetId));
+    setIsLiked(
+      Array.isArray(favoriteSets) &&
+        favoriteSets.some((set) => set.id === currentSetId)
+    );
   };
 
   return { isLiked, setIsLiked, toggleLike, checkLiked };
