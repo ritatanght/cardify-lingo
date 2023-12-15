@@ -2,21 +2,21 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useUser } from "@/app/context/UserProvider";
-import useFavButton from "@/app/hooks/useFavButton";
+import { useUser } from "@/context/UserProvider";
+import useFavButton from "@/hooks/useFavButton";
 import {
   FaFolderOpen,
   FaHeart as FillHeart,
   FaRegHeart as EmptyHeart,
 } from "react-icons/fa";
-import { FullSet } from "@/app/types/definitions";
-import { language_voice_lang, waitForVoices } from "@/app/lib/voicesList";
+import { FullSet } from "@/types/definitions";
+import { language_voice_lang, waitForVoices } from "@/lib/voicesList";
 import ViewSet from "./(view)/ViewSet";
 import QuizSet from "./(quiz)/QuizSet";
 import Loading from "@/app/loading";
 import { useSession } from "next-auth/react";
-import "./ViewSet.scss";
-import { playpen } from "@/app/ui/fonts";
+import "@/styles/ViewSet.scss";
+import { playpen } from "@/lib/fonts";
 
 interface SetContainerProps {
   fullSetData: FullSet;

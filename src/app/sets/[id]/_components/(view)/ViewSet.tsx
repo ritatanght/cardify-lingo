@@ -1,7 +1,6 @@
-import { Dispatch, useState } from "react";
-import Cards from "./Cards";
+import { Dispatch, useState } from "react";import Cards from "./Cards";
 import EditCardModal from "./EditCardModal";
-import { Card, FullSet } from "@/app/types/definitions";
+import { Card, FullSet } from "../../../../../types/definitions";
 
 interface ViewSetProps {
   cards: Card[];

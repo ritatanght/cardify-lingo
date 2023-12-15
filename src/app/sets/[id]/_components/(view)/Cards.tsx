@@ -1,7 +1,6 @@
-import { useState } from "react";
-import CardItem from "./CardItem";
-import { playpen } from "@/app/ui/fonts";
-import { Card } from "@/app/types/definitions";
+import { useState } from "react";import CardItem from "./CardItem";
+import { playpen } from "../../../../../lib/fonts";
+import { Card } from "../../../../../types/definitions";
 import Confetti from "react-confetti";
 import {
   PiArrowFatLineLeftFill,
