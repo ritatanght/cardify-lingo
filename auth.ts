@@ -1,4 +1,5 @@
 import { logInUser } from "@/app/lib/api";
+import { isAxiosError } from "axios";
 const {
   getUserByEmail,
   createExternalUser,
@@ -36,13 +37,22 @@ export const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-        const { user } = await logInUser({ email, password });
-        //sample user { id: '1231', email: 'john.doe@example.com', name: 'john_doe' }
+        try {
+          const { user } = await logInUser({ email, password });
+          //sample user { id: '1231', email: 'john.doe@example.com', name: 'john_doe' }
 
-        if (user) {
-          return user;
+          if (user) {
+            return user;
+          }
+        } catch (err: any) {
+          // Return the error message from backend to client-side
+          if (isAxiosError(err) && err.response) {
+            throw new Error(err.response.data.message);
+          } else {
+            console.log(err);
+            throw new Error(err);
+          }
         }
-
         // Return null if user data could not be retrieved
         return null;
       },
