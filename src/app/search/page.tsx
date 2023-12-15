@@ -1,6 +1,6 @@
-import { searchByText } from "@/../db/queries/searches";
-import SetList from "../ui/components/SetList";
-import Loading from "../loading";
+import { searchByText } from "@/db/queries/searches";
+import SetList from "@/components/SetList";
+import Loading from "@/app/loading";
 import { Suspense } from "react";
 import { notFound } from "next/navigation";
 

@@ -1,10 +1,10 @@
-import { logInUser } from "@/app/lib/api";
+
 import { isAxiosError } from "axios";
+import { logInUser } from "@/lib/api";
 const {
   getUserByEmail,
   createExternalUser,
-  getUserInfoByEmail,
-} = require("@/../db/queries/users");
+} = require("@/db/queries/users");
 import type {
   GetServerSidePropsContext,
   NextApiRequest,

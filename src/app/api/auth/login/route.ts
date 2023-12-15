@@ -1,5 +1,4 @@
-const users = require("@/../db/queries/users");
-import bcrypt from "bcrypt";
+const users = require("@/db/queries/users");import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   const res = await request.json();

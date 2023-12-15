@@ -1,5 +1,4 @@
-const users = require("@/../db/queries/users");
-import { DatabaseError } from "pg";
+const users = require("@/db/queries/users");import { DatabaseError } from "pg";
 import { auth } from "../../../../auth";
 import bcrypt from "bcrypt";
 
@@ -8,7 +7,7 @@ export async function GET(req: any, res: any) {
 
   try {
     const user = await users.getUserInfoByEmail(session?.user?.email);
- 
+
     return Response.json(user, { status: 200 });
   } catch (err) {
     console.error(err);

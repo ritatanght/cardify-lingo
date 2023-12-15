@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { roboto } from "./ui/fonts";
+import { roboto } from "@/lib/fonts";
 import Providers from "./providers";
-import Header from "./ui/components/Header";
-import { getAllLanguages } from "@/../db/queries/languages";
-import "./globals.scss";
+import Header from "@/components/Header";
+import { getAllLanguages } from "@/db/queries/languages";
+import "@/styles/globals.scss";
 
 export const metadata: Metadata = {
   title: "Cardify",

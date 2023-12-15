@@ -1,7 +1,7 @@
-import { getLanguageById } from "@/../db/queries/languages";
-import { getSetsByLanguageId } from "@/../db/queries/sets";
+import { getLanguageById } from "@/db/queries/languages";
+import { getSetsByLanguageId } from "@/db/queries/sets";
 import { notFound } from "next/navigation";
-import SetList from "@/app/ui/components/SetList";
+import SetList from "@/components/SetList";
 
 export default async function Page({ params }: { params: { id: string } }) {
   const languageId = params.id;

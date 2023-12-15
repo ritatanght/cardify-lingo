@@ -1,4 +1,5 @@
-import { getSetInfoById } from "@/../db/queries/sets";import { getCardsBySetId } from "@/../db/queries/cards";
+import { getSetInfoById } from "@/db/queries/sets";
+import { getCardsBySetId } from "@/db/queries/cards";
 import SetContainer from "./_components/SetContainer";
 import { notFound } from "next/navigation";
 

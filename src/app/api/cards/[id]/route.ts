@@ -1,6 +1,5 @@
-import { auth } from "../../../../../auth";
-const cards = require("@/../db/queries/cards");
-const users = require("@/../db/queries/users");
+import { auth } from "../../../../../auth";const cards = require("@/db/queries/cards");
+const users = require("@/db/queries/users");
 
 export async function PUT(
   request: Request,
