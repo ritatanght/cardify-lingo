@@ -1,4 +1,6 @@
-import axios from "axios";import { CardFormData, NewSetData, SetData } from "../types/definitions";const instance = axios.create({  baseURL:
+import axios from "axios";import { CardFormData, NewSetData, SetData } from "../types/definitions";
+const instance = axios.create({
+  baseURL:
     process.env.NODE_ENV === "production"
       ? process.env.PROD_BASEURL
       : "http://localhost:3000/",
@@ -32,9 +34,7 @@ export const getUserInfo = () => {
 };
 
 export const getUserSets = () => {
-  return instance
-    .get("/api/sets")
-    .then((res) => res.data);
+  return instance.get("/api/sets").then((res) => res.data);
 };
 
 export const getUserFavorites = (userId: string) => {
@@ -54,7 +54,6 @@ export const unlikeSet = (setId: number) => {
 export const createSet = (setData: {
   setFormData: NewSetData;
   cardFormData: CardFormData[];
-
 }) => {
   return instance.post("/api/sets/", setData);
 };
