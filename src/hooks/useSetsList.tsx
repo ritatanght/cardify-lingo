@@ -1,6 +1,6 @@
-import { useState } from "react";import { useUser } from "@/app/context/UserProvider";
+import { useState } from "react";import { useUser } from "@/context/UserProvider";
 import { toast } from "react-toastify";
-import { deleteSetById } from "@/app/lib/api";
+import { deleteSetById } from "../lib/api";
 import { Set } from "../types/definitions";
 
 const useSetsList = (initialSet: Set[] = []) => {
