@@ -14,8 +14,8 @@ const Login = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) return toast.error("Fields cannot be empty.");
-    signIn("credentials", { email, password, redirect: false }).then(
-      ({ ok }: any) => {
+    signIn("credentials", { email, password, redirect: false })
+      .then(({ ok, error }: any) => {
         if (ok) {
           toast.success("Login successful", {
             position: "top-center",
@@ -23,10 +23,10 @@ const Login = () => {
           });
           return router.push("/profile");
         } else {
-          toast.error("Login details are incorrect.");
+          toast.error(error);
         }
-      }
-    );
+      })
+      .catch(console.log);
   };
 
   return (
