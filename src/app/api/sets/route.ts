@@ -1,7 +1,7 @@
 import { Card } from "@/types/definitions";
 import { auth } from "@/../auth";
-const sets = require("@/db/queries/sets");
-const cards = require("@/db/queries/cards");
+import { getSetsByUserId, postSetData } from "@/db/queries/sets";
+import { postCardsData } from "@/db/queries/cards";
 
 // profile page getting user's sets
 export async function GET(request: Request) {
@@ -10,7 +10,7 @@ export async function GET(request: Request) {
   if (session) {
     const userId = session.user?.id;
     try {
-      const data = await sets.getSetsByUserId(userId);
+      const data = await getSetsByUserId(userId);
       return Response.json(data, { status: 200 });
     } catch (err) {
       console.error(err);
@@ -57,7 +57,7 @@ export async function POST(request: Request) {
     return Response.json({ message: "Cards cannot be empty" }, { status: 400 });
 
   try {
-    const set = await sets.postSetData({ ...setFormData, user_id: userId });
+    const set = await postSetData({ ...setFormData, user_id: userId });
 
     // get the id returned from creating the set to create the cards
     const cardDataWithSetId = cardFormData.map((card: Card) => ({
@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       set_id: set.id,
     }));
 
-    await cards.postCardsData(cardDataWithSetId);
+    await postCardsData(cardDataWithSetId);
 
     return Response.json(
       {
