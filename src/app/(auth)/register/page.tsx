@@ -1,7 +1,6 @@
-import Link from "next/link";
-import { playpen } from "../ui/fonts";
+import Link from "next/link";import { playpen } from "../../../lib/fonts";
 import RegisterForm from "./RegisterForm";
-import { auth } from "../../../auth";
+import { auth } from "../../../../auth";
 import { redirect } from "next/navigation";
 
 const Page = () => {

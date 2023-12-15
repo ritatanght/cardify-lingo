@@ -1,9 +1,7 @@
-import Link from "next/link";
-import { playpen } from "../ui/fonts";
+import Link from "next/link";import { playpen } from "../../../lib/fonts";
 import LoginForm from "./LoginForm";
 import { redirect } from "next/navigation";
-import { auth } from "../../../auth";
-
+import { auth } from "../../../../auth";
 
 const Page = async () => {
   const session = await auth();
