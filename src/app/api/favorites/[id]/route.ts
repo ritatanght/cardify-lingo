@@ -1,5 +1,9 @@
 import { auth } from "@/../auth";
-const favorites = require("@/db/queries/favorites");
+import {
+  getFavoritesByUserId,
+  addFavoriteByUserAndSet,
+  removeFavoriteByUserAndSet,
+} from "@/db/queries/favorites";
 
 export async function GET(
   request: Request,
@@ -7,7 +11,7 @@ export async function GET(
 ) {
   const userId = params.id;
   try {
-    const favoriteSets = await favorites.getFavoritesByUserId(userId);
+    const favoriteSets = await getFavoritesByUserId(userId);
     return Response.json(favoriteSets);
   } catch (err) {
     return Response.json({ message: err }, { status: 500 });
@@ -26,7 +30,7 @@ export async function POST(
       return Response.json({ message: "Login to like a set" }, { status: 400 });
     const userId = session?.user.id;
 
-    await favorites.addFavoriteByUserAndSet(userId, setId);
+    await addFavoriteByUserAndSet(userId, setId);
     return Response.json("success", { status: 201 });
   } catch (err) {
     console.log(err);
@@ -50,7 +54,7 @@ export async function DELETE(
       );
     const userId = session?.user.id;
 
-    await favorites.removeFavoriteByUserAndSet(userId, setId);
+    await removeFavoriteByUserAndSet(userId, setId);
     return Response.json("success", { status: 200 });
   } catch (err) {
     console.log(err);
