@@ -1,5 +1,4 @@
-import { CardFormData } from "@/app/types/definitions";
-import { FaRegTrashCan } from "react-icons/fa6";
+import { CardFormData } from "../types/definitions";import { FaRegTrashCan } from "react-icons/fa6";
 interface CardFormProps {
   card: CardFormData;
   onUpdate: (e: React.BaseSyntheticEvent) => void;

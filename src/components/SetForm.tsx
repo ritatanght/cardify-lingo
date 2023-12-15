@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
-import CardForm from "@/app/ui/components/CardForm";
+import CardForm from "@/components/CardForm";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
-import { createSet, editSet } from "@/app/lib/api";
+import { createSet, editSet } from "../lib/api";
 import { Listbox, Transition } from "@headlessui/react";
 import { FaCheck, FaAngleDown } from "react-icons/fa";
 import {
@@ -13,8 +13,8 @@ import {
   NewSetData,
   SetData,
   Language,
-} from "@/app/types/definitions";
-import { playpen } from "@/app/ui/fonts";
+} from "../types/definitions";
+import { playpen } from "../lib/fonts";
 import "../Create-Edit-Set.scss";
 
 interface SetFormProps {

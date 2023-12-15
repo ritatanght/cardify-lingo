@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useEffect } from "react";
-import useFavButton from "@/app/hooks/useFavButton";
-import { useUser } from "@/app/context/UserProvider";
+import useFavButton from "@/hooks/useFavButton";
+import { useUser } from "@/context/UserProvider";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { FiEdit } from "react-icons/fi";
 import { FaHeart as FillHeart, FaRegHeart as EmptyHeart } from "react-icons/fa";
-import { FavoriteSet, Set } from "@/app/types/definitions";
-import "../SetItem.scss";
+import { FavoriteSet, Set } from "../types/definitions";
+import "@/styles/SetItem.scss";
 import { useSession } from "next-auth/react";
 
 type setItemProps = {

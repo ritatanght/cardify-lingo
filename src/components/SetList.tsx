@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
-import SetItem from "@/app/ui/components/SetItem";
-import useSetsList from "@/app/hooks/useSetsList";
-import { Set } from "@/app/types/definitions";
+import SetItem from "@/components/SetItem";
+import useSetsList from "@/hooks/useSetsList";
+import { Set } from "../types/definitions";
 import { useSession } from "next-auth/react";
 
 interface SetListProps {
