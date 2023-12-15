@@ -32,7 +32,9 @@ const TestContainer = ({
   const [answer, setAnswer] = useState("");
   const [questionSide, setQuestionSide] = useState<keyof Card>("front");
   const [testMode, setTestMode] = useState("");
-  const [speakFunc, setSpeakFunc] = useState<(() => void) | null>(speakText);
+  const [speakFunc, setSpeakFunc] = useState<typeof speakText>(
+    () => speakText || (() => {})
+  );
 
   // set the testMode to either read or listen randomly and asking the front or back
   const generateTestMode = useCallback(() => {
