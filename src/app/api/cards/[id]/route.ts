@@ -1,6 +1,5 @@
-import { auth } from "../../../../../auth";
-const cards = require("@/../db/queries/cards");
-const users = require("@/../db/queries/users");
+import { auth } from "@/../auth";
+import { getCardOwnerByCardId, updateCardById } from "@/db/queries/cards";
 
 export async function PUT(
   request: Request,
@@ -24,7 +23,7 @@ export async function PUT(
     const userId = session.user.id;
 
     // make sure the user who edits the card is the owner
-    const data = await cards.getCardOwnerByCardId(cardId);
+    const data = await getCardOwnerByCardId(cardId);
     if (data.user_id !== userId)
       return Response.json(
         { message: "You can only edit your own card." },
@@ -32,7 +31,7 @@ export async function PUT(
       );
 
     // Update the card
-    await cards.updateCardById(cardId, { front, back });
+    await updateCardById(cardId, { front, back });
 
     return Response.json(
       { success: true, message: "Card updated successfully" },

@@ -1,4 +1,4 @@
-const users = require("@/../db/queries/users");
+import { getUserByEmail } from "@/db/queries/users";
 import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       { status: 400 }
     );
   try {
-    const user = await users.getUserByEmail(email);
+    const user = await getUserByEmail(email);
 
     if (!user)
       return Response.json(

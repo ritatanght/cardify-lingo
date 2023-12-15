@@ -1,9 +1,10 @@
-"use client";import SetItem from "@/app/ui/components/SetItem";
-import useSetsList from "@/app/hooks/useSetsList";
-import { useUser } from "@/app/context/UserProvider";
+"use client";
+import SetItem from "@/components/SetItem";
+import useSetsList from "@/hooks/useSetsList";
+import { useUser } from "@/context/UserProvider";
+import { FavoriteSet, Set } from "@/types/definitions";
+import { playpen } from "@/lib/fonts";
 import { Tab } from "@headlessui/react";
-import { playpen } from "../ui/fonts";
-import { FavoriteSet, Set } from "../types/definitions";
 
 const Profile = ({ userSets }: { userSets: Set[] }) => {
   const { favoriteSets } = useUser();

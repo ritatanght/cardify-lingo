@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { playpen } from "./ui/fonts";
+import { playpen } from "@/lib/fonts";
 export default function NotFound() {
   return (
     <main className="text-center">

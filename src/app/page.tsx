@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { playpen } from "./ui/fonts";
-import "./ui/Home.scss";
+import { playpen } from "@/lib/fonts";
+import "@/styles/Home.scss";
 
 export default function Home() {
   return (

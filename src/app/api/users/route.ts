@@ -1,4 +1,4 @@
-const users = require("@/../db/queries/users");
+import { createCredUser, getUserInfoByEmail } from "@/db/queries/users";
 import { DatabaseError } from "pg";
 import { auth } from "../../../../auth";
 import bcrypt from "bcrypt";
@@ -7,8 +7,8 @@ export async function GET(req: any, res: any) {
   const session = await auth();
 
   try {
-    const user = await users.getUserInfoByEmail(session?.user?.email);
- 
+    const user = await getUserInfoByEmail(session?.user?.email);
+
     return Response.json(user, { status: 200 });
   } catch (err) {
     console.error(err);
@@ -36,7 +36,7 @@ export async function POST(request: Request) {
   try {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
-    const user = await users.createCredUser(email, username, hash);
+    const user = await createCredUser(email, username, hash);
 
     return Response.json(user, { status: 200 });
   } catch (err: unknown) {
