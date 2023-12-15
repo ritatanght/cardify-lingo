@@ -1,5 +1,4 @@
-const languages = require("@/../db/queries/languages");
-const sets = require("@/../db/queries/sets");
+const languages = require("@/db/queries/languages");const sets = require("@/db/queries/sets");
 export async function GET(
   request: Request,
   { params }: { params: { id: string } }

@@ -1,7 +1,7 @@
-import { Card } from "@/app/types/definitions";
-import { auth } from "../../../../auth";
-const sets = require("@/../db/queries/sets");
-const cards = require("@/../db/queries/cards");
+import { Card } from "@/types/definitions";
+import { auth } from "@/../auth";
+const sets = require("@/db/queries/sets");
+const cards = require("@/db/queries/cards");
 
 // profile page getting user's sets
 export async function GET(request: Request) {

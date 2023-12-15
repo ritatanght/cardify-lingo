@@ -1,7 +1,5 @@
-import { NextResponse } from "next/server";
-import { auth } from "../../../../../auth";
-
-const favorites = require("@/../db/queries/favorites");
+import { auth } from "@/../auth";
+const favorites = require("@/db/queries/favorites");
 
 export async function GET(
   request: Request,
@@ -46,12 +44,14 @@ export async function DELETE(
     const session = await auth();
 
     if (!session)
-      return Response.json({ message: "Login to unlike a set" }, { status: 400 });
+      return Response.json(
+        { message: "Login to unlike a set" },
+        { status: 400 }
+      );
     const userId = session?.user.id;
-    
+
     await favorites.removeFavoriteByUserAndSet(userId, setId);
     return Response.json("success", { status: 200 });
-
   } catch (err) {
     console.log(err);
     return Response.json(

@@ -1,5 +1,4 @@
-const languages = require("@/../db/queries/languages");
-
+const languages = require("@/db/queries/languages");
 export async function GET(request: Request) {
   try {
     const data = await languages.getAllLanguages();

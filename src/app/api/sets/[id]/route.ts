@@ -1,4 +1,7 @@
-const sets = require("@/../db/queries/sets");const cards = require("@/../db/queries/cards");import { Card } from "@/app/types/definitions";import { auth } from "../../../../../auth";
+const sets = require("@/db/queries/sets");
+const cards = require("@/db/queries/cards");
+import { Card } from "@/types/definitions";
+import { auth } from "@/../auth";
 import { revalidatePath } from "next/cache";
 
 // Get the sets and cards for ViewSets and EditSet

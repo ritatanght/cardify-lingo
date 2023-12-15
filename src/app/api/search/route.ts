@@ -1,5 +1,4 @@
-const searches = require("@/../db/queries/searches");
-import { type NextRequest } from "next/server";
+const searches = require("@/db/queries/searches");import { type NextRequest } from "next/server";
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
