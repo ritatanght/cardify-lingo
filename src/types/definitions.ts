@@ -1,4 +1,3 @@
-import { Session } from "next-auth";
 export type User = {
   id: string;
   username: string;
@@ -49,7 +48,7 @@ export type Card = {
   set_id: number;
   front: string;
   back: string;
-  image_url?: string;
+  image: File | null;
   deleted?: boolean;
 };
 
