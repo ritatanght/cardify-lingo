@@ -4,10 +4,15 @@ import db from "../db.config";
 export const postCardsData = (cardsData: CardFormData[]) => {
   const promises = cardsData.map((cardData) => {
     const query = `
-      INSERT INTO lang_cards(front, back, lang_set_id)
-      VALUES($1, $2, $3)
+      INSERT INTO lang_cards(front, back, image, lang_set_id)
+      VALUES($1, $2, $3, $4)
     `;
-    return db.query(query, [cardData.front, cardData.back, cardData.set_id]);
+    return db.query(query, [
+      cardData.front,
+      cardData.back,
+      cardData.image,
+      cardData.set_id,
+    ]);
   });
   return Promise.all(promises);
 };
@@ -19,22 +24,29 @@ export const updateCardsData = (cardsData: CardFormData[]) => {
       UPDATE lang_cards
       SET front = $1,
       back = $2,
-      deleted = $3
-      WHERE id = $4;
+      image = $3,
+      deleted = $4
+      WHERE id = $5;
       `;
       return db.query(query, [
         cardData.front,
         cardData.back,
+        cardData.image,
         cardData.deleted,
         cardData.id,
       ]);
     } else {
       const query = `
-      INSERT INTO lang_cards (front, back, lang_set_id)
-      VALUES ($1, $2, $3)
+      INSERT INTO lang_cards (front, back, image, lang_set_id)
+      VALUES ($1, $2, $3, $4)
       RETURNING id;
       `;
-      return db.query(query, [cardData.front, cardData.back, cardData.set_id]);
+      return db.query(query, [
+        cardData.front,
+        cardData.back,
+        cardData.image,
+        cardData.set_id,
+      ]);
     }
   });
 
@@ -57,10 +69,10 @@ export const getCardsBySetId = (setId: string) => {
 export const updateCardById = (id: string, cardData: CardFormData) => {
   const query = `
     UPDATE lang_cards
-    SET front = $1, back = $2
-    WHERE id = $3
+    SET front = $1, back = $2, image = $3
+    WHERE id = $4
   `;
-  return db.query(query, [cardData.front, cardData.back, id]);
+  return db.query(query, [cardData.front, cardData.back, cardData.image, id]);
 };
 
 export const getCardOwnerByCardId = (cardId: string) => {
