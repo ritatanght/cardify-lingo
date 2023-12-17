@@ -1,9 +1,8 @@
 import { CardFormData } from "../types/definitions";
 import { FaRegTrashCan, FaImage } from "react-icons/fa6";
-import { useState, useRef } from "react";
+import { useRef } from "react";
 import { IoIosRemoveCircle } from "react-icons/io";
 import Image from "next/image";
-import { toast } from "react-toastify";
 
 interface CardFormProps {
   card: CardFormData;
@@ -19,22 +18,14 @@ const CardForm = ({
   selectedLanguage,
 }: CardFormProps) => {
   const inputFile = useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = useState<File | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // check for valid file type before setting the image as the uploaded file
-    const allowedFileTypes = [
-      "image/jpg",
-      "image/jpeg",
-      "image/png",
-      "image/gif",
-    ];
-    const upload = e.target.files?.length && e.target.files[0];
-    if (upload && allowedFileTypes.includes(upload.type)) {
-      setImage(upload);
-    } else {
-      toast.error("Invalid File Type Selected");
-    }
+  // when clicking the remove icon on the uploaded image
+  const handleRemoveImage = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault();
+    // call onUpdate with no e.target.name
+    onUpdate(e);
   };
 
   const handleAddImageBtnClick = (
@@ -92,21 +83,22 @@ const CardForm = ({
           <input
             type="file"
             accept="image/*"
-            onChange={handleChange}
+            name="image"
+            onChange={onUpdate}
             className="hidden"
             ref={inputFile}
           />
-          {image ? (
+          {card.image ? (
             <div className="border-2 h-full rounded flex justify-center items-center relative overflow-clip">
               <button>
                 <IoIosRemoveCircle
                   className="absolute top-0.5 right-0.5 md:right-1 text-color-1 hover:text-color-heart"
                   aria-label="Remove image"
-                  onClick={() => setImage(null)}
+                  onClick={handleRemoveImage}
                 />
               </button>
               <Image
-                src={URL.createObjectURL(image)}
+                src={URL.createObjectURL(card.image)}
                 height="100"
                 width="100"
                 alt="Image on card"

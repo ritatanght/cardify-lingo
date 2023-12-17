@@ -38,9 +38,9 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const [isPrivate, setIsPrivate] = useState(setData?.set.private || false);
   const [cards, setCards] = useState<CardFormData[]>(
     setData?.cards || [
-      { front: "", back: "" },
-      { front: "", back: "" },
-      { front: "", back: "" },
+      { front: "", back: "", image: null },
+      { front: "", back: "", image: null },
+      { front: "", back: "", image: null },
     ]
   );
 
@@ -109,8 +109,12 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  /**
+   * Based on the current mode "create" || "edit", call the corresponding submit function
+   * @param e
+   */
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     const language_id = languages.find(
       (lang) => lang.name === selectedLanguage
     )?.id;
@@ -133,6 +137,11 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     }
   };
 
+  /**
+   * Called on the click of the "Add card" button
+   * Add a blank card to the end of the cards array
+   * @param e
+   */
   const addCard = (e: React.FormEvent) => {
     e.preventDefault();
     setCards((prevCards) => [
@@ -140,18 +149,49 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       {
         front: "",
         back: "",
+        image: null,
       },
     ]);
   };
 
+  /**
+   * Update the array of cards based on input changes
+   * @param index
+   * @param e
+   */
   const handleCardUpdate = (index: number, e: React.BaseSyntheticEvent) => {
     setCards((prevCards) => {
       const updatedCards = [...prevCards];
-      updatedCards[index][e.target.name as keyof CardFormData] = e.target.value;
+      if (e.target.name === "image") {
+        // list of accepted file types for image
+        const allowedFileTypes = [
+          "image/jpg",
+          "image/jpeg",
+          "image/png",
+          "image/gif",
+        ];
+        const upload = e.target.files?.length && e.target.files[0];
+        //check for valid file type before setting the image as the uploaded file
+        if (upload && allowedFileTypes.includes(upload.type)) {
+          updatedCards[index].image = upload;
+        } else {
+          toast.error("Invalid File Type Selected");
+        }
+      } else if (e.target.name === "front" || e.target.name === "back") {
+        updatedCards[index][e.target.name as keyof CardFormData] =
+          e.target.value;
+      } else {
+        // handle clicking on the remove button on image, which has no target.name
+        updatedCards[index].image = null;
+      }
       return updatedCards;
     });
   };
 
+  /**
+   * Remove the card with the provided index from the cards array
+   * @param cardIndex
+   */
   const handleCardDelete = (cardIndex: number) => {
     if (cards.length === 1)
       return toast.info("There should be at least one card");
