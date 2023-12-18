@@ -48,7 +48,8 @@ export type Card = {
   set_id: number;
   front: string;
   back: string;
-  image_url: string;
+  image_url: string | null;
+  image?: File | null;
   deleted?: boolean;
 };
 
