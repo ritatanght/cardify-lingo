@@ -82,7 +82,7 @@ const CardFace = ({
             alt={text}
             width="120"
             height="120"
-            className="mx-auto -mt-4 mb-4"
+            className="mx-auto -mt-4 mb-8 md:mb-4"
           />
         )}
         <p
