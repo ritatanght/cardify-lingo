@@ -88,7 +88,7 @@ const CardForm = ({
             className="hidden"
             ref={inputFile}
           />
-          {card.image_url ? (
+          {card.image_url || card.image ? (
             <div className="border-2 h-full rounded flex justify-center items-center relative overflow-clip">
               <button>
                 <IoIosRemoveCircle
@@ -98,7 +98,11 @@ const CardForm = ({
                 />
               </button>
               <Image
-                src={card.image_url}
+                src={
+                  card.image
+                    ? URL.createObjectURL(card.image)
+                    : card.image_url || ""
+                }
                 unoptimized={false}
                 height="100"
                 width="100"
