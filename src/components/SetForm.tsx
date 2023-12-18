@@ -28,7 +28,6 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [userId, setUserId] = useState(setData?.set.user_id || "");
   const [title, setTitle] = useState(setData?.set.title || "");
   const [description, setDescription] = useState(
     setData?.set.description || ""
@@ -229,7 +228,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   };
 
   // display when it is edit mode and user is not the set's owner
-  if (mode === "edit" && session.user.id !== userId) {
+  if (mode === "edit" && session.user.id !== setData?.set.user_id) {
     return (
       <main>
         <h1 className="text-xl text-center">
