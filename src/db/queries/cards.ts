@@ -4,13 +4,13 @@ import db from "../db.config";
 export const postCardsData = (cardsData: CardFormData[]) => {
   const promises = cardsData.map((cardData) => {
     const query = `
-      INSERT INTO lang_cards(front, back, image, lang_set_id)
+      INSERT INTO lang_cards(front, back, image_url, lang_set_id)
       VALUES($1, $2, $3, $4)
     `;
     return db.query(query, [
       cardData.front,
       cardData.back,
-      cardData.image,
+      cardData.image_url,
       cardData.set_id,
     ]);
   });
@@ -24,27 +24,27 @@ export const updateCardsData = (cardsData: CardFormData[]) => {
       UPDATE lang_cards
       SET front = $1,
       back = $2,
-      image = $3,
+      image_url = $3,
       deleted = $4
       WHERE id = $5;
       `;
       return db.query(query, [
         cardData.front,
         cardData.back,
-        cardData.image,
+        cardData.image_url,
         cardData.deleted,
         cardData.id,
       ]);
     } else {
       const query = `
-      INSERT INTO lang_cards (front, back, image, lang_set_id)
+      INSERT INTO lang_cards (front, back, image_url, lang_set_id)
       VALUES ($1, $2, $3, $4)
       RETURNING id;
       `;
       return db.query(query, [
         cardData.front,
         cardData.back,
-        cardData.image,
+        cardData.image_url,
         cardData.set_id,
       ]);
     }
@@ -69,10 +69,15 @@ export const getCardsBySetId = (setId: string) => {
 export const updateCardById = (id: string, cardData: CardFormData) => {
   const query = `
     UPDATE lang_cards
-    SET front = $1, back = $2, image = $3
+    SET front = $1, back = $2, image_url = $3
     WHERE id = $4
   `;
-  return db.query(query, [cardData.front, cardData.back, cardData.image, id]);
+  return db.query(query, [
+    cardData.front,
+    cardData.back,
+    cardData.image_url,
+    id,
+  ]);
 };
 
 export const getCardOwnerByCardId = (cardId: string) => {
