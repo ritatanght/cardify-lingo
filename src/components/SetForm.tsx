@@ -1,11 +1,11 @@
 "use client";
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
-import type { PutBlobResult } from "@vercel/blob";
 import CardForm from "@/components/CardForm";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
-import { createSet, editSet } from "../lib/api";
+import { createSet, editSet } from "../lib/services";
+import { addImageUrlToCards, deleteImageUrls } from "@/lib/utils";
 import { Listbox, Transition } from "@headlessui/react";
 import { FaCheck, FaAngleDown } from "react-icons/fa";
 import {
@@ -39,11 +39,12 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const [isPrivate, setIsPrivate] = useState(setData?.set.private || false);
   const [cards, setCards] = useState<CardFormData[]>(
     setData?.cards || [
-      { front: "", back: "", image_url: "" },
-      { front: "", back: "", image_url: "" },
-      { front: "", back: "", image_url: "" },
+      { front: "", back: "", image: null },
+      { front: "", back: "", image: null },
+      { front: "", back: "", image: null },
     ]
   );
+  const [toBeDeletedUrl, setToBeDeletedUrl] = useState<string[]>([]);
 
   useEffect(() => {
     // display upon redirect to login page
@@ -114,12 +115,17 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
    * Based on the current mode "create" || "edit", call the corresponding submit function
    * @param e
    */
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const language_id = languages.find(
       (lang) => lang.name === selectedLanguage
     )?.id;
     if (!language_id) return toast.error("Please select a language");
+    // prep the cards with imageUrl by uploading the images stored in image
+    const cardsWithImageUrl = await addImageUrlToCards(cards);
+    // make requests to the backend to remove urls stored in the array
+    await deleteImageUrls(toBeDeletedUrl);
+
     const setFormData = {
       title,
       description,
@@ -128,10 +134,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     };
     switch (mode) {
       case "create":
-        onCreate({ setFormData, cardFormData: cards });
+        onCreate({ setFormData, cardFormData: cardsWithImageUrl });
         break;
       case "edit":
-        onEdit({ setFormData, cardFormData: cards });
+        onEdit({ setFormData, cardFormData: cardsWithImageUrl });
         break;
       default:
         console.log("Invalid mode");
@@ -150,7 +156,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       {
         front: "",
         back: "",
-        image_url: "",
+        image: null,
       },
     ]);
   };
@@ -160,10 +166,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
    * @param index
    * @param e
    */
-  const handleCardUpdate = async (
-    index: number,
-    e: React.BaseSyntheticEvent
-  ) => {
+  const handleCardUpdate = (index: number, e: React.BaseSyntheticEvent) => {
     // list of accepted file types for image
     const allowedFileTypes = [
       "image/jpg",
@@ -171,39 +174,30 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       "image/png",
       "image/gif",
     ];
-    let imageUrl = "";
-    if (e.target.name === "image") {
-      const upload = e.target.files?.length && e.target.files[0];
-      //check for valid file type before setting the image as the uploaded file
-      if (!upload || !allowedFileTypes.includes(upload.type)) {
-        return toast.error("Invalid File Selected");
-      } else {
-        const response = await fetch(
-          `/api/image/upload?filename=${upload.name}`,
-          {
-            method: "POST",
-            body: upload,
-          }
-        );
-        const { url }: PutBlobResult = await response.json();
-        imageUrl = url; // assign the returned url to imageUrl
-      }
-    }
 
     setCards((prevCards) => {
       const updatedCards = [...prevCards];
-      // when there's a imageUrl assign it to the image property for the corresponding card
-      if (imageUrl) {
-        updatedCards[index].image_url = imageUrl;
+      // when there's a valid tile assign it to the image property for the corresponding card
+      if (e.target.name === "image") {
+        const upload = e.target.files?.length && e.target.files[0];
+        if (upload && allowedFileTypes.includes(upload.type)) {
+          updatedCards[index].image = upload;
+        } else {
+          toast.error("Invalid File Selected");
+        }
       } else if (e.target.name === "front" || e.target.name === "back") {
         updatedCards[index][e.target.name as keyof CardFormData] =
           e.target.value;
       } else {
         // handle clicking on the remove button on image, which has no target.name
-        // delete the image from blob store while setting the image property for the card to null
-        fetch(`/api/image/delete?url=${updatedCards[index].image_url}`, {
-          method: "DELETE",
-        }).then(() => (updatedCards[index].image_url = ""));
+        const origUrl = updatedCards[index].image_url;
+        // if there's a image_url for a card, add the url to toBeDeletedUrl array for deletion upon submission
+        if (origUrl) {
+          setToBeDeletedUrl((prev) => [...prev, origUrl]);
+          updatedCards[index].image_url = null;
+        } else {
+          updatedCards[index].image = null;
+        }
       }
       return updatedCards;
     });
@@ -216,20 +210,24 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const handleCardDelete = (cardIndex: number) => {
     if (cards.length === 1)
       return toast.info("There should be at least one card");
-
-    const updatedCards = [...cards];
-    // A card has an id means it's been created in the database previously
-    // we have to keep it to update the database
-    if (cards[cardIndex].id) {
-      updatedCards[cardIndex].deleted = true;
-      setCards(updatedCards);
-    } else {
-      // otherwise, we could just remove it from the array
-      setCards((prevCards) =>
-        prevCards.filter((card, index) => index !== cardIndex)
-      );
-    }
+    setCards((prevCards) => {
+      const updatedCards = [...cards];
+      // A card has an id means it's been created in the database previously
+      if (prevCards[cardIndex].id) {
+        updatedCards[cardIndex].deleted = true;
+        // add imageUrl of the card marked deleted to the toBeDeletedUrl array
+        const hasImage = updatedCards[cardIndex].image_url;
+        if (hasImage) {
+          setToBeDeletedUrl((prev) => [...prev, hasImage]);
+        }
+        return updatedCards;
+      } else {
+        // otherwise, we could just remove it from the array
+        return prevCards.filter((card, index) => index !== cardIndex);
+      }
+    });
   };
+
   // display when it is edit mode and user is not the set's owner
   if (mode === "edit" && session.user.id !== userId) {
     return (
