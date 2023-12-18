@@ -1,6 +1,5 @@
-
 import { isAxiosError } from "axios";
-import { logInUser } from "@/lib/api";
+import { logInUser } from "@/lib/services";
 import { getUserByEmail, createExternalUser } from "@/db/queries/users";
 import type {
   GetServerSidePropsContext,

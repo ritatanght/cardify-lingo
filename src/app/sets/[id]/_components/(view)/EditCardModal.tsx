@@ -1,7 +1,8 @@
-import { Card } from "../../../../../types/definitions";import { useState, Fragment } from "react";
+import { Card } from "@/types/definitions";
+import { useState, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import { toast } from "react-toastify";
-import { editCardById } from "../../../../../lib/api";
+import { editCardById } from "@/lib/services";
 import { useRouter } from "next/navigation";
 
 interface modalProps {
