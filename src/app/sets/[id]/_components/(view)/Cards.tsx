@@ -1,4 +1,5 @@
-import { useState } from "react";import CardItem from "./CardItem";
+import { useState } from "react";
+import CardItem from "./CardItem";
 import { playpen } from "../../../../../lib/fonts";
 import { Card } from "../../../../../types/definitions";
 import Confetti from "react-confetti";
@@ -51,7 +52,7 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
         voices={voices}
         isSetOwner={isSetOwner}
         onEdit={() => onEdit(card)}
-        {...card}
+        card={card}
       />
     ));
 
