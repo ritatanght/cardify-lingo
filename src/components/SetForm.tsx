@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, Fragment } from "react";
 import { useRouter } from "next/navigation";
+import type { PutBlobResult } from "@vercel/blob";
 import CardForm from "@/components/CardForm";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
@@ -38,9 +39,9 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const [isPrivate, setIsPrivate] = useState(setData?.set.private || false);
   const [cards, setCards] = useState<CardFormData[]>(
     setData?.cards || [
-      { front: "", back: "", image: null },
-      { front: "", back: "", image: null },
-      { front: "", back: "", image: null },
+      { front: "", back: "", image_url: "" },
+      { front: "", back: "", image_url: "" },
+      { front: "", back: "", image_url: "" },
     ]
   );
 
@@ -149,7 +150,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       {
         front: "",
         back: "",
-        image: null,
+        image_url: "",
       },
     ]);
   };
@@ -159,30 +160,50 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
    * @param index
    * @param e
    */
-  const handleCardUpdate = (index: number, e: React.BaseSyntheticEvent) => {
+  const handleCardUpdate = async (
+    index: number,
+    e: React.BaseSyntheticEvent
+  ) => {
+    // list of accepted file types for image
+    const allowedFileTypes = [
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+    ];
+    let imageUrl = "";
+    if (e.target.name === "image") {
+      const upload = e.target.files?.length && e.target.files[0];
+      //check for valid file type before setting the image as the uploaded file
+      if (!upload || !allowedFileTypes.includes(upload.type)) {
+        return toast.error("Invalid File Selected");
+      } else {
+        const response = await fetch(
+          `/api/image/upload?filename=${upload.name}`,
+          {
+            method: "POST",
+            body: upload,
+          }
+        );
+        const { url }: PutBlobResult = await response.json();
+        imageUrl = url; // assign the returned url to imageUrl
+      }
+    }
+
     setCards((prevCards) => {
       const updatedCards = [...prevCards];
-      if (e.target.name === "image") {
-        // list of accepted file types for image
-        const allowedFileTypes = [
-          "image/jpg",
-          "image/jpeg",
-          "image/png",
-          "image/gif",
-        ];
-        const upload = e.target.files?.length && e.target.files[0];
-        //check for valid file type before setting the image as the uploaded file
-        if (upload && allowedFileTypes.includes(upload.type)) {
-          updatedCards[index].image = upload;
-        } else {
-          toast.error("Invalid File Type Selected");
-        }
+      // when there's a imageUrl assign it to the image property for the corresponding card
+      if (imageUrl) {
+        updatedCards[index].image_url = imageUrl;
       } else if (e.target.name === "front" || e.target.name === "back") {
         updatedCards[index][e.target.name as keyof CardFormData] =
           e.target.value;
       } else {
         // handle clicking on the remove button on image, which has no target.name
-        updatedCards[index].image = null;
+        // delete the image from blob store while setting the image property for the card to null
+        fetch(`/api/image/delete?url=${updatedCards[index].image_url}`, {
+          method: "DELETE",
+        }).then(() => (updatedCards[index].image_url = ""));
       }
       return updatedCards;
     });
