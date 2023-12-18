@@ -88,21 +88,22 @@ const CardForm = ({
             className="hidden"
             ref={inputFile}
           />
-          {card.image ? (
+          {card.image_url ? (
             <div className="border-2 h-full rounded flex justify-center items-center relative overflow-clip">
               <button>
                 <IoIosRemoveCircle
-                  className="absolute top-0.5 right-0.5 md:right-1 text-color-1 hover:text-color-heart"
+                  className="absolute bottom-0.5 right-0.5 md:right-1 bg-white rounded-full text-color-1 hover:text-color-heart z-10"
                   aria-label="Remove image"
                   onClick={handleRemoveImage}
                 />
               </button>
               <Image
-                src={URL.createObjectURL(card.image)}
+                src={card.image_url}
+                unoptimized={false}
                 height="100"
                 width="100"
                 alt="Image on card"
-                className="max-h-[60.5px] w-auto"
+                className="md:max-h-[60.5px] w-auto h-full w-auto"
               />
             </div>
           ) : (
