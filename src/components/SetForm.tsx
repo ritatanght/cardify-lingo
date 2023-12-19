@@ -15,6 +15,7 @@ import {
   SetData,
   Language,
 } from "../types/definitions";
+import type { Id } from "react-toastify";
 import { playpen } from "../lib/fonts";
 import "@/styles/Create-Edit-Set.scss";
 
@@ -65,30 +66,48 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       </main>
     );
 
-  const onCreate = (data: {
-    setFormData: NewSetData;
-    cardFormData: CardFormData[];
-  }) => {
+  const onCreate = (
+    data: {
+      setFormData: NewSetData;
+      cardFormData: CardFormData[];
+    },
+    toastId: Id
+  ) => {
     createSet(data)
       .then((res) => {
         if (res.status === 201) {
-          toast.success(res.data.message, { position: "top-center" });
+          toast.update(toastId, {
+            render: res.data.message,
+            position: "top-center",
+            type: "success",
+            isLoading: false,
+            autoClose: 3000,
+          });
           return router.push("/profile");
         }
       })
       .catch((err) => {
         if (err.response.data) {
-          toast.info(err.response.data.message);
+          toast.update(toastId, {
+            render: err.response.data.message,
+            position: "top-center",
+            type: "info",
+            isLoading: false,
+            autoClose: 3000,
+          });
         } else {
           console.log(err);
         }
       });
   };
 
-  const onEdit = (data: {
-    setFormData: SetData;
-    cardFormData: CardFormData[];
-  }) => {
+  const onEdit = (
+    data: {
+      setFormData: SetData;
+      cardFormData: CardFormData[];
+    },
+    toastId: Id
+  ) => {
     const setId = setData?.set.id;
     const { setFormData, cardFormData } = data;
     if (setId) {
@@ -96,13 +115,25 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       editSet(setId, { setFormData, cardFormData })
         .then((res) => {
           if (res.status === 200) {
-            toast.success(res.data.message, { position: "top-center" });
+            toast.update(toastId, {
+              render: res.data.message,
+              position: "top-center",
+              type: "success",
+              isLoading: false,
+              autoClose: 3000,
+            });
             return router.push("/profile");
           }
         })
         .catch((err) => {
           if (err.response.data) {
-            toast.info(err.response.data.message);
+            toast.update(toastId, {
+              render: err.response.data.message,
+              position: "top-center",
+              type: "info",
+              isLoading: false,
+              autoClose: 3000,
+            });
           } else {
             console.log(err);
           }
@@ -120,6 +151,8 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       (lang) => lang.name === selectedLanguage
     )?.id;
     if (!language_id) return toast.error("Please select a language");
+
+    const toastId = toast.loading("Saving changes", { position: "top-center" });
     // prep the cards with imageUrl by uploading the images stored in image
     const cardsWithImageUrl = await addImageUrlToCards(cards);
     // make requests to the backend to remove urls stored in the array
@@ -133,10 +166,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     };
     switch (mode) {
       case "create":
-        onCreate({ setFormData, cardFormData: cardsWithImageUrl });
+        onCreate({ setFormData, cardFormData: cardsWithImageUrl }, toastId);
         break;
       case "edit":
-        onEdit({ setFormData, cardFormData: cardsWithImageUrl });
+        onEdit({ setFormData, cardFormData: cardsWithImageUrl }, toastId);
         break;
       default:
         console.log("Invalid mode");
