@@ -37,6 +37,7 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
   const handleSubmit = async () => {
     if (!front || !back)
       return toast.info("Front and back text cannot be empty");
+    const id = toast.loading("Saving changes", { position: "top-center" });
     // Added a new image
     let imageUrl = null;
     if (image && typeof image !== "string") {
@@ -60,15 +61,25 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
       if (response.data.success) {
         // If successful, update the UI
         onUpdate({ ...card, front, back, image_url: imageUrl });
-        toast.success("Changes have been saved.", {
+        toast.update(id, {
+          render: "Changes have been saved.",
           position: "top-center",
+          type: "success",
+          isLoading: false,
+          autoClose: 3000,
         });
         onHide();
       } else {
         console.error("Error updating card: ", response.data.message);
       }
     } catch (err) {
-      toast.error("Error updating card: " + err);
+      toast.update(id, {
+        render: "Error updating card" + err,
+        position: "top-center",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
     }
   };
 
@@ -129,8 +140,6 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
                       }
                       alt=""
                       unoptimized={false}
-                      // height="100"
-                      // width="100"
                       fill={true}
                       sizes="200px"
                     />
