@@ -6,7 +6,7 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   const cardId = params.id;
-  const { front, back } = await request.json();
+  const { front, back, image_url } = await request.json();
   const session = await auth();
 
   if (!session)
@@ -31,7 +31,7 @@ export async function PUT(
       );
 
     // Update the card
-    await updateCardById(cardId, { front, back });
+    await updateCardById(cardId, { front, back, image_url });
 
     return Response.json(
       { success: true, message: "Card updated successfully" },
