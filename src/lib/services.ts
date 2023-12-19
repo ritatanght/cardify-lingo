@@ -88,7 +88,7 @@ export const deleteSetById = (setId: number) => {
 /* --- Card --- */
 export const editCardById = (
   cardId: number,
-  card: { front: string; back: string }
+  card: { front: string; back: string; image_url: string | null }
 ) => {
   return instance.put(`/api/cards/${cardId}`, card);
 };
