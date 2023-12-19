@@ -1,7 +1,7 @@
-import { getAllLanguages } from "@/../db/queries/languages";
-import { getSetInfoById } from "@/../db/queries/sets";
-import { getCardsBySetId } from "@/../db/queries/cards";
-import SetForm from "@/app/ui/components/SetForm";
+import { getAllLanguages } from "@/db/queries/languages";
+import { getSetInfoById } from "@/db/queries/sets";
+import { getCardsBySetId } from "@/db/queries/cards";
+import SetForm from "@/components/SetForm";
 import { notFound } from "next/navigation";
 
 const Page = async ({ params }: { params: { id: string } }) => {

@@ -1,4 +1,12 @@
-const sets = require("@/../db/queries/sets");const cards = require("@/../db/queries/cards");import { Card } from "@/app/types/definitions";import { auth } from "../../../../../auth";
+import {
+  getSetInfoById,
+  getSetOwnerBySetId,
+  setSetToDeleted,
+  updateSetData,
+} from "@/db/queries/sets";
+import { getCardsBySetId, updateCardsData } from "@/db/queries/cards";
+import { Card } from "@/types/definitions";
+import { auth } from "@/../auth";
 import { revalidatePath } from "next/cache";
 
 // Get the sets and cards for ViewSets and EditSet
@@ -7,8 +15,8 @@ export async function GET(
   { params }: { params: { id: string } }
 ) {
   const setId = params.id;
-  const setPromise = sets.getSetInfoById(setId);
-  const cardsPromise = cards.getCardsBySetId(setId);
+  const setPromise = getSetInfoById(setId);
+  const cardsPromise = getCardsBySetId(setId);
   try {
     const [setData, cardsData] = await Promise.all([setPromise, cardsPromise]);
     if (!setData)
@@ -60,7 +68,7 @@ export async function PUT(
   try {
     const userId = session.user.id;
     // make sure the user who edits the set is the set owner
-    const data = await sets.getSetOwnerBySetId(setId);
+    const data = await getSetOwnerBySetId(setId);
     if (!data)
       return Response.json({ message: "Set not found." }, { status: 404 });
     if (data.user_id !== userId)
@@ -72,8 +80,8 @@ export async function PUT(
       );
 
     // update the set and cards
-    const updateSetPromise = sets.updateSetData({ ...setFormData });
-    const updateCardsPromise = cards.updateCardsData(
+    const updateSetPromise = updateSetData({ ...setFormData });
+    const updateCardsPromise = updateCardsData(
       cardFormData.map((card: Card) =>
         card.id ? card : { ...card, set_id: setId }
       ) // add set_id key to new cards
@@ -109,7 +117,7 @@ export async function DELETE(
 
   try {
     // make sure the user who deletes the set is the set owner
-    const data = await sets.getSetOwnerBySetId(setId);
+    const data = await getSetOwnerBySetId(setId);
     if (!data)
       return Response.json({ message: "Set not found." }, { status: 404 });
     if (data.user_id !== userId)
@@ -121,7 +129,7 @@ export async function DELETE(
       );
 
     // set the set as deleted in the database
-    await sets.setSetToDeleted(setId);
+    await setSetToDeleted(setId);
 
     return Response.json({ message: "Set deleted" }, { status: 200 });
   } catch (err) {

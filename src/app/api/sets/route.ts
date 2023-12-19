@@ -1,7 +1,11 @@
-import { Card } from "@/app/types/definitions";
-import { auth } from "../../../../auth";
-const sets = require("@/../db/queries/sets");
-const cards = require("@/../db/queries/cards");
+import { Card } from "@/types/definitions";
+import { auth } from "@/../auth";
+import {
+  getSetsByUserId,
+  postSetData,
+  setSetToDeleted,
+} from "@/db/queries/sets";
+import { postCardsData } from "@/db/queries/cards";
 
 // profile page getting user's sets
 export async function GET(request: Request) {
@@ -10,7 +14,7 @@ export async function GET(request: Request) {
   if (session) {
     const userId = session.user?.id;
     try {
-      const data = await sets.getSetsByUserId(userId);
+      const data = await getSetsByUserId(userId);
       return Response.json(data, { status: 200 });
     } catch (err) {
       console.error(err);
@@ -55,17 +59,17 @@ export async function POST(request: Request) {
   );
   if (emptyCard)
     return Response.json({ message: "Cards cannot be empty" }, { status: 400 });
-
+  let setId = "";
   try {
-    const set = await sets.postSetData({ ...setFormData, user_id: userId });
-
+    const set = await postSetData({ ...setFormData, user_id: userId });
+    setId = set.id;
     // get the id returned from creating the set to create the cards
     const cardDataWithSetId = cardFormData.map((card: Card) => ({
       ...card,
       set_id: set.id,
     }));
 
-    await cards.postCardsData(cardDataWithSetId);
+    await postCardsData(cardDataWithSetId);
 
     return Response.json(
       {
@@ -74,6 +78,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (err) {
+    setId && (await setSetToDeleted(setId));
     console.error(err);
     return Response.json(err, { status: 500 });
   }

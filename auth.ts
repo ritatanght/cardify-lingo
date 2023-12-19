@@ -1,9 +1,6 @@
-import { logInUser } from "@/app/lib/api";
-const {
-  getUserByEmail,
-  createExternalUser,
-  getUserInfoByEmail,
-} = require("@/../db/queries/users");
+import { isAxiosError } from "axios";
+import { logInUser } from "@/lib/services";
+import { getUserByEmail, createExternalUser } from "@/db/queries/users";
 import type {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -36,13 +33,22 @@ export const authOptions: NextAuthOptions = {
           email: string;
           password: string;
         };
-        const { user } = await logInUser({ email, password });
-        //sample user { id: '1231', email: 'john.doe@example.com', name: 'john_doe' }
+        try {
+          const { user } = await logInUser({ email, password });
+          //sample user { id: '1231', email: 'john.doe@example.com', name: 'john_doe' }
 
-        if (user) {
-          return user;
+          if (user) {
+            return user;
+          }
+        } catch (err: any) {
+          // Return the error message from backend to client-side
+          if (isAxiosError(err) && err.response) {
+            throw new Error(err.response.data.message);
+          } else {
+            console.log(err);
+            throw new Error(err);
+          }
         }
-
         // Return null if user data could not be retrieved
         return null;
       },
@@ -53,7 +59,7 @@ export const authOptions: NextAuthOptions = {
       const { id, name, email } = user;
 
       try {
-        const existingUser = await getUserByEmail(email);
+        const existingUser = email && (await getUserByEmail(email));
         /*
       sample existingUser {
             id: '1231',
@@ -64,7 +70,7 @@ export const authOptions: NextAuthOptions = {
           }
       */
         // insert into database
-        if (!existingUser) {
+        if (!existingUser && id && name && email) {
           await createExternalUser(id, name, email);
           return true;
         }

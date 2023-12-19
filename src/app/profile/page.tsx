@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { playpen } from "../ui/fonts";
-import { auth } from "../../../auth";
+import { playpen } from "@/lib/fonts";
+import { auth } from "@/../auth";
 import { redirect } from "next/navigation";
 import Profile from "./Profile";
-import { getSetsByUserId } from "@/../db/queries/sets";
+import { getSetsByUserId } from "@/db/queries/sets";
 
 const Page = async () => {
   const session = await auth();
@@ -11,7 +11,6 @@ const Page = async () => {
   if (!session) return redirect("/login");
   const userId = session.user.id;
   const userSets = await getSetsByUserId(userId);
-
 
   return (
     <main className="profile-container">
@@ -23,7 +22,7 @@ const Page = async () => {
           Create Set
         </Link>
       </div>
-      <Profile userSets={userSets}/>
+      <Profile userSets={userSets} />
     </main>
   );
 };
