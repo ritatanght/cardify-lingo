@@ -1,7 +1,7 @@
-import { useState, useRef } from "react";import { Card } from "../../../../../types/definitions";
-import { randomSort } from "../../../../../lib/utils";
+import { useState, useRef } from "react";
+import { Card } from "@/types/definitions";
+import { randomSort } from "@/lib/utils";
 import TestContainer from "./TestContainer";
-import { toast } from "react-toastify";
 import { FaCheckCircle, FaMicrophone } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
 
@@ -74,27 +74,10 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const changeQuestion = () => {
     // move to the next question
     if (question < cards.length - 1) {
-      //generateTestMode(); // randomly pick a test mode
       setQuestion((prev) => prev + 1);
     } else {
       setMode("finish");
     }
-  };
-
-  const speakText = () => {
-    const synth = window.speechSynthesis;
-    if (!synth)
-      return toast.info("Your browser does not support Speech Synthesis");
-    const utterance = new SpeechSynthesisUtterance(
-      shuffledCards[question].back
-    );
-    utterance.voice = voice;
-
-    // cancel the ongoing utterance if there is any
-    if (synth.speaking) {
-      synth.cancel();
-    }
-    synth.speak(utterance);
   };
 
   return (
@@ -110,8 +93,9 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
         <div className="mt-6 mb-4 text-center px-4">
           <p className="mb-4">
             You will be represented with{" "}
-            <span className="text-gray-500 underline font-bold">text</span> or{" "}
-            <span className="text-gray-500 underline font-bold">sounds</span>.
+            <span className="text-gray-500 underline font-bold">text</span>,{" "}
+            <span className="text-gray-500 underline font-bold">sounds</span> or{" "}
+            <span className="text-gray-500 underline font-bold">images</span>.
           </p>{" "}
           <p className="mb-8">
             Either input your answer in the provided box and submit it, speak
@@ -137,7 +121,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
           <h3 className="text-2xl">Q{question + 1}:</h3>
           <TestContainer
             card={shuffledCards[question]}
-            speakText={voice ? speakText : null}
+            voice={voice}
             endQuestion={endQuestion}
             setCustomMessage={setCustomMessage}
             handleSkip={changeQuestion}
