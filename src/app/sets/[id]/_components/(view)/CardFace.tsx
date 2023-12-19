@@ -11,6 +11,7 @@ interface CardFaceProps {
   voice: SpeechSynthesisVoice | null;
   isSetOwner: boolean;
   onEdit: () => void;
+  isFirstCard?: Boolean;
 }
 
 const CardFace = ({
@@ -20,6 +21,7 @@ const CardFace = ({
   voice,
   isSetOwner,
   onEdit,
+  isFirstCard,
 }: CardFaceProps) => {
   const handleCardEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -80,9 +82,11 @@ const CardFace = ({
           <Image
             src={imageUrl}
             alt={text}
-            width="120"
-            height="120"
-            className="mx-auto -mt-4 mb-8 md:mb-4"
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="mx-auto -mt-4 mb-8 md:mb-2 w-1/2 md:w-[150px] h-auto"
+            priority={isFirstCard ? true : false}
           />
         )}
         <p
