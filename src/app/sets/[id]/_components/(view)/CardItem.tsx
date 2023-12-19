@@ -49,6 +49,7 @@ const CardItem = (props: CardItemProps) => {
         voice={voices.userVoice}
         text={front}
         onEdit={onEdit}
+        isFirstCard={seq === 1}
       />
       <CardFace
         position="back"
