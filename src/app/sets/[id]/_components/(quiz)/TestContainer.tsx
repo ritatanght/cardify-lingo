@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { Card } from "../../../../../types/definitions";
+import { Card } from "@/types/definitions";
 import { BiSolidQuoteAltLeft, BiSolidQuoteAltRight } from "react-icons/bi";
 import { FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import { HiVolumeUp } from "react-icons/hi";
@@ -7,10 +7,11 @@ import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
 import { toast } from "react-toastify";
+import Image from "next/image";
 
 interface TestContainerProps {
   card: Card;
-  speakText: (() => void) | null;
+  voice: SpeechSynthesisVoice | null;
   endQuestion: (correct: boolean) => void;
   setCustomMessage: (
     messageNode: React.ReactNode,
@@ -23,39 +24,39 @@ interface TestContainerProps {
 
 const TestContainer = ({
   card,
-  speakText,
+  voice,
   endQuestion,
   setCustomMessage,
   handleSkip,
   languageCode,
 }: TestContainerProps) => {
   const [answer, setAnswer] = useState("");
-  const [questionSide, setQuestionSide] = useState<keyof Card>("front");
+  const [questionSide, setQuestionSide] = useState<"front" | "back">("front");
   const [testMode, setTestMode] = useState("");
-  const [speakFunc, setSpeakFunc] = useState<typeof speakText>(
-    () => speakText || (() => {})
-  );
 
-  // set the testMode to either read or listen randomly and asking the front or back
-  const generateTestMode = useCallback(() => {
-    const testModeArr = ["read", "listen"];
-    // increase the rate for "read", as there are two possible read testing options
-    if (speakFunc) {
-      setTestMode(Math.random() < 0.7 ? testModeArr[0] : testModeArr[1]);
-    } else {
-      setTestMode("read");
-    }
+  // set the testMode to either read or listen or image randomly and asking the front or back
+  const generateTestMode = useCallback((testModeArr: string[]) => {
+    const randomIndex = Math.floor(Math.random() * testModeArr.length);
+    setTestMode(testModeArr[randomIndex]);
     setQuestionSide(Math.random() < 0.5 ? "front" : "back");
-  }, [speakFunc]);
+  }, []);
 
   useEffect(() => {
-    generateTestMode();
-  }, [card, generateTestMode]);
+    const testModeArr = ["read"];
+    if (voice) {
+      testModeArr.push("listen");
+    }
+    if (card.image_url) {
+      testModeArr.push("image");
+    }
+    generateTestMode(testModeArr);
+  }, [card, voice, generateTestMode]);
 
   const commands = [
     {
       command:
-        questionSide === "front" && testMode === "read"
+        (questionSide === "front" && testMode === "read") ||
+        testMode === "image"
           ? card.back
           : card.front,
       callback: () => {
@@ -73,16 +74,29 @@ const TestContainer = ({
     resetTranscript,
   } = useSpeechRecognition({ commands });
 
-  const handleSpeechFunction = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) => {
+  const speakText = () => {
+    const synth = window.speechSynthesis;
+    if (!synth)
+      return toast.info("Your browser does not support Speech Synthesis");
+    const utterance = new SpeechSynthesisUtterance(card.back);
+    utterance.voice = voice;
+
+    // cancel the ongoing utterance if there is any
+    if (synth.speaking) {
+      synth.cancel();
+    }
+    synth.speak(utterance);
+  };
+
+  const handleSpeechFunction = () => {
     // clicking the microphone button again when listening toggles it off
     if (listening) return SpeechRecognition.stopListening();
 
     if (!isMicrophoneAvailable) {
       toast.info("Microphone access is needed");
     }
-    return questionSide === "front" && testMode === "read"
+    return (questionSide === "front" && testMode === "read") ||
+      testMode === "image"
       ? SpeechRecognition.startListening({ language: languageCode })
       : SpeechRecognition.startListening({ language: "en-US" });
   };
@@ -95,7 +109,10 @@ const TestContainer = ({
         </p>,
         2
       );
-    if (testMode === "read" && questionSide === "front") {
+    if (
+      (testMode === "read" && questionSide === "front") ||
+      testMode === "image"
+    ) {
       endQuestion(answer.toLowerCase() === card.back.toLowerCase());
     } else {
       // work for questionSide 'back' and for listen tests
@@ -120,24 +137,41 @@ const TestContainer = ({
           />
         </p>
       )}
-      {testMode === "listen" && speakFunc && (
+      {testMode === "listen" && voice && (
         <>
           <p className="text-2xl">What does this mean in your language?</p>
           <button
             className="text-3xl text-color-1 transition-colors my-1 hover:text-gray-500"
-            onClick={speakFunc}
+            onClick={speakText}
             aria-label="Play speech"
           >
             <HiVolumeUp />
           </button>
         </>
       )}
+      {testMode === "image" && card.image_url && (
+        <Image
+          src={card.image_url}
+          alt={card.front}
+          width="0"
+          height="0"
+          sizes="100vw"
+          className="mx-auto w-auto h-28"
+        />
+      )}
+
       <input
         className="my-3 p-2 rounded"
         value={answer}
         onChange={(e) => setAnswer(e.target.value)}
         onKeyDown={(e) => e.key === "Enter" && submitAnswer()}
         autoFocus
+        placeholder={
+          (questionSide === "front" && testMode === "read") ||
+          testMode === "image"
+            ? languageCode.substring(3, 5)
+            : "English"
+        }
       />
       <div>
         {/* Speech Recognition Button */}
