@@ -1,11 +1,6 @@
-import { createContext, useContext, useState, useEffect } from "react";import { getUserFavorites, getUserInfo } from "../lib/api";
-import {
-  FavoriteSet,
-  LoggedInUser,
-  Set,
-  User,
-  userContextType,
-} from "../types/definitions";
+import { createContext, useContext, useState, useEffect } from "react";
+import { getUserFavorites } from "../lib/services";
+import { FavoriteSet, Set, userContextType } from "../types/definitions";
 import { useSession } from "next-auth/react";
 
 export const userContext = createContext({} as any);

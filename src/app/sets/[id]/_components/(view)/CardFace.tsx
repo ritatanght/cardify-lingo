@@ -2,10 +2,12 @@ import { toast } from "react-toastify";
 import { playpen } from "../../../../../lib/fonts";
 import { HiVolumeUp } from "react-icons/hi";
 import { GrEdit } from "react-icons/gr";
+import Image from "next/image";
 
 interface CardFaceProps {
   position: string;
   text: string;
+  imageUrl?: string | null;
   voice: SpeechSynthesisVoice | null;
   isSetOwner: boolean;
   onEdit: () => void;
@@ -14,6 +16,7 @@ interface CardFaceProps {
 const CardFace = ({
   position,
   text,
+  imageUrl,
   voice,
   isSetOwner,
   onEdit,
@@ -45,8 +48,8 @@ const CardFace = ({
 
   return (
     <div
-      className={`card-${position} min-w-[min(90vw,730px)] border-8 md:border-[15px] col-start-1 col-span-1 row-start-1 row-span-1 bg-white cursor-pointer rounded-lg relative flex justify-center
-      items-center p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc] ${style.border}`}
+      className={`card-${position} min-w-[min(90vw,730px)] border-8 md:border-[15px] col-start-1 col-span-1 row-start-1 row-span-1 bg-white cursor-pointer rounded-lg relative flex justify-center items-center
+      p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc] ${style.border}`}
     >
       <div
         className={
@@ -72,11 +75,22 @@ const CardFace = ({
           </button>
         )}
       </div>
-      <p
-        className={`text-2xl md:text-[2rem] leading-snug ${playpen.className}`}
-      >
-        {text}
-      </p>
+      <span>
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={text}
+            width="120"
+            height="120"
+            className="mx-auto -mt-4 mb-8 md:mb-4"
+          />
+        )}
+        <p
+          className={`text-2xl md:text-[2rem] leading-snug ${playpen.className}`}
+        >
+          {text}
+        </p>
+      </span>
     </div>
   );
 };

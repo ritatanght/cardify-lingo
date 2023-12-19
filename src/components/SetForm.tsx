@@ -4,7 +4,8 @@ import { useRouter } from "next/navigation";
 import CardForm from "@/components/CardForm";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
-import { createSet, editSet } from "../lib/api";
+import { createSet, editSet } from "../lib/services";
+import { addImageUrlToCards, deleteImageUrls } from "@/lib/utils";
 import { Listbox, Transition } from "@headlessui/react";
 import { FaCheck, FaAngleDown } from "react-icons/fa";
 import {
@@ -14,6 +15,7 @@ import {
   SetData,
   Language,
 } from "../types/definitions";
+import type { Id } from "react-toastify";
 import { playpen } from "../lib/fonts";
 import "@/styles/Create-Edit-Set.scss";
 
@@ -27,7 +29,6 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  const [userId, setUserId] = useState(setData?.set.user_id || "");
   const [title, setTitle] = useState(setData?.set.title || "");
   const [description, setDescription] = useState(
     setData?.set.description || ""
@@ -38,11 +39,12 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   const [isPrivate, setIsPrivate] = useState(setData?.set.private || false);
   const [cards, setCards] = useState<CardFormData[]>(
     setData?.cards || [
-      { front: "", back: "" },
-      { front: "", back: "" },
-      { front: "", back: "" },
+      { front: "", back: "", image: null },
+      { front: "", back: "", image: null },
+      { front: "", back: "", image: null },
     ]
   );
+  const [toBeDeletedUrl, setToBeDeletedUrl] = useState<string[]>([]);
 
   useEffect(() => {
     // display upon redirect to login page
@@ -64,30 +66,48 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       </main>
     );
 
-  const onCreate = (data: {
-    setFormData: NewSetData;
-    cardFormData: CardFormData[];
-  }) => {
+  const onCreate = (
+    data: {
+      setFormData: NewSetData;
+      cardFormData: CardFormData[];
+    },
+    toastId: Id
+  ) => {
     createSet(data)
       .then((res) => {
         if (res.status === 201) {
-          toast.success(res.data.message, { position: "top-center" });
+          toast.update(toastId, {
+            render: res.data.message,
+            position: "top-center",
+            type: "success",
+            isLoading: false,
+            autoClose: 3000,
+          });
           return router.push("/profile");
         }
       })
       .catch((err) => {
         if (err.response.data) {
-          toast.info(err.response.data.message);
+          toast.update(toastId, {
+            render: err.response.data.message,
+            position: "top-center",
+            type: "info",
+            isLoading: false,
+            autoClose: 3000,
+          });
         } else {
           console.log(err);
         }
       });
   };
 
-  const onEdit = (data: {
-    setFormData: SetData;
-    cardFormData: CardFormData[];
-  }) => {
+  const onEdit = (
+    data: {
+      setFormData: SetData;
+      cardFormData: CardFormData[];
+    },
+    toastId: Id
+  ) => {
     const setId = setData?.set.id;
     const { setFormData, cardFormData } = data;
     if (setId) {
@@ -95,13 +115,25 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       editSet(setId, { setFormData, cardFormData })
         .then((res) => {
           if (res.status === 200) {
-            toast.success(res.data.message, { position: "top-center" });
+            toast.update(toastId, {
+              render: res.data.message,
+              position: "top-center",
+              type: "success",
+              isLoading: false,
+              autoClose: 3000,
+            });
             return router.push("/profile");
           }
         })
         .catch((err) => {
           if (err.response.data) {
-            toast.info(err.response.data.message);
+            toast.update(toastId, {
+              render: err.response.data.message,
+              position: "top-center",
+              type: "info",
+              isLoading: false,
+              autoClose: 3000,
+            });
           } else {
             console.log(err);
           }
@@ -109,12 +141,23 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     }
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  /**
+   * Based on the current mode "create" || "edit", call the corresponding submit function
+   * @param e
+   */
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     const language_id = languages.find(
       (lang) => lang.name === selectedLanguage
     )?.id;
     if (!language_id) return toast.error("Please select a language");
+
+    const toastId = toast.loading("Saving changes", { position: "top-center" });
+    // prep the cards with imageUrl by uploading the images stored in image
+    const cardsWithImageUrl = await addImageUrlToCards(cards);
+    // make requests to the backend to remove urls stored in the array
+    await deleteImageUrls(toBeDeletedUrl);
+
     const setFormData = {
       title,
       description,
@@ -123,16 +166,21 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     };
     switch (mode) {
       case "create":
-        onCreate({ setFormData, cardFormData: cards });
+        onCreate({ setFormData, cardFormData: cardsWithImageUrl }, toastId);
         break;
       case "edit":
-        onEdit({ setFormData, cardFormData: cards });
+        onEdit({ setFormData, cardFormData: cardsWithImageUrl }, toastId);
         break;
       default:
         console.log("Invalid mode");
     }
   };
 
+  /**
+   * Called on the click of the "Add card" button
+   * Add a blank card to the end of the cards array
+   * @param e
+   */
   const addCard = (e: React.FormEvent) => {
     e.preventDefault();
     setCards((prevCards) => [
@@ -140,37 +188,80 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       {
         front: "",
         back: "",
+        image: null,
       },
     ]);
   };
 
+  /**
+   * Update the array of cards based on input changes
+   * @param index
+   * @param e
+   */
   const handleCardUpdate = (index: number, e: React.BaseSyntheticEvent) => {
+    // list of accepted file types for image
+    const allowedFileTypes = [
+      "image/jpg",
+      "image/jpeg",
+      "image/png",
+      "image/gif",
+    ];
+
     setCards((prevCards) => {
       const updatedCards = [...prevCards];
-      updatedCards[index][e.target.name as keyof CardFormData] = e.target.value;
+      // when there's a valid tile assign it to the image property for the corresponding card
+      if (e.target.name === "image") {
+        const upload = e.target.files?.length && e.target.files[0];
+        if (upload && allowedFileTypes.includes(upload.type)) {
+          updatedCards[index].image = upload;
+        } else {
+          toast.error("Invalid File Selected");
+        }
+      } else if (e.target.name === "front" || e.target.name === "back") {
+        updatedCards[index][e.target.name as keyof CardFormData] =
+          e.target.value;
+      } else {
+        // handle clicking on the remove button on image, which has no target.name
+        const origUrl = updatedCards[index].image_url;
+        // if there's a image_url for a card, add the url to toBeDeletedUrl array for deletion upon submission
+        if (origUrl) {
+          setToBeDeletedUrl((prev) => [...prev, origUrl]);
+          updatedCards[index].image_url = null;
+        } else {
+          updatedCards[index].image = null;
+        }
+      }
       return updatedCards;
     });
   };
 
+  /**
+   * Remove the card with the provided index from the cards array
+   * @param cardIndex
+   */
   const handleCardDelete = (cardIndex: number) => {
     if (cards.length === 1)
       return toast.info("There should be at least one card");
-
-    const updatedCards = [...cards];
-    // A card has an id means it's been created in the database previously
-    // we have to keep it to update the database
-    if (cards[cardIndex].id) {
-      updatedCards[cardIndex].deleted = true;
-      setCards(updatedCards);
-    } else {
-      // otherwise, we could just remove it from the array
-      setCards((prevCards) =>
-        prevCards.filter((card, index) => index !== cardIndex)
-      );
-    }
+    setCards((prevCards) => {
+      const updatedCards = [...cards];
+      // A card has an id means it's been created in the database previously
+      if (prevCards[cardIndex].id) {
+        updatedCards[cardIndex].deleted = true;
+        // add imageUrl of the card marked deleted to the toBeDeletedUrl array
+        const hasImage = updatedCards[cardIndex].image_url;
+        if (hasImage) {
+          setToBeDeletedUrl((prev) => [...prev, hasImage]);
+        }
+        return updatedCards;
+      } else {
+        // otherwise, we could just remove it from the array
+        return prevCards.filter((card, index) => index !== cardIndex);
+      }
+    });
   };
+
   // display when it is edit mode and user is not the set's owner
-  if (mode === "edit" && session.user.id !== userId) {
+  if (mode === "edit" && session.user.id !== setData?.set.user_id) {
     return (
       <main>
         <h1 className="text-xl text-center">

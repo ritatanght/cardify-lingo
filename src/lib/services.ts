@@ -1,4 +1,6 @@
-import axios from "axios";import { CardFormData, NewSetData, SetData } from "../types/definitions";
+import axios from "axios";
+import { CardFormData, NewSetData, SetData } from "../types/definitions";
+import { PutBlobResult } from "@vercel/blob";
 const instance = axios.create({
   baseURL:
     process.env.NODE_ENV === "production"
@@ -86,7 +88,24 @@ export const deleteSetById = (setId: number) => {
 /* --- Card --- */
 export const editCardById = (
   cardId: number,
-  card: { front: string; back: string }
+  card: { front: string; back: string; image_url: string | null }
 ) => {
   return instance.put(`/api/cards/${cardId}`, card);
+};
+
+export const uploadImage = async (imageFile: File) => {
+  const response = await fetch(`/api/image/upload?filename=${imageFile.name}`, {
+    method: "POST",
+    body: imageFile,
+  });
+  const newBlob: PutBlobResult = await response.json();
+  return newBlob.url;
+};
+
+export const deleteImage = async (url: string) => {
+  try {
+    await instance.delete(`/api/image/delete?url=${url}`);
+  } catch (err) {
+    console.log("Error deleting image");
+  }
 };

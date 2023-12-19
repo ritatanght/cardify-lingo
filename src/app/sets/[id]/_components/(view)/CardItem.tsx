@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import CardFace from "./CardFace";
+import { Card } from "@/types/definitions";
 
 interface CardItemProps {
-  front: string;
-  back: string;
+  card: Card;
   currCard: number;
   seq: number;
   isSetOwner: boolean;
@@ -16,7 +16,14 @@ interface CardItemProps {
 
 const CardItem = (props: CardItemProps) => {
   const [isFlip, setIsFlip] = useState(false);
-  const { front, back, currCard, seq, isSetOwner, voices, onEdit } = props;
+  const {
+    card: { front, back, image_url },
+    currCard,
+    seq,
+    isSetOwner,
+    voices,
+    onEdit,
+  } = props;
 
   useEffect(() => {
     if (isFlip && currCard !== seq) {
@@ -37,6 +44,7 @@ const CardItem = (props: CardItemProps) => {
     >
       <CardFace
         position="front"
+        imageUrl={image_url}
         isSetOwner={isSetOwner}
         voice={voices.userVoice}
         text={front}

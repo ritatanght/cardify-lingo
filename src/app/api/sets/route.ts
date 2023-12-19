@@ -1,6 +1,10 @@
 import { Card } from "@/types/definitions";
 import { auth } from "@/../auth";
-import { getSetsByUserId, postSetData } from "@/db/queries/sets";
+import {
+  getSetsByUserId,
+  postSetData,
+  setSetToDeleted,
+} from "@/db/queries/sets";
 import { postCardsData } from "@/db/queries/cards";
 
 // profile page getting user's sets
@@ -55,10 +59,10 @@ export async function POST(request: Request) {
   );
   if (emptyCard)
     return Response.json({ message: "Cards cannot be empty" }, { status: 400 });
-
+  let setId = "";
   try {
     const set = await postSetData({ ...setFormData, user_id: userId });
-
+    setId = set.id;
     // get the id returned from creating the set to create the cards
     const cardDataWithSetId = cardFormData.map((card: Card) => ({
       ...card,
@@ -74,6 +78,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
   } catch (err) {
+    setId && (await setSetToDeleted(setId));
     console.error(err);
     return Response.json(err, { status: 500 });
   }
