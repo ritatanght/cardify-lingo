@@ -1,9 +1,10 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card } from "@/types/definitions";
 import { randomSort } from "@/lib/utils";
 import TestContainer from "./TestContainer";
 import { FaCheckCircle, FaMicrophone } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
+import { playpen } from "@/lib/fonts";
 
 interface QuizSetProps {
   cards: Card[];
@@ -18,6 +19,14 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const [shuffledCards, setShuffledCards] = useState(randomSort(cards));
   const [score, setScore] = useState(0);
   const [mode, setMode] = useState("start");
+
+  useEffect(() => {
+    const perfectSound = new Audio("/perfect-sound.mp3");
+    perfectSound.volume = 0.5;
+    if (mode === "finish" && score === cards.length) {
+      perfectSound.play();
+    }
+  }, [score, cards.length, mode]);
 
   const resetQuiz = () => {
     setQuestion(0);
@@ -132,6 +141,11 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
 
       {mode === "finish" && (
         <div className="mt-8 mb-4">
+          {score === cards.length && (
+            <p className={`text-2xl mb-2 ${playpen.className}`}>
+              Congratulations!
+            </p>
+          )}
           <p className="text-lg mb-6">
             You have finished the quiz scoring{" "}
             <span className="text-color-5 font-bold text-2xl">{score}</span> /{" "}
