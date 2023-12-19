@@ -7,7 +7,7 @@ import Image from "next/image";
 interface CardFaceProps {
   position: string;
   text: string;
-  imageUrl?: string;
+  imageUrl?: string | null;
   voice: SpeechSynthesisVoice | null;
   isSetOwner: boolean;
   onEdit: () => void;
