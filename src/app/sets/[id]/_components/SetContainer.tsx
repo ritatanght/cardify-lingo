@@ -10,7 +10,7 @@ import {
   FaRegHeart as EmptyHeart,
 } from "react-icons/fa";
 import { FullSet } from "@/types/definitions";
-import { language_voice_lang, waitForVoices } from "@/lib/voicesList";
+import { waitForVoices } from "@/lib/utils";
 import ViewSet from "./(view)/ViewSet";
 import QuizSet from "./(quiz)/QuizSet";
 import Loading from "@/app/loading";
@@ -35,8 +35,7 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
     useState<SpeechSynthesisVoice | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const language = fullSetData.set.language_name;
-  const languageCode = language_voice_lang[language];
+  const languageCode = fullSetData.set.code;
   // load and set voices to state based on the language of the set
   useEffect(() => {
     setIsLoading(true);
