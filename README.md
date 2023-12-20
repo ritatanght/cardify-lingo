@@ -8,13 +8,15 @@ Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatang
 - **Backend Migration:** The previous Express backend has been transformed into app/api routes using Next.js route handlers
 - **New Features:**
   - Integration of Google account creation with NextAuth.js
-  - Addition of a quiz mode for users to test their language proficiency
-  - Implementation of speech recognition for the quiz in compatible browsers[^1]
+  - Addition of a quiz feature for users to test their language proficiency through various modes, showcased in the [screenshots](#screenshots) section below
+  - Implementation of speech recognition for the quiz feature in compatible browsers[^1]
   - Inclusion of the option to add images to cards, users can upload or remove images on the create/edit page or in the single card edit modal
 
 ### Database Changes
 
-To maintain continuity with Cardify's database and ensure the service remains free, this application prefixes all tables (excluding the users table) with `lang_`. Additionally, to accommodate the Google account's ID, the `id` column in the users' table has been updated to the `VARCHAR` type.
+- All tables (except the users table) are now prefixed with `lang_` to maintain continuity with Cardify's database and keep the service free.
+- The `id` column in the users' table has been updated to the `VARCHAR` type to accommodate Google accounts' IDs.
+- A new `code` column has been added to the `languages` table specifically for supporting speech synthesis and speech recognition features.
 
 ### Font Optimization
 
