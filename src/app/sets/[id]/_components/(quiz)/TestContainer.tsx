@@ -42,6 +42,8 @@ const TestContainer = ({
   }, []);
 
   useEffect(() => {
+    // Depending on the availability of voice and image, pass the corresponding array to
+    // the generateTestMode function to pick a test mode randomly
     const testModeArr = ["read"];
     if (voice) {
       testModeArr.push("listen");
