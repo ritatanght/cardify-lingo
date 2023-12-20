@@ -24,14 +24,14 @@ export interface Set {
   private: boolean;
   language_id: number;
   language_name: string;
-  code?: string;
+  code: string;
   user_id: number;
   username: string;
 }
 
 export type NewSetData = Omit<
   Set,
-  "id" | "language_name" | "user_id" | "username"
+  "id" | "language_name" | "user_id" | "username" | "code"
 >;
 
 export interface SetData extends NewSetData {
