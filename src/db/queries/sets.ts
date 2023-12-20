@@ -54,7 +54,8 @@ export const getSetInfoById = (setId: string) => {
   return db
     .query(
       `
-      SELECT lang_sets.*, languages.name AS language_name, languages.id AS language_id, username
+      SELECT lang_sets.*, languages.name AS language_name, 
+             languages.id AS language_id, languages.code, username
       FROM lang_sets
       JOIN languages ON language_id = languages.id
       JOIN users ON user_id = users.id
