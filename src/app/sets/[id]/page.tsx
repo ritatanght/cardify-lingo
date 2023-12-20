@@ -7,10 +7,9 @@ export default async function Page({ params }: { params: { id: string } }) {
   const setId = params.id;
   const setPromise = getSetInfoById(setId);
   const cardsPromise = getCardsBySetId(setId);
-
   try {
     const [setData, cardsData] = await Promise.all([setPromise, cardsPromise]);
-
+    if (!setData) return notFound();
     return <SetContainer fullSetData={{ set: setData, cards: cardsData }} />;
   } catch (err: any) {
     notFound();

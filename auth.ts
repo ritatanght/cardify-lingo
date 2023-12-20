@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "jsmith" },
+        email: { label: "Email", type: "email", placeholder: "user@example.com" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {

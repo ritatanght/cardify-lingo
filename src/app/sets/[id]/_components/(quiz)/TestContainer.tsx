@@ -34,24 +34,6 @@ const TestContainer = ({
   const [questionSide, setQuestionSide] = useState<"front" | "back">("front");
   const [testMode, setTestMode] = useState("");
 
-  // set the testMode to either read or listen or image randomly and asking the front or back
-  const generateTestMode = useCallback((testModeArr: string[]) => {
-    const randomIndex = Math.floor(Math.random() * testModeArr.length);
-    setTestMode(testModeArr[randomIndex]);
-    setQuestionSide(Math.random() < 0.5 ? "front" : "back");
-  }, []);
-
-  useEffect(() => {
-    const testModeArr = ["read"];
-    if (voice) {
-      testModeArr.push("listen");
-    }
-    if (card.image_url) {
-      testModeArr.push("image");
-    }
-    generateTestMode(testModeArr);
-  }, [card, voice, generateTestMode]);
-
   const commands = [
     {
       command:
@@ -59,10 +41,7 @@ const TestContainer = ({
         testMode === "image"
           ? card.back
           : card.front,
-      callback: () => {
-        endQuestion(true);
-        setTimeout(() => resetTranscript(), 2000);
-      },
+      callback: () => endQuestion(true),
     },
   ];
 
@@ -73,6 +52,28 @@ const TestContainer = ({
     isMicrophoneAvailable,
     resetTranscript,
   } = useSpeechRecognition({ commands });
+
+  // set the testMode to either read or listen or image randomly and asking the front or back
+  const generateTestMode = useCallback((testModeArr: string[]) => {
+    const randomIndex = Math.floor(Math.random() * testModeArr.length);
+    setTestMode(testModeArr[randomIndex]);
+    setQuestionSide(Math.random() < 0.5 ? "front" : "back");
+  }, []);
+
+  useEffect(() => {
+    // reset the transcript for each card
+    resetTranscript();
+    // Depending on the availability of voice and image, pass the corresponding array to
+    // the generateTestMode function to pick a test mode randomly
+    const testModeArr = ["read"];
+    if (voice) {
+      testModeArr.push("listen");
+    }
+    if (card.image_url) {
+      testModeArr.push("image");
+    }
+    generateTestMode(testModeArr);
+  }, [card, voice, generateTestMode, resetTranscript]);
 
   const speakText = () => {
     const synth = window.speechSynthesis;

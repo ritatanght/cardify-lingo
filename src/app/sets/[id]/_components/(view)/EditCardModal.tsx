@@ -142,6 +142,7 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
                       unoptimized={false}
                       fill={true}
                       sizes="200px"
+                      className="object-contain"
                     />
                   </div>
                 ) : (

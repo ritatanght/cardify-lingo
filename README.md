@@ -1,5 +1,5 @@
 # Cardify Lingo
-Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatanght/Cardify) application, focusing on language learning. Built with Next.js, Typescript, and TailwindCSS, this version introduces enhancements and modifications to the original application.
+Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatanght/Cardify) application, focusing on language learning. Developed using Next.js, Typescript, and TailwindCSS, this updated version incorporates numerous enhancements and refinements, aligning more closely with my original concepts for the application.
 
 - [Live Demo](https://cardify-lingo.vercel.app/)
 
@@ -7,13 +7,16 @@ Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatang
 
 - **Backend Migration:** The previous Express backend has been transformed into app/api routes using Next.js route handlers
 - **New Features:**
-  - Integration of Google account creation
-  - Addition of a quiz mode for users to test their language proficiency
-  - Implementation of speech recognition for the quiz in compatible browsers[^1]
+  - Integration of Google account creation with NextAuth.js
+  - Addition of a quiz feature to aid users in memorizing vocabularies and phrases through images, reading, listening, and speaking. Check out the [screenshots](#screenshots) section below for a visual representation.
+  - Implementation of speech recognition for the quiz feature in compatible browsers[^1]
+  - Inclusion of the option to add images to cards, users can upload or remove images on the create/edit page or in the single card edit modal
 
 ### Database Changes
 
-To maintain continuity with Cardify's database and ensure the service remains free, this application prefixes all tables (excluding the users table) with `lang_`.
+- All tables (except the users table) are now prefixed with `lang_` to maintain continuity with Cardify's database and keep the service free.
+- The `id` column in the users' table has been updated to the `VARCHAR` type to accommodate Google accounts' IDs.
+- A new `code` column has been added to the `languages` table specifically for supporting speech synthesis and speech recognition features.
 
 ### Font Optimization
 
@@ -22,6 +25,29 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 [^1]: The Web Speech API is predominantly supported by Google browsers. Chrome (desktop) offers the smoothest experience. For more information on supported browsers, please refer to the [repository](https://github.com/JamesBrill/react-speech-recognition) of react-speech-recognition.
 
 ## Screenshots
+
+![Login Page](./docs/cardify-lingo_login.png)
+![Profile Page](./docs/cardify-lingo_profile.png)
+![Edit Set Page](./docs/cardify-lingo_editset.png)
+![View Set Page](./docs/cardify-lingo_viewset.png)
+![Edit Card Modal](./docs/cardify-lingo_viewset_modal.png)
+
+- Three Quiz mode is available for a compatible browser (listen, read, and image)
+  <table>
+    <tr>
+      <td>Quiz mode 'image' <br/>- Answered correctly via speech recognition</td>
+       <td>Quiz mode 'read'</td>
+    </tr>
+    <tr>
+      <td><img src="./docs/cardify-lingo_quiz_mode1.png" width=300></td>
+      <td><img src="./docs/cardify-lingo_quiz_mode2.png" width=300></td>
+    </tr>
+       <td>Quiz mode 'listen'<br/>(Only available in compatible browsers)</td>
+    </tr>
+    <tr>
+      <td><img src="./docs/cardify-lingo_quiz_mode3.png" width=300></td>
+    </tr>
+   </table>
 
 ## Dependencies
 
@@ -35,6 +61,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - React toastify
 - React icons
 - @headlessui/react
+- @vercel/blob
 - pg
 - Sass
 - uuid
@@ -47,6 +74,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 - **Hosting**: Vercel
 - **Database**: Vercel Postgres
+- **Image Storage**: Vercel Blob
 
 ## Getting Started
 
