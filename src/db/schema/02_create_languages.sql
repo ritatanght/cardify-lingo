@@ -3,5 +3,6 @@ DROP TABLE IF EXISTS languages CASCADE;
 CREATE TABLE languages (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) NOT NULL,
+  code VARCHAR(5) NOT NULL,
   deleted BOOLEAN DEFAULT false
 );
