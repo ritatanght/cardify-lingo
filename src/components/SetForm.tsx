@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect, Fragment } from "react";
+import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
 import CardForm from "@/components/CardForm";
 import { useSession } from "next-auth/react";
@@ -46,25 +46,6 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   );
   const [toBeDeletedUrl, setToBeDeletedUrl] = useState<string[]>([]);
 
-  useEffect(() => {
-    // display upon redirect to login page
-    if (!session) {
-      toast.info(
-        mode === "create" ? "Login to create set." : "Login to edit set."
-      );
-      return router.replace("/login");
-    }
-  }, [session, mode, router]);
-
-  // If user is not logged-in, redirect to login page
-  if (!session)
-    return (
-      <main>
-        <h1 className="text-center">
-          Login to {mode === "create" ? "create" : "edit"} set
-        </h1>
-      </main>
-    );
 
   const onCreate = (
     data: {
@@ -261,7 +242,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   };
 
   // display when it is edit mode and user is not the set's owner
-  if (mode === "edit" && session.user.id !== setData?.set.user_id) {
+  if (
+    !session ||
+    (mode === "edit" && session.user.id !== setData?.set.user_id)
+  ) {
     return (
       <main>
         <h1 className="text-xl text-center">
