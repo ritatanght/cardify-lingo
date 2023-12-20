@@ -1,10 +1,10 @@
-INSERT INTO languages (name)
+INSERT INTO languages (name, code)
 VALUES 
-('Spanish'),
-('French'),
-('Italian'),
-('Portuguese'),
-('Japanese'),
-('Korean'),
-('Mandarin'),
-('Cantonese');
+('Spanish','es-ES'),
+('French','fr-FR'),
+('Italian','it-IT'),
+('Portuguese','pt-BR'),
+('Japanese','ja-JP'),
+('Korean','ko-KR'),
+('Mandarin','zh-CN'),
+('Cantonese','zh-HK');
