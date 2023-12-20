@@ -2,11 +2,11 @@ import { Card, CardFormData } from "../types/definitions";
 import { deleteImage, uploadImage } from "./services";
 
 /**
- * Takes in an array of cards and randomly sort its order and return the newly sorted array
+ * Takes in an array of cards and shuffle its order and return the newly sorted array
  * @param array Card[]
  * @returns array Card[]
  */
-export const randomSort = (array: Card[]) => {
+export const shuffleCards = (array: Card[]) => {
   return array
     .map((value) => ({ value, sort: Math.random() }))
     .sort((a, b) => a.sort - b.sort)

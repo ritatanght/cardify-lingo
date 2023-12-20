@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { Card } from "@/types/definitions";
-import { randomSort } from "@/lib/utils";
+import { shuffleCards } from "@/lib/utils";
 import TestContainer from "./TestContainer";
 import { FaCheckCircle, FaMicrophone } from "react-icons/fa";
 import { FaCircleXmark } from "react-icons/fa6";
@@ -16,7 +16,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const timeOutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [question, setQuestion] = useState(0);
   const [message, setMessage] = useState<React.ReactNode>(null);
-  const [shuffledCards, setShuffledCards] = useState(randomSort(cards));
+  const [shuffledCards, setShuffledCards] = useState(shuffleCards(cards));
   const [score, setScore] = useState(0);
   const [mode, setMode] = useState("start");
 
@@ -31,7 +31,7 @@ const QuizSet = ({ cards, voice, languageCode }: QuizSetProps) => {
   const resetQuiz = () => {
     setQuestion(0);
     setScore(0);
-    setShuffledCards(randomSort(cards));
+    setShuffledCards(shuffleCards(cards));
     setMode("test");
   };
 
