@@ -10,6 +10,7 @@ Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatang
   - Integration of Google account creation
   - Addition of a quiz mode for users to test their language proficiency
   - Implementation of speech recognition for the quiz in compatible browsers[^1]
+  - Inclusion of the option to add images to cards, users can upload or remove images on the create/edit page or in the single card edit modal
 
 ### Database Changes
 
@@ -35,6 +36,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - React toastify
 - React icons
 - @headlessui/react
+- @vercel/blob
 - pg
 - Sass
 - uuid
@@ -47,6 +49,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 
 - **Hosting**: Vercel
 - **Database**: Vercel Postgres
+- **Image Storage**: Vercel Blob
 
 ## Getting Started
 
