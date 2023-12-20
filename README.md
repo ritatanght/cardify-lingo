@@ -8,7 +8,7 @@ Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatang
 - **Backend Migration:** The previous Express backend has been transformed into app/api routes using Next.js route handlers
 - **New Features:**
   - Integration of Google account creation with NextAuth.js
-  - Addition of a quiz feature for users to test their language proficiency through various modes, showcased in the [screenshots](#screenshots) section below
+  - Addition of a quiz feature to aid users in memorizing vocabularies and phrases through images, reading, listening, and speaking. Check out the [screenshots](#screenshots) section below for a visual representation.
   - Implementation of speech recognition for the quiz feature in compatible browsers[^1]
   - Inclusion of the option to add images to cards, users can upload or remove images on the create/edit page or in the single card edit modal
 
