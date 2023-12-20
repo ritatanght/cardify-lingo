@@ -24,8 +24,8 @@ export interface Set {
   private: boolean;
   language_id: number;
   language_name: string;
+  code: string;
   user_id: number;
-  // deleted: boolean;
   username: string;
 }
 
