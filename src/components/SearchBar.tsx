@@ -40,6 +40,7 @@ export default function SearchBar({ closeMenu }: { closeMenu: () => void }) {
       <button
         className="btn rounded-l-none rounded-r-md px-3 text-lg"
         onClick={handleSearch}
+        aria-label="Search"
       >
         <FaSearch />
       </button>
