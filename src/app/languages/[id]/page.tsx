@@ -12,7 +12,7 @@ export default async function Page({ params }: { params: { id: string } }) {
 
     return (
       <main>
-        <h1 className="text-3xl md:text-4xl mb-7">
+        <h1 className="text-3xl md:text-4xl mb-4 md:mb-7">
           Language: <span className="text-color-5">{language.name}</span>
         </h1>
         {sets && sets.length > 0 ? (

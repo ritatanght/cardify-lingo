@@ -16,7 +16,7 @@ export default async function Page({
 
     return (
       <main className="search-container">
-        <h1 className="text-3xl md:text-4xl mb-7">
+        <h1 className="text-3xl md:text-4xl mb-4 md:mb-7">
           Search Results for &quot;<span className="text-color-5">{query}</span>
           &quot;
         </h1>
