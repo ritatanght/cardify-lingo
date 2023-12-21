@@ -8,7 +8,7 @@ import "@/styles/Home.scss";
 export default function Home() {
   return (
     <>
-      <div className="banner-container bg-color-overlay relative flex justify-center items-center text-center rounded-none mb-6 md:rounded-md min-h-[min(500px,50vh)]">
+      <div className="bg-color-overlay relative flex justify-center items-center text-center rounded-none mb-6 md:rounded-md min-h-[min(500px,50vh)]">
         <Image
           src="/banner_img.png"
           priority={true}
