@@ -25,7 +25,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 [^1]: The Web Speech API is predominantly supported by Google browsers. Chrome (desktop) offers the smoothest experience. For more information on supported browsers, please refer to the [repository](https://github.com/JamesBrill/react-speech-recognition) of react-speech-recognition.
 
 ## Screenshots
-
+![Homepage](./docs/cardify-lingo_homepage.png)
 ![Login Page](./docs/cardify-lingo_login.png)
 ![Profile Page](./docs/cardify-lingo_profile.png)
 ![Edit Set Page](./docs/cardify-lingo_editset.png)
@@ -92,3 +92,7 @@ bun dev
 ```
 
 3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Credits
+
+The banner background image is originally from <a href="https://www.freepik.com/free-vector/flat-international-mother-language-day-background_21779356.htm#query=foreign%20language&position=45&from_view=search&track=ais&uuid=bfe0efed-8a9a-4bd5-9f24-22c0cbb42369">Freepik</a> and subsequently edited by me.
