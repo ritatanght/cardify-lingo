@@ -11,6 +11,7 @@ import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { playpen } from "@/lib/fonts";
 import "react-toastify/dist/ReactToastify.css";
 
 function classNames(...classes: string[]) {
@@ -52,11 +53,10 @@ export default function Header({ languages }: HeaderProps) {
           </Link>
 
           {/* dropdown */}
-          <Menu
-            as="div"
-            className="dropdown relative inline-block border-b-[3px] transition-colors duration-200 border-transparent hover:border-color-5"
-          >
-            <Menu.Button className="inline-flex w-full justify-center items-center gap-x-0.5 rounded-md px-3 pb-4 pt-5 text-sm font-bold text-gray-600">
+          <Menu as="div" className="dropdown relative inline-block">
+            <Menu.Button
+              className={`inline-flex w-full justify-center items-center gap-x-0.5 border-b-[3px] transition-colors duration-200 border-transparent hover:border-color-5 px-3 pb-4 pt-5 text-m font-bold text-darken-5-100 drop-shadow-sm ${playpen.className}`}
+            >
               Languages
               <FaCaretDown
                 className="-mr-1 h-5 w-5 text-gray-400 scale-75"
@@ -73,7 +73,7 @@ export default function Header({ languages }: HeaderProps) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute left-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none">
+              <Menu.Items className="absolute left-0 z-20 mt-1 w-40 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none">
                 <div className="py-1">
                   {Array.isArray(languages) &&
                     languages.map((language) => (
@@ -108,7 +108,7 @@ export default function Header({ languages }: HeaderProps) {
             <FiMenu />
           </button>
           <div
-            className={`nav-menu shadow-[-2px_0_10px_rgba(0,0,0,0.3)] md:shadow-none bg-color-3 fixed flex grow flex-col gap-6 justify-start md:flex-row md:static md:justify-between inset-y-0 right-0 left-auto z-10 p-6 md:p-0 transition-transform duration-300 ${
+            className={`nav-menu shadow-[-2px_0_10px_rgba(0,0,0,0.3)] md:shadow-none bg-color-3 fixed flex grow flex-col gap-6 justify-start md:flex-row md:static md:justify-between inset-y-0 right-0 left-auto z-20 p-6 md:p-0 transition-transform duration-300 ${
               isMenuOpen
                 ? " translate-x-0"
                 : " translate-x-[105%] md:translate-x-0"
@@ -129,6 +129,7 @@ export default function Header({ languages }: HeaderProps) {
                 <Link
                   className="p-0 text-xl transition-transform duration-300 hover:-translate-y-1 text-darken-5-200 flex items-center gap-1"
                   href="/profile"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   <strong>{session.user.name}</strong>
                   <FaUser />
@@ -146,10 +147,15 @@ export default function Header({ languages }: HeaderProps) {
                 <Link
                   className="btn bg-[#e7bb10] hover:bg-[#b7940d]"
                   href="/login"
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   Login
                 </Link>
-                <Link href="/register" className="btn ml-4">
+                <Link
+                  href="/register"
+                  className="btn ml-4"
+                  onClick={() => setIsMenuOpen(false)}
+                >
                   Sign Up
                 </Link>
               </div>
