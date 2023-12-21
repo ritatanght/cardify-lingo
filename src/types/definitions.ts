@@ -1,5 +1,4 @@
-export type User = {
-  id: string;
+export type User = {  id: string;
   username: string;
   email: string;
   password: string;
@@ -59,12 +58,11 @@ export type Favorite = {
   id: number;
   user_id: number;
   set_id: number;
-  // deleted: boolean;
 };
 
 export type FavoriteSet = Omit<
   Set,
-  "description" | "language_id" | "language_name"
+  "description" | "language_id" | "language_name" | "code"
 >;
 
 export interface userContextType {
