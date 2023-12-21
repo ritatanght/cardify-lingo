@@ -15,6 +15,7 @@ const config: Config = {
       "darken-5-100": "#358bcb",
       "darken-5-200": "#25618e",
       "color-heart": "#e7525b",
+      "color-overlay": "#353535"
     },
     extend: {
       colors: {

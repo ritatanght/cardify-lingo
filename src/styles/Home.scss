@@ -1,9 +1,5 @@
 @use "./variables" as var;
 
-.banner-container {
-  box-shadow: inset 0 0 0 50vw rgba(0, 0, 0, 0.6);
-}
-
 .columns-container {
   .column:first-child {
     background-color: lighten(var.$color-1, 10%);

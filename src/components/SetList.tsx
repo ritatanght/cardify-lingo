@@ -39,5 +39,11 @@ export default function Page({ setsData }: SetListProps) {
       />
     ));
 
-  return <>{displaySet && <section>{setsElements}</section>}</>;
+  return (
+    <>
+      {displaySet && (
+        <section className="grid md:grid-cols-2 gap-3">{setsElements}</section>
+      )}
+    </>
+  );
 }

@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-import { playpen } from "../../../../../lib/fonts";
+import { playpen } from "@/lib/fonts";
 import { HiVolumeUp } from "react-icons/hi";
 import { GrEdit } from "react-icons/gr";
 import Image from "next/image";
@@ -50,7 +50,7 @@ const CardFace = ({
 
   return (
     <div
-      className={`card-${position} min-w-[min(90vw,730px)] border-8 md:border-[15px] col-start-1 col-span-1 row-start-1 row-span-1 bg-white cursor-pointer rounded-lg relative flex justify-center items-center
+      className={`card-${position} min-w-[min(88vw,730px)] border-8 md:border-[15px] col-start-1 col-span-1 row-start-1 row-span-1 bg-white cursor-pointer rounded-lg relative flex justify-center items-center
       p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc] ${style.border}`}
     >
       <div

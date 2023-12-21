@@ -37,12 +37,7 @@ const Profile = ({ userSets }: { userSets: Set[] }) => {
         ))}
       </Tab.List>
       <Tab.Panels>
-        <Tab.Panel
-          className={classNames(
-            "rounded-xl bg-white p-3",
-            "focus:outline-none"
-          )}
-        >
+        <Tab.Panel className="rounded-xl bg-white p-3 grid md:grid-cols-2 gap-3 focus:outline-none">
           {sets.length > 0 ? (
             sets.map((set) => (
               <SetItem
@@ -58,12 +53,7 @@ const Profile = ({ userSets }: { userSets: Set[] }) => {
             </p>
           )}
         </Tab.Panel>
-        <Tab.Panel
-          className={classNames(
-            "rounded-xl bg-white p-3",
-            "focus:outline-none"
-          )}
-        >
+        <Tab.Panel className="rounded-xl bg-white p-3 grid md:grid-cols-2 gap-3 focus:outline-none">
           {Array.isArray(favoriteSets) && favoriteSets.length > 0 ? (
             favoriteSets.map((favoriteSet: FavoriteSet) => (
               <SetItem

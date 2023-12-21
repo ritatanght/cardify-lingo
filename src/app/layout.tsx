@@ -28,7 +28,7 @@ export default async function RootLayout({
       >
         <Providers>
           <Header languages={languages || []} />
-          <div className="content-container md:px-6 md:py-8">{children}</div>
+          <div className="md:px-6 md:py-8">{children}</div>
         </Providers>
       </body>
     </html>
