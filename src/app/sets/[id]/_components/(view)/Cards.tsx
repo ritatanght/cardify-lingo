@@ -1,7 +1,7 @@
 import { useState } from "react";
 import CardItem from "./CardItem";
-import { playpen } from "../../../../../lib/fonts";
-import { Card } from "../../../../../types/definitions";
+import { playpen } from "@/lib/fonts";
+import { Card } from "@/types/definitions";
 import Confetti from "react-confetti";
 import {
   PiArrowFatLineLeftFill,
@@ -60,10 +60,10 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
     <div className="cards-container mt-2 text-center md:mt-4 grid px-2">
       {isFinished ? (
         <div
-          className="card-finish bg-white min-w-[min(90vw,730px)] rounded-lg border-8 md:border-[15px] overflow-hidden border-color-2 mx-auto relative flex justify-center
+          className="card-finish bg-white min-w-[min(88vw,730px)] rounded-lg border-8 md:border-[15px] overflow-hidden border-color-2 mx-auto relative flex justify-center
       items-center p-2 aspect-[1/1.2] md:aspect-[2/1] shadow-[0_5px_5px_#ccc]"
         >
-          <Confetti width={700} height={335} opacity={0.8} />
+          <Confetti width={700} height={400} opacity={0.8} />
           <p className={`text-2xl md:text-3xl ${playpen.className}`}>
             Congratulations! You&apos;ve finished the set!
           </p>
