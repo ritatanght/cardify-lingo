@@ -45,7 +45,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     ]
   );
   const [toBeDeletedUrl, setToBeDeletedUrl] = useState<string[]>([]);
-
+  const [draggingIndex, setDraggingIndex] = useState<null | number>(null);
 
   const onCreate = (
     data: {
@@ -241,6 +241,24 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     });
   };
 
+  const handleDragOver = (
+    e: React.DragEvent<HTMLDivElement>,
+    newIndex: number
+  ) => {
+    e.preventDefault();
+    if (draggingIndex !== null && newIndex !== draggingIndex) {
+      const updatedCards = [...cards];
+      // Extract the card being dragged
+      const [draggedCard] = updatedCards.splice(draggingIndex, 1);
+      // Insert the dragged card at the new index
+      updatedCards.splice(newIndex, 0, draggedCard);
+      // Update the state to reorder the cards
+      setCards(updatedCards);
+      // Update the draggingIndex to reflect the new position
+      setDraggingIndex(newIndex);
+    }
+  };
+
   // display when it is edit mode and user is not the set's owner
   if (
     !session ||
@@ -368,6 +386,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
                 onUpdate={(e) => handleCardUpdate(index, e)}
                 onDelete={() => handleCardDelete(index)}
                 selectedLanguage={selectedLanguage}
+                onDragStart={() => setDraggingIndex(index)}
+                onDragEnd={() => setDraggingIndex(null)}
+                onDragOver={(e) => handleDragOver(e, index)}
+                isDragging={draggingIndex === index}
               />
             )
         )}
