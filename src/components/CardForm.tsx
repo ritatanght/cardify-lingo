@@ -2,13 +2,17 @@ import { CardFormData } from "../types/definitions";
 import { FaRegTrashCan, FaImage } from "react-icons/fa6";
 import { useRef } from "react";
 import { IoIosRemoveCircle } from "react-icons/io";
+import { RxDragHandleHorizontal } from "react-icons/rx";
 import Image from "next/image";
-
 interface CardFormProps {
   card: CardFormData;
   onUpdate: (e: React.BaseSyntheticEvent) => void;
   onDelete: () => void;
   selectedLanguage: string;
+  onDragStart: () => void;
+  onDragEnd: () => void;
+  onDragOver: (e: React.DragEvent<HTMLDivElement>) => void;
+  isDragging: Boolean;
 }
 
 const CardForm = ({
@@ -16,6 +20,10 @@ const CardForm = ({
   onUpdate,
   onDelete,
   selectedLanguage,
+  onDragStart,
+  onDragEnd,
+  onDragOver,
+  isDragging: dragging,
 }: CardFormProps) => {
   const inputFile = useRef<HTMLInputElement | null>(null);
 
@@ -45,8 +53,23 @@ const CardForm = ({
   };
 
   return (
-    <div className="card-container rounded-md border-2 border-color-3 mb-4">
+    <div
+      className={`card-container rounded-md border-2 border-color-3 mb-4 ${
+        dragging ? "opacity-50" : ""
+      }`}
+      draggable
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
+    >
       <div className="w-full md:static bg-gray-50 text-right">
+        <button
+          className="inline p-1 transition text-lg hover:text-gray-600"
+          onClick={(e) => e.preventDefault()}
+          aria-label="Drag and drop card"
+        >
+          <RxDragHandleHorizontal />
+        </button>
         <button className="inline p-1 transition text-lg hover:text-gray-600">
           <FaRegTrashCan
             onClick={handleDeleteBtnClick}
