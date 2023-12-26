@@ -17,7 +17,8 @@ import {
 import type { Id } from "react-toastify";
 import { playpen } from "../lib/fonts";
 import "@/styles/Create-Edit-Set.scss";
-import { DndContext, DragOverEvent } from "@dnd-kit/core";
+import { DndContext, DragOverEvent, useSensor } from "@dnd-kit/core";
+import { MouseSensor, TouchSensor } from "@/lib/dnd-sensors";
 
 interface SetFormProps {
   mode: "create" | "edit";
@@ -161,7 +162,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
 
     // remove all the temp id
     const cleanedCards = cardsWithImageUrl.map((card) => {
-      const newCard = { ...card};
+      const newCard = { ...card };
       if (typeof newCard.id === "string") {
         delete newCard.id;
       }
@@ -268,6 +269,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   return (
     <DndContext
       onDragOver={handleDragOver}
+      sensors={[useSensor(MouseSensor), useSensor(TouchSensor)]}
     >
       <main>
         <form>
