@@ -63,7 +63,7 @@ const CardForm = ({
         {...listeners}
         {...attributes}
       >
-        <div className="w-full md:static bg-gray-50 flex justify-end pr-1 gap-x-2">
+        <div className="w-full relative md:static bg-gray-50 flex justify-end items-center px-1">
           <span
             className="p-1 text-xl text-gray-500 mx-auto cursor-grab"
             aria-label="Drag and drop card"
@@ -71,7 +71,7 @@ const CardForm = ({
             <MdDragHandle />
           </span>
           <button
-            className="p-1 transition text-lg hover:text-gray-600"
+            className="absolute p-1 transition text-lg text-color-heart rounded hover:text-white hover:bg-color-heart"
             onClick={handleDeleteBtnClick}
             data-no-dnd="true"
           >
