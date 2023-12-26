@@ -17,8 +17,18 @@ import {
 import type { Id } from "react-toastify";
 import { playpen } from "../lib/fonts";
 import "@/styles/Create-Edit-Set.scss";
-import { DndContext, DragOverEvent, useSensor } from "@dnd-kit/core";
+import {
+  DndContext,
+  DragEndEvent,
+  closestCenter,
+  useSensor,
+} from "@dnd-kit/core";
 import { MouseSensor, TouchSensor } from "@/lib/dnd-sensors";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+  arrayMove,
+} from "@dnd-kit/sortable";
 
 interface SetFormProps {
   mode: "create" | "edit";
@@ -45,18 +55,17 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   );
   const [toBeDeletedUrl, setToBeDeletedUrl] = useState<string[]>([]);
 
-  const handleDragOver = (e: DragOverEvent) => {
-    if (!e.over) return;
-    if (e.active.id !== e.over.id) {
-      setCards((prevCards) => {
-        const oldIndex = prevCards.findIndex((card) => card.id === e.active.id);
-        const newIndex = prevCards.findIndex((card) => card.id === e.over!.id);
-        if (oldIndex === -1 || newIndex === -1) return prevCards;
-        const updatedCards = [...prevCards];
-        const [movedCard] = updatedCards.splice(oldIndex, 1);
-        updatedCards.splice(newIndex, 0, movedCard);
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
 
-        return updatedCards;
+    if (!over) return;
+
+    if (active.id !== over.id) {
+      setCards((prevCards) => {
+        const oldIndex = prevCards.findIndex((card) => card.id === active.id);
+        const newIndex = prevCards.findIndex((card) => card.id === over!.id);
+
+        return arrayMove(prevCards, oldIndex, newIndex);
       });
     }
   };
@@ -262,7 +271,8 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
 
   return (
     <DndContext
-      onDragOver={handleDragOver}
+      onDragEnd={handleDragEnd}
+      collisionDetection={closestCenter}
       sensors={[useSensor(MouseSensor), useSensor(TouchSensor)]}
     >
       <main>
@@ -370,19 +380,23 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
               </div>
             </div>
           </div>
-
-          {cards.map(
-            (card, index) =>
-              !card.deleted && (
-                <CardForm
-                  key={card.id}
-                  card={card}
-                  onUpdate={(e) => handleCardUpdate(index, e)}
-                  onDelete={() => handleCardDelete(index)}
-                  selectedLanguage={selectedLanguage}
-                />
-              )
-          )}
+          <SortableContext
+            items={cards.map((card) => ({ id: card.id || "cardId" }))}
+            strategy={verticalListSortingStrategy}
+          >
+            {cards.map(
+              (card, index) =>
+                !card.deleted && (
+                  <CardForm
+                    key={card.id}
+                    card={card}
+                    onUpdate={(e) => handleCardUpdate(index, e)}
+                    onDelete={() => handleCardDelete(index)}
+                    selectedLanguage={selectedLanguage}
+                  />
+                )
+            )}
+          </SortableContext>
           <div className="text-center">
             <button onClick={addCard} className="btn text-center px-[30%]">
               Add Card
