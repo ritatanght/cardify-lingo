@@ -2,6 +2,9 @@ import { CardFormData } from "../types/definitions";
 import { FaRegTrashCan, FaImage } from "react-icons/fa6";
 import { useRef } from "react";
 import { IoIosRemoveCircle } from "react-icons/io";
+import { MdDragHandle } from "react-icons/md";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import Image from "next/image";
 
 interface CardFormProps {
@@ -18,6 +21,25 @@ const CardForm = ({
   selectedLanguage,
 }: CardFormProps) => {
   const inputFile = useRef<HTMLInputElement | null>(null);
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: card.id || "cardId",
+    transition: {
+      duration: 150, // milliseconds
+      easing: "cubic-bezier(0.25, 1, 0.5, 1)",
+    },
+  });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
 
   // when clicking the remove icon on the uploaded image
   const handleRemoveImage = (
@@ -45,16 +67,34 @@ const CardForm = ({
   };
 
   return (
-    <div className="card-container rounded-md border-2 border-color-3 mb-4">
-      <div className="w-full md:static bg-gray-50 text-right">
-        <button className="inline p-1 transition text-lg hover:text-gray-600">
-          <FaRegTrashCan
-            onClick={handleDeleteBtnClick}
-            aria-label="Remove Card"
-          />
+    <div
+      className={`card-container rounded-md bg-white border-2 border-color-3 mb-4 touch-none cursor-auto ${
+        isDragging ? "opacity-50" : ""
+      } `}
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      style={style}
+    >
+      <div className="w-full relative md:static bg-gray-50 flex justify-end items-center px-1">
+        <span
+          className="p-1 text-xl text-gray-500 mx-auto cursor-grab"
+          aria-label="Drag and drop card"
+        >
+          <MdDragHandle />
+        </span>
+        <button
+          className="absolute p-1 transition text-lg text-color-heart rounded hover:text-white hover:bg-color-heart"
+          onClick={handleDeleteBtnClick}
+          data-no-dnd="true"
+        >
+          <FaRegTrashCan aria-label="Remove Card" />
         </button>
       </div>
-      <div className="flex w-full relative flex-wrap justify-end items-center gap-1 md:gap-0 md:items-stretch">
+      <div
+        className="flex w-full relative flex-wrap justify-end items-center gap-1 md:gap-0 md:items-stretch"
+        data-no-dnd="true"
+      >
         <div className="grow bg-color-1 rounded-md p-1">
           <label className="block text-white font-bold text-center">
             Front
@@ -90,11 +130,10 @@ const CardForm = ({
           />
           {card.image_url || card.image ? (
             <div className="border-2 h-full rounded flex justify-center items-center relative overflow-clip">
-              <button>
+              <button onClick={handleRemoveImage}>
                 <IoIosRemoveCircle
                   className="absolute bottom-0.5 right-0.5 md:right-1 bg-white rounded-full text-color-1 hover:text-color-heart z-10"
                   aria-label="Remove image"
-                  onClick={handleRemoveImage}
                 />
               </button>
               <Image
