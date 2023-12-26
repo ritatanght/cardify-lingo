@@ -2,7 +2,7 @@ import { CardFormData } from "../types/definitions";
 import { FaRegTrashCan, FaImage } from "react-icons/fa6";
 import { useRef } from "react";
 import { IoIosRemoveCircle } from "react-icons/io";
-import { RxDragHandleHorizontal } from "react-icons/rx";
+import { MdDragHandle } from "react-icons/md";
 import { useDraggable, useDroppable } from "@dnd-kit/core";
 import Image from "next/image";
 
@@ -20,10 +20,9 @@ const CardForm = ({
   selectedLanguage,
 }: CardFormProps) => {
   const inputFile = useRef<HTMLInputElement | null>(null);
-  const { attributes, listeners, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: card.id || "cardId",
-    });
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: card.id || "cardId",
+  });
 
   const { setNodeRef: dropNodeRef } = useDroppable({
     id: card.id || "cardId",
@@ -64,18 +63,15 @@ const CardForm = ({
         {...listeners}
         {...attributes}
       >
-        <div className="w-full md:static bg-gray-50 text-right">
-          <button
-            className={`inline p-1 transition text-lg  ${
-              isDragging ? " cursor-grabbing" : " cursor-grab"
-            }`}
-            onClick={(e) => e.preventDefault()}
+        <div className="w-full md:static bg-gray-50 flex justify-end pr-1 gap-x-2">
+          <span
+            className="p-1 text-xl text-gray-500 mx-auto cursor-grab"
             aria-label="Drag and drop card"
           >
-            <RxDragHandleHorizontal />
-          </button>
+            <MdDragHandle />
+          </span>
           <button
-            className="inline p-1 transition text-lg hover:text-gray-600"
+            className="p-1 transition text-lg hover:text-gray-600"
             onClick={handleDeleteBtnClick}
             data-no-dnd="true"
           >
