@@ -20,7 +20,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
     ]);
 
     // display when the user is not the set's owner
-    if (!session || session.user.id !== setData?.set.user_id) {
+    if (!session || session.user.id !== setData?.user_id) {
       return (
         <main>
           <h1 className="text-xl text-center">
