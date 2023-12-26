@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import CardForm from "@/components/CardForm";
 import { toast } from "react-toastify";
 import { createSet, editSet } from "../lib/services";
-import { addImageUrlToCards, deleteImageUrls } from "@/lib/utils";
+import { addImageUrlToCards, cleanUpCards, deleteImageUrls } from "@/lib/utils";
 import { Listbox, Transition } from "@headlessui/react";
 import { FaCheck, FaAngleDown } from "react-icons/fa";
 import {
@@ -161,20 +161,14 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     };
 
     // remove all the temp id
-    const cleanedCards = cardsWithImageUrl.map((card) => {
-      const newCard = { ...card };
-      if (typeof newCard.id === "string") {
-        delete newCard.id;
-      }
-      return newCard;
-    });
+    const cardFormData = cleanUpCards(cardsWithImageUrl);
 
     switch (mode) {
       case "create":
-        onCreate({ setFormData, cardFormData: cleanedCards }, toastId);
+        onCreate({ setFormData, cardFormData }, toastId);
         break;
       case "edit":
-        onEdit({ setFormData, cardFormData: cleanedCards }, toastId);
+        onEdit({ setFormData, cardFormData }, toastId);
         break;
       default:
         console.log("Invalid mode");
