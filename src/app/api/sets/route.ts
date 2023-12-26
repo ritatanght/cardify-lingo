@@ -64,9 +64,10 @@ export async function POST(request: Request) {
     const set = await postSetData({ ...setFormData, user_id: userId });
     setId = set.id;
     // get the id returned from creating the set to create the cards
-    const cardDataWithSetId = cardFormData.map((card: Card) => ({
+    const cardDataWithSetId = cardFormData.map((card: Card, index: number) => ({
       ...card,
       set_id: set.id,
+      sequence: index + 1,
     }));
 
     await postCardsData(cardDataWithSetId);
