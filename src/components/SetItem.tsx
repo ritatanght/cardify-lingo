@@ -7,7 +7,6 @@ import { FiEdit } from "react-icons/fi";
 import { FaHeart as FillHeart, FaRegHeart as EmptyHeart } from "react-icons/fa";
 import { FavoriteSet, Set } from "../types/definitions";
 import { useRouter } from "next/navigation";
-import "@/styles/SetItem.scss";
 import { useSession } from "next-auth/react";
 import ConfirmModal from "./ConfirmModal";
 
@@ -37,7 +36,7 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
         onDelete={onDelete}
       />
       <Link
-        className="set-item-container border-4 border-color-2 block rounded-2xl p-4 items-center md:py-6 transition hover:scale-105"
+        className="set-item-container bg-color-2/60 border-4 border-color-2 block rounded-xl p-4 items-center shadow-[0px_5px_5px_#ccc] md:py-6 transition hover:scale-105"
         href={`/sets/${set.id}`}
       >
         <p className="text-2xl font-bold text-left">{set.title}</p>
