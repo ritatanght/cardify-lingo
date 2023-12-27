@@ -95,3 +95,15 @@ export const getCardOwnerByCardId = (cardId: string) => {
     )
     .then((data) => data.rows[0]);
 };
+
+export const setCardsToDeleted = (setId: string) => {
+  return db
+    .query(
+      `
+      UPDATE lang_cards
+      SET deleted = true
+      WHERE lang_set_id = $1`,
+      [setId]
+    )
+    .then((data) => data.rows[0]);
+};
