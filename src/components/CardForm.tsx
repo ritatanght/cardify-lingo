@@ -84,7 +84,7 @@ const CardForm = ({
           <MdDragHandle />
         </span>
         <button
-          className="absolute p-1 transition text-lg text-color-heart rounded hover:text-white hover:bg-color-heart"
+          className="absolute p-1 transition text-lg rounded hover:text-white hover:bg-color-heart"
           onClick={handleDeleteBtnClick}
           data-no-dnd="true"
         >

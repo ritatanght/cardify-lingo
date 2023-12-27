@@ -69,7 +69,7 @@ export const getCardsBySetId = (setId: string) => {
     .then((data) => data.rows);
 };
 
-export const updateCardById = (id: string, cardData: CardFormData) => {
+export const updateCardById = (cardData: CardFormData) => {
   const query = `
     UPDATE lang_cards
     SET front = $1, back = $2, image_url = $3
@@ -79,7 +79,7 @@ export const updateCardById = (id: string, cardData: CardFormData) => {
     cardData.front,
     cardData.back,
     cardData.image_url,
-    id,
+    cardData.id,
   ]);
 };
 
