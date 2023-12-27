@@ -3,7 +3,6 @@ import { playpen } from "@/lib/fonts";
 import { TbCards } from "react-icons/tb";
 import { RiSpeakLine, RiCommunityLine } from "react-icons/ri";
 import Image from "next/image";
-import "@/styles/Home.scss";
 
 export default function Home() {
   return (
@@ -29,7 +28,7 @@ export default function Home() {
         </div>
       </div>
       <div className="columns-container text-center flex flex-col gap-6 md:gap-4 md:flex-row justify-between w-11/12 mt-6 mb-4 mx-auto">
-        <div className="column basis-2/6 rounded-md p-4">
+        <div className="column basis-2/6 rounded-md p-4 bg-color-1/60">
           <TbCards
             aria-hidden="true"
             className="text-6xl drop-shadow inline text-gray-50"
@@ -43,7 +42,7 @@ export default function Home() {
             visual aids.
           </p>
         </div>
-        <div className="column basis-2/6 rounded-md p-4 hover:bg-color-1">
+        <div className="column basis-2/6 rounded-md p-4 bg-color-4/70">
           <RiSpeakLine
             aria-hidden="true"
             className="text-6xl drop-shadow inline text-gray-50"
@@ -57,7 +56,7 @@ export default function Home() {
             learning experience.
           </p>
         </div>
-        <div className="column basis-2/6 rounded-md p-4">
+        <div className="column basis-2/6 rounded-md p-4 bg-color-2/80">
           <RiCommunityLine
             aria-hidden="true"
             className="text-6xl drop-shadow inline text-gray-50"
