@@ -227,8 +227,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
           toast.error("Invalid File Selected");
         }
       } else if (e.target.name === "front" || e.target.name === "back") {
-        updatedCards[index][e.target.name as keyof CardFormData] =
-          e.target.value;
+        updatedCards[index][e.target.name as "front" | "back"] = e.target.value;
       } else {
         // handle clicking on the remove button on image, which has no target.name
         const origUrl = updatedCards[index].image_url;
