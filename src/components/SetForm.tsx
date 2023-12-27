@@ -242,7 +242,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       return updatedCards;
     });
   };
-  console.log(cards);
+
   /**
    * Remove the card with the provided index from the cards array
    * @param cardIndex
