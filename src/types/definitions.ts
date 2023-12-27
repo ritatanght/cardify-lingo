@@ -53,7 +53,7 @@ export type Card = {
 };
 
 export type CardFormData = {
-  id: number | string;
+  id?: number | string;
   set_id?: number;
   front: string;
   back: string;
