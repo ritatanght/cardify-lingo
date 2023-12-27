@@ -242,7 +242,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       return updatedCards;
     });
   };
-
+  console.log(cards);
   /**
    * Remove the card with the provided index from the cards array
    * @param cardIndex
@@ -253,7 +253,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     setCards((prevCards) => {
       const updatedCards = [...cards];
       // A card has an id means it's been created in the database previously
-      if (prevCards[cardIndex].id) {
+      if (typeof prevCards[cardIndex].id === "number") {
         updatedCards[cardIndex].deleted = true;
         // add imageUrl of the card marked deleted to the toBeDeletedUrl array
         const hasImage = updatedCards[cardIndex].image_url;
