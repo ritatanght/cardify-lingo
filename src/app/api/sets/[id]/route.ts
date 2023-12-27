@@ -4,7 +4,7 @@ import {
   setSetToDeleted,
   updateSetData,
 } from "@/db/queries/sets";
-import { getCardsBySetId, updateCardsData } from "@/db/queries/cards";
+import { getCardsBySetId, setCardsToDeleted, updateCardsData } from "@/db/queries/cards";
 import { Card } from "@/types/definitions";
 import { auth } from "@/../auth";
 import { revalidatePath } from "next/cache";
@@ -140,8 +140,9 @@ export async function DELETE(
         { status: 403 }
       );
 
-    // set the set as deleted in the database
+    // mark the set and the cards under the set as deleted in the database
     await setSetToDeleted(setId);
+    await setCardsToDeleted(setId);
 
     return Response.json({ message: "Set deleted" }, { status: 200 });
   } catch (err) {
