@@ -2,7 +2,7 @@ import { Card, CardFormData } from "../types/definitions";
 import { deleteImage, uploadImage } from "./services";
 
 /**
- * 
+ *
  * @returns a promise for whether synthesis voices are available
  */
 export const waitForVoices = (): Promise<SpeechSynthesisVoice[]> => {
@@ -63,4 +63,19 @@ export const deleteImageUrls = async (urlArray: string[]) => {
   if (urlArray.length > 0) {
     Promise.all(urlArray.map(async (url: string) => await deleteImage(url)));
   }
+};
+
+/**
+ * Return a new array of cards, removing card id that has type string (ie. a temp id 'card-1')
+ * @param cardsArray :CardFormData[]
+ * @returns cardArray :CardFormData[]
+ */
+export const cleanUpCards = (cardsArray: CardFormData[]) => {
+  return cardsArray.map((card) => {
+    const newCard = { ...card };
+    if (typeof newCard.id === "string") {
+      delete newCard.id;
+    }
+    return newCard;
+  });
 };

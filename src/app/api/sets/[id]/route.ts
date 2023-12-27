@@ -4,7 +4,7 @@ import {
   setSetToDeleted,
   updateSetData,
 } from "@/db/queries/sets";
-import { getCardsBySetId, updateCardsData } from "@/db/queries/cards";
+import { getCardsBySetId, setCardsToDeleted, updateCardsData } from "@/db/queries/cards";
 import { Card } from "@/types/definitions";
 import { auth } from "@/../auth";
 import { revalidatePath } from "next/cache";
@@ -82,9 +82,21 @@ export async function PUT(
     // update the set and cards
     const updateSetPromise = updateSetData({ ...setFormData });
     const updateCardsPromise = updateCardsData(
-      cardFormData.map((card: Card) =>
-        card.id ? card : { ...card, set_id: setId }
-      ) // add set_id key to new cards
+      cardFormData.map((card: Card, index: number) => {
+        // add the sequence key to the array of cards
+        if (card.id) {
+          if (card.deleted) {
+            // set the sequence to 0 for a deleted card
+            return { ...card, sequence: 0 };
+          } else {
+            // set the sequence normally for an existing card
+            return { ...card, sequence: index + 1 };
+          }
+        } else {
+          // add set_id key and set the sequence to new cards
+          return { ...card, set_id: setId, sequence: index + 1 };
+        }
+      })
     );
 
     await Promise.all([updateSetPromise, updateCardsPromise]);
@@ -128,8 +140,9 @@ export async function DELETE(
         { status: 403 }
       );
 
-    // set the set as deleted in the database
+    // mark the set and the cards under the set as deleted in the database
     await setSetToDeleted(setId);
+    await setCardsToDeleted(setId);
 
     return Response.json({ message: "Set deleted" }, { status: 200 });
   } catch (err) {

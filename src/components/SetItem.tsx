@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useFavButton from "@/hooks/useFavButton";
 import { useUser } from "@/context/UserProvider";
 import { FaRegTrashCan } from "react-icons/fa6";
@@ -7,8 +7,8 @@ import { FiEdit } from "react-icons/fi";
 import { FaHeart as FillHeart, FaRegHeart as EmptyHeart } from "react-icons/fa";
 import { FavoriteSet, Set } from "../types/definitions";
 import { useRouter } from "next/navigation";
-import "@/styles/SetItem.scss";
 import { useSession } from "next-auth/react";
+import ConfirmModal from "./ConfirmModal";
 
 type setItemProps = {
   set: Set | FavoriteSet;
@@ -21,61 +21,72 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
   const { data: session } = useSession();
   const { favoriteSets } = useUser();
   const { isLiked, toggleLike, checkLiked } = useFavButton();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     checkLiked(favoriteSets, set.id);
   }, [checkLiked, favoriteSets, set.id]);
 
   return (
-    <Link
-      className="set-item-container border-4 border-color-2 block rounded-2xl p-4 items-center md:py-6 transition hover:scale-105"
-      href={`/sets/${set.id}`}
-    >
-      <p className="text-2xl font-bold text-left">{set.title}</p>
-      <div className="flex self-end justify-end items-center">
-        {session && session.user.id === set.user_id ? (
-          <div className="set-icons text-2xl ml-3 bg-transparent flex">
+    <>
+      <ConfirmModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+        title={set.title}
+        onDelete={onDelete}
+      />
+      <Link
+        className="bg-color-2/60 border-4 border-color-2 block rounded-xl p-4 items-center shadow-[0px_5px_5px_#ccc] md:py-6 transition hover:scale-105"
+        href={`/sets/${set.id}`}
+      >
+        <p className="text-2xl font-bold text-left">{set.title}</p>
+        <div className="flex self-end justify-end items-center mt-2">
+          {session && session.user.id === set.user_id ? (
+            <div className="set-icons text-2xl ml-3 bg-transparent flex">
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsModalOpen(true);
+                }}
+                aria-label="Delete set"
+                className="text-gray-600 hover:text-gray-500"
+              >
+                <FaRegTrashCan />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  router.push(`/sets/edit/${set.id}`);
+                }}
+                className="text-2xl ml-3 text-gray-600 hover:text-gray-500"
+                aria-label="Edit set"
+              >
+                <FiEdit />
+              </button>
+            </div>
+          ) : (
+            <span className="italic text-darken-5-200 text-2xl">
+              {setOwner}
+            </span>
+          )}
+          {session && (
             <button
+              className="text-2xl ml-2.5 bg-transparent text-color-heart transition duration-300 hover:scale-125"
               onClick={(e) => {
                 e.preventDefault();
-                onDelete();
+                toggleLike(set);
               }}
-              aria-label="Delete set"
-              className="text-gray-600 hover:text-gray-500"
             >
-              <FaRegTrashCan />
+              {isLiked ? (
+                <FillHeart aria-label="Unlike" />
+              ) : (
+                <EmptyHeart aria-label="Like" />
+              )}
             </button>
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                router.push(`/sets/edit/${set.id}`);
-              }}
-              className="text-2xl ml-3 text-gray-600 hover:text-gray-500"
-              aria-label="Edit set"
-            >
-              <FiEdit />
-            </button>
-          </div>
-        ) : (
-          <span className="italic text-darken-5-200 text-2xl">{setOwner}</span>
-        )}
-        {session && (
-          <button
-            className="text-2xl ml-2.5 bg-transparent text-color-heart transition duration-300 hover:scale-125"
-            onClick={(e) => {
-              e.preventDefault();
-              toggleLike(set);
-            }}
-          >
-            {isLiked ? (
-              <FillHeart aria-label="Unlike" />
-            ) : (
-              <EmptyHeart aria-label="Like" />
-            )}
-          </button>
-        )}
-      </div>
-    </Link>
+          )}
+        </div>
+      </Link>
+    </>
   );
 };
 

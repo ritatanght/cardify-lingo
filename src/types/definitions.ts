@@ -48,11 +48,20 @@ export type Card = {
   front: string;
   back: string;
   image_url: string | null;
-  image?: File | null;
   deleted?: boolean;
+  sequence: number;
 };
 
-export type CardFormData = Partial<Card>;
+export type CardFormData = {
+  id: number | string;
+  set_id?: number;
+  front: string;
+  back: string;
+  image_url?: string | null;
+  image?: File | null;
+  deleted?: boolean;
+  sequence?: number;
+};
 
 export type Favorite = {
   id: number;

@@ -1,17 +1,17 @@
 import { CardFormData } from "@/types/definitions";
 import db from "../db.config";
-
 export const postCardsData = (cardsData: CardFormData[]) => {
   const promises = cardsData.map((cardData) => {
     const query = `
-      INSERT INTO lang_cards(front, back, image_url, lang_set_id)
-      VALUES($1, $2, $3, $4)
+      INSERT INTO lang_cards(front, back, image_url, lang_set_id, sequence)
+      VALUES($1, $2, $3, $4, $5)
     `;
     return db.query(query, [
       cardData.front,
       cardData.back,
       cardData.image_url,
       cardData.set_id,
+      cardData.sequence,
     ]);
   });
   return Promise.all(promises);
@@ -25,20 +25,22 @@ export const updateCardsData = (cardsData: CardFormData[]) => {
       SET front = $1,
       back = $2,
       image_url = $3,
-      deleted = $4
-      WHERE id = $5;
+      deleted = $4,
+      sequence = $5
+      WHERE id = $6;
       `;
       return db.query(query, [
         cardData.front,
         cardData.back,
         cardData.image_url,
-        cardData.deleted,
+        cardData.deleted || false,
+        cardData.sequence,
         cardData.id,
       ]);
     } else {
       const query = `
-      INSERT INTO lang_cards (front, back, image_url, lang_set_id)
-      VALUES ($1, $2, $3, $4)
+      INSERT INTO lang_cards (front, back, image_url, lang_set_id, sequence)
+      VALUES ($1, $2, $3, $4, $5)
       RETURNING id;
       `;
       return db.query(query, [
@@ -46,6 +48,7 @@ export const updateCardsData = (cardsData: CardFormData[]) => {
         cardData.back,
         cardData.image_url,
         cardData.set_id,
+        cardData.sequence,
       ]);
     }
   });
@@ -57,10 +60,10 @@ export const getCardsBySetId = (setId: string) => {
   return db
     .query(
       `
-      SELECT * FROM lang_cards
+      SELECT id, front, back, image_url FROM lang_cards
       WHERE lang_set_id = $1 
       AND deleted = false
-      ORDER BY lang_cards.id;`,
+      ORDER BY sequence;`,
       [setId]
     )
     .then((data) => data.rows);
@@ -89,6 +92,18 @@ export const getCardOwnerByCardId = (cardId: string) => {
       JOIN lang_cards ON lang_sets.id = lang_set_id
       WHERE lang_cards.id = $1;`,
       [cardId]
+    )
+    .then((data) => data.rows[0]);
+};
+
+export const setCardsToDeleted = (setId: string) => {
+  return db
+    .query(
+      `
+      UPDATE lang_cards
+      SET deleted = true
+      WHERE lang_set_id = $1`,
+      [setId]
     )
     .then((data) => data.rows[0]);
 };

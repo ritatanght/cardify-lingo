@@ -1,5 +1,5 @@
 # Cardify Lingo
-Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatanght/Cardify) application, focusing on language learning. Developed using Next.js, Typescript, and TailwindCSS, this updated version incorporates numerous enhancements and refinements, aligning more closely with my original concepts for the application.
+Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatanght/Cardify) application, focusing on language learning. Developed primarily using Next.js, Typescript, TailwindCSS, and PostgreSQL, this updated version incorporates numerous enhancements and refinements, aligning more closely with my original concepts for the application.
 
 - [Live Demo](https://cardify-lingo.vercel.app/)
 
@@ -8,7 +8,7 @@ Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatang
 - **Backend Migration:** The previous Express backend has been transformed into app/api routes using Next.js route handlers
 - **New Features:**
   - Integration of Google account creation with NextAuth.js
-  - Addition of a quiz feature to aid users in memorizing vocabularies and phrases through images, reading, listening, and speaking. Check out the [screenshots](#screenshots) section below for a visual representation.
+  - Addition of a quiz feature to aid users in memorizing vocabulary and phrases through images, reading, listening, and speaking. Check out the [screenshots](#screenshots) section below for a visual representation.
   - Implementation of speech recognition for the quiz feature in compatible browsers[^1]
   - Inclusion of the option to add images to cards, users can upload or remove images on the create/edit page or in the single card edit modal
 
@@ -25,7 +25,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 [^1]: The Web Speech API is predominantly supported by Google browsers. Chrome (desktop) offers the smoothest experience. For more information on supported browsers, please refer to the [repository](https://github.com/JamesBrill/react-speech-recognition) of react-speech-recognition.
 
 ## Screenshots
-
+![Homepage](./docs/cardify-lingo_homepage.png)
 ![Login Page](./docs/cardify-lingo_login.png)
 ![Profile Page](./docs/cardify-lingo_profile.png)
 ![Edit Set Page](./docs/cardify-lingo_editset.png)
@@ -92,3 +92,7 @@ bun dev
 ```
 
 3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Credits
+
+The banner background image is originally from <a href="https://www.freepik.com/free-vector/flat-international-mother-language-day-background_21779356.htm#query=foreign%20language&position=45&from_view=search&track=ais&uuid=bfe0efed-8a9a-4bd5-9f24-22c0cbb42369">Freepik</a> and subsequently edited by me.
