@@ -31,7 +31,7 @@ export async function PUT(
       );
 
     // Update the card
-    await updateCardById(cardId, { front, back, image_url });
+    await updateCardById({ front, back, image_url, id: cardId });
 
     return Response.json(
       { success: true, message: "Card updated successfully" },
