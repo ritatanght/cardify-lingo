@@ -190,15 +190,13 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
                 </form>
                 <div className="sm:flex sm:flex-row-reverse">
                   <button
-                    type="button"
                     className="btn w-full rounded-md bg-color-5 px-3 py-2 text-sm font-bold shadow-sm sm:ml-3 sm:w-auto mb-2 md:mb-0"
                     onClick={handleSubmit}
                   >
                     Save Changes
                   </button>
                   <button
-                    type="button"
-                    className="w-full rounded-md px-3 py-2 text-sm font-bold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                    className="w-full px-3 py-2 rounded-md text-sm font-bold shadow-sm ring-1 ring-inset ring-gray-500 hover:bg-slate-300 active:bg-gray-500 active:text-white sm:mt-0 sm:w-auto"
                     onClick={onHide}
                   >
                     Cancel
