@@ -36,11 +36,11 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
         onDelete={onDelete}
       />
       <Link
-        className="set-item-container bg-color-2/60 border-4 border-color-2 block rounded-xl p-4 items-center shadow-[0px_5px_5px_#ccc] md:py-6 transition hover:scale-105"
+        className="bg-color-2/60 border-4 border-color-2 block rounded-xl p-4 items-center shadow-[0px_5px_5px_#ccc] md:py-6 transition hover:scale-105"
         href={`/sets/${set.id}`}
       >
         <p className="text-2xl font-bold text-left">{set.title}</p>
-        <div className="flex self-end justify-end items-center">
+        <div className="flex self-end justify-end items-center mt-2">
           {session && session.user.id === set.user_id ? (
             <div className="set-icons text-2xl ml-3 bg-transparent flex">
               <button
