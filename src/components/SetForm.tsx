@@ -5,8 +5,6 @@ import CardForm from "@/components/CardForm";
 import { toast } from "react-toastify";
 import { createSet, editSet } from "../lib/services";
 import { addImageUrlToCards, cleanUpCards, deleteImageUrls } from "@/lib/utils";
-import { Listbox, Transition } from "@headlessui/react";
-import { FaCheck, FaAngleDown } from "react-icons/fa";
 import {
   FullSet,
   CardFormData,
@@ -14,9 +12,6 @@ import {
   SetData,
   Language,
 } from "../types/definitions";
-import type { Id } from "react-toastify";
-import { playpen } from "../lib/fonts";
-import "@/styles/Create-Edit-Set.scss";
 import {
   DndContext,
   DragEndEvent,
@@ -29,6 +24,11 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
+import { Listbox, Transition } from "@headlessui/react";
+import { FaCheck, FaAngleDown } from "react-icons/fa";
+import type { Id } from "react-toastify";
+import { playpen } from "../lib/fonts";
+import "@/styles/Create-Edit-Set.scss";
 
 interface SetFormProps {
   mode: "create" | "edit";
@@ -146,6 +146,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
   };
 
   /**
+   * Prep the form data and
    * Based on the current mode "create" || "edit", call the corresponding submit function
    * @param e
    */
@@ -242,7 +243,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
       return updatedCards;
     });
   };
-  console.log(cards);
+
   /**
    * Remove the card with the provided index from the cards array
    * @param cardIndex
