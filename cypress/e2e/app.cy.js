@@ -1,8 +1,6 @@
 describe("Homepage", () => {
   it("should be able to visit homepage with no error", () => {
-    // Start from the index page
     cy.visit("http://localhost:3000/");
-
     cy.get("h2").contains("Get Started with Your Set");
   });
 
@@ -13,11 +11,12 @@ describe("Homepage", () => {
     // click on the dropdown toggle button
     cy.contains("Languages").click();
 
+    const dropdown = cy.get('[data-cy="header-dropdown"]');
     // there is a link that links to languages with id of 1
-    cy.get('a[href="/languages/1"]');
+    dropdown.find('a[href="/languages/1"]');
 
     // Click on the link displayed as 'Japanese'
-    cy.get("a").contains("Japanese").click();
+    dropdown.get("a").contains("Japanese").click();
 
     // check page title
     cy.get("h1").contains("Language: Japanese");
