@@ -4,6 +4,27 @@ describe("Homepage", () => {
     cy.get("h2").contains("Get Started with Your Set");
   });
 
+  it("should visit the Login page on click of the login button", () => {
+    cy.visit("http://localhost:3000/");
+    cy.get("header").find("a").contains("Login").click();
+    cy.url().should("include", "/login");
+    cy.get("h1").contains("Login");
+  });
+
+  it("should visit the Register page on click of the sign up button", () => {
+    cy.visit("http://localhost:3000/");
+    cy.get("header").find("a").contains("Sign Up").click();
+    cy.url().should("include", "/register");
+    cy.get("h1").contains("Register");
+  });
+
+  it("should return to home page on click of the logo", () => {
+    cy.visit("http://localhost:3000/register");
+    cy.get("header").find('img[alt="Cardify logo"]').click();
+
+    cy.get("h2").contains("Get Started with Your Set");
+  });
+
   it("should navigate to the languages set list when clicking on the link in the dropdown", () => {
     // Start from the index page
     cy.visit("http://localhost:3000/");
