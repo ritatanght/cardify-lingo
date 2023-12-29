@@ -73,27 +73,25 @@ export default function Header({ languages }: HeaderProps) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute left-0 z-20 mt-1 w-40 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none">
-                <div className="py-1">
-                  {Array.isArray(languages) &&
-                    languages.map((language) => (
-                      <Menu.Item key={language.name}>
-                        {({ active }) => (
-                          <Link
-                            href={`/languages/${language.id}`}
-                            className={classNames(
-                              active
-                                ? "bg-gray-50 text-color-5 font-bold"
-                                : "text-gray-500",
-                              "block px-4 py-2 text-sm"
-                            )}
-                          >
-                            {language.name}
-                          </Link>
-                        )}
-                      </Menu.Item>
-                    ))}
-                </div>
+              <Menu.Items className="absolute left-0 z-20 mt-1 w-40 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none py-1">
+                {Array.isArray(languages) &&
+                  languages.map((language) => (
+                    <Menu.Item key={language.name}>
+                      {({ active }) => (
+                        <Link
+                          href={`/languages/${language.id}`}
+                          className={classNames(
+                            active
+                              ? "bg-gray-50 text-color-5 font-bold"
+                              : "text-gray-500",
+                            "block px-4 py-2 text-sm"
+                          )}
+                        >
+                          {language.name}
+                        </Link>
+                      )}
+                    </Menu.Item>
+                  ))}
               </Menu.Items>
             </Transition>
           </Menu>
