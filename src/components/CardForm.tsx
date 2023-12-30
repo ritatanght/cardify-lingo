@@ -87,8 +87,9 @@ const CardForm = ({
           className="absolute p-1 transition text-lg rounded hover:text-white hover:bg-color-heart"
           onClick={handleDeleteBtnClick}
           data-no-dnd="true"
+          aria-label="Remove Card"
         >
-          <FaRegTrashCan aria-label="Remove Card" />
+          <FaRegTrashCan />
         </button>
       </div>
       <div
