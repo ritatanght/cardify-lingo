@@ -60,4 +60,18 @@ describe("Create", () => {
     deleteBtns.each(($btn) => $btn.click());
     cy.get(".Toastify__toast-body").contains("at least be one card");
   });
+
+  it.only("should prompt warning when attempts to submit a card with blank front", () => {
+    cy.get(".card-container").first().find("input[name='front']").clear();
+
+    cy.get("form button").contains("Create").click();
+    cy.get(".Toastify__toast-body").contains("Cards cannot be empty");
+  });
+
+  it.only("should prompt warning when attempts to submit a card with blank back", () => {
+    cy.get(".card-container").last().find("input[name='back']").clear();
+
+    cy.get("form button").contains("Create").click();
+    cy.get(".Toastify__toast-body").contains("Cards cannot be empty");
+  });
 });
