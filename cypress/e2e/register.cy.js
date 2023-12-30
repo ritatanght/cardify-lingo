@@ -37,12 +37,14 @@ describe("Register", () => {
     cy.url().should("include", "/profile");
     cy.get("h1").contains("user");
 
-    // brand new user with no created/ favorited set
-    const profileMain = cy.get("main");
-    profileMain.find("button").contains("My Sets");
-    profileMain.find("p").contains("You don't have any sets yet.");
-    profileMain.find("button").contains("Favorite Sets").click();
-    profileMain.find("p").contains("You have not favorited any sets yet.");
+    // Check for existance of buttons and text inside main
+    cy.get("main").then(($main) => {
+      // brand new user with no created/ favorited set
+      cy.wrap($main).find("button").contains("My Sets");
+      cy.wrap($main).find("p").contains("You don't have any sets yet.");
+      cy.wrap($main).find("button").contains("Favorite Sets").click();
+      cy.wrap($main).find("p").contains("You have not favorited any sets yet.");
+    });
   });
 
   it("should prompt error for an existing account with the same email", () => {
