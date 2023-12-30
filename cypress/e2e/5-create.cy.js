@@ -48,11 +48,16 @@ describe("Create", () => {
 
   it("should prompt error when description is empty", () => {
     cy.get('textarea[aria-label="Description"]').clear();
-    cy.get("button").contains("Create").click();
+    cy.get("form button").contains("Create").click();
 
     cy.get(".Toastify__toast-body").contains(
       "Title and description cannot be empty"
     );
   });
 
+  it("should prompt warning when attempting to remove all cards", () => {
+    const deleteBtns = cy.get('button[aria-label="Remove Card"]');
+    deleteBtns.each(($btn) => $btn.click());
+    cy.get(".Toastify__toast-body").contains("at least be one card");
+  });
 });
