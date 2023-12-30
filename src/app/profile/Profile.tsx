@@ -14,7 +14,7 @@ const Profile = ({ userSets }: { userSets: Set[] }) => {
     return classes.filter(Boolean).join(" ");
   }
 
-  const tabs = ["My Set", "Favorite Sets"];
+  const tabs = ["My Sets", "Favorite Sets"];
 
   return (
     <Tab.Group>
@@ -48,7 +48,7 @@ const Profile = ({ userSets }: { userSets: Set[] }) => {
               />
             ))
           ) : (
-            <p className="text-center text-gray-500 mt-4">
+            <p className="text-center text-gray-500 mt-4 col-span-full">
               You don&apos;t have any sets yet.
             </p>
           )}
@@ -64,7 +64,7 @@ const Profile = ({ userSets }: { userSets: Set[] }) => {
               />
             ))
           ) : (
-            <p className="text-center text-gray-500 mt-4">
+            <p className="text-center text-gray-500 mt-4 col-span-full">
               You have not favorited any sets yet.
             </p>
           )}
