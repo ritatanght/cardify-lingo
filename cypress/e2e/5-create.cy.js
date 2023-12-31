@@ -9,6 +9,36 @@ describe("Create", () => {
     });
     cy.visit("http://localhost:3000/sets/create");
   };
+  // reset testSet before performing tests
+  before(() => {
+    cy.writeFile("cypress/fixtures/testSet.json", {
+      title: "Food in French",
+      description: "Learn common food in French",
+      language_name: "French",
+      cards: [
+        {
+          front: "Milk",
+          back: "Le lait",
+          image_url: null,
+        },
+        {
+          front: "Egg",
+          back: "L' œuf",
+          image_url: null,
+        },
+        {
+          front: "Apple",
+          back: "La pomme",
+          image_url: null,
+        },
+        {
+          front: "Sugar",
+          back: "Le sucre",
+          image_url: null,
+        },
+      ],
+    });
+  });
 
   beforeEach(() => {
     login("user@example.com");
