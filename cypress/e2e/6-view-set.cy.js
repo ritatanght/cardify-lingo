@@ -51,7 +51,7 @@ describe("View", () => {
   });
 
   context("Login as non-set owner", () => {
-    it("should not see the favorite button but not the edit buttons", () => {
+    it("should see and toggle the favorite button but not the edit buttons", () => {
       cy.visit("http://localhost:3000/login");
       cy.get("input[type=email]").type("john.doe@example.com");
       cy.get("input[type=password]").type("johnssecurepassword{enter}");
@@ -59,9 +59,15 @@ describe("View", () => {
 
       cy.visit("http://localhost:3000/sets/17");
 
-      cy.get('[data-testid="likeBtn"]').should("exist");
       cy.get("a").contains("Edit Set").should("not.exist");
       cy.get(".Card button[aria-label='Edit card']").should("not.exist");
+      // Able to toggle between like and unlike
+      cy.get('[data-testid="likeBtn"]')
+        .should("have.attr", "aria-label", "Like set")
+        .click()
+        .should("have.attr", "aria-label", "Unlike set")
+        .click()
+        .should("have.attr", "aria-label", "Like set");
     });
   });
 
