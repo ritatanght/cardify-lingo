@@ -18,5 +18,10 @@ describe("View", () => {
       });
     });
   });
-
+  it("should flip to the back on click of the card", () => {
+    const activeCard = cy.get(".Card.active");
+    activeCard.should("not.have.class", "flip");
+    activeCard.click();
+    activeCard.should("have.class", "flip");
+  });
 });
