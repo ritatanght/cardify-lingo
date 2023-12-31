@@ -1,8 +1,8 @@
 describe("View", () => {
-  beforeEach(() => {
-    cy.visit("http://localhost:3000/sets/17");
-  });
   context("Without login", () => {
+    beforeEach(() => {
+      cy.visit("http://localhost:3000/sets/17");
+    });
     it("should not see a favorite button nor the edit buttons", () => {
       cy.get('[data-testid="likeBtn"]').should("not.exist");
       cy.get("a").contains("Edit Set").should("not.exist");
@@ -80,10 +80,61 @@ describe("View", () => {
       login("user@example.com");
       cy.visit("http://localhost:3000/sets/17");
     });
-    it("should see button for liking set and edit card/ set", () => {
+
+    it("should see button for liking set and edit card/ set, and open edit modal", () => {
       cy.get('[data-testid="likeBtn"]').should("exist");
       cy.get("a").contains("Edit Set").should("exist");
       cy.get(".Card button[aria-label='Edit card']").should("have.length", 8);
+
+      // open edit card modal
+      cy.get("div[id^='headlessui-dialog-panel']").should("not.exist");
+      cy.get(".Card.active button[aria-label='Edit card']").first().click();
+      cy.get("div[id^='headlessui-dialog-panel']").should("exist");
+    });
+
+    it("should be able to edit card content with the edit card button", () => {
+      cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
+        cy.get(".Card.active button[aria-label='Edit card']").first().click();
+        const oldCard = testSet.cards[0];
+        const newCard = { front: "Yogurt", back: "Le yaourt", image_url: null };
+        cy.get("div[id^='headlessui-dialog-panel']").then(($modal) => {
+          // check that old card data matches before replacing with new card info
+          cy.wrap($modal)
+            .find("input#front")
+            .should("have.value", oldCard.front)
+            .clear()
+            .type(newCard.front);
+          cy.wrap($modal)
+            .find("input#back")
+            .should("have.value", oldCard.back)
+            .clear()
+            .type(newCard.back);
+          cy.wrap($modal).find("button").contains("Save Changes").click();
+          // update the testSet json file as well
+          cy.writeFile("cypress/fixtures/testSet.json", {
+            ...testSet,
+            cards: [newCard, ...testSet.cards.slice(1)],
+          });
+        });
+        cy.get(".Toastify__toast-body").contains("Changes have been saved");
+        // Check new content on card
+        cy.get(".Card.active").contains(newCard.front).should("be.visible");
+        cy.get(".Card.active").contains(newCard.back).should("exist");
+      });
+    });
+
+    it("should navigate to the edit page for the set on click of the edit set button", () => {
+      cy.fixture("testSet").then((testSet) => {
+        cy.get("a").contains("Edit Set").click();
+
+        cy.url().should("include", "/sets/edit/17");
+        // check against testSet data
+        cy.get("h1").contains(`Edit: ${testSet.title}`);
+        cy.get("textarea").contains(testSet.description);
+
+        const cards = cy.get(".card-container");
+        cards.should("have.length", testSet.cards.length);
+      });
     });
   });
 });
