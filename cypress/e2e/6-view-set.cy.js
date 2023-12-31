@@ -3,7 +3,7 @@ describe("View", () => {
     cy.visit("http://localhost:3000/sets/17");
   });
   context("Without login", () => {
-    it("should not see a favorite button nor the edit set button", () => {
+    it("should not see a favorite button nor the edit buttons", () => {
       cy.get('[data-testid="likeBtn"]').should("not.exist");
       cy.get("a").contains("Edit Set").should("not.exist");
       cy.get(".Card button[aria-label='Edit card']").should("not.exist");
@@ -47,6 +47,21 @@ describe("View", () => {
       cy.get("button[aria-label='Next Card']").click();
       cy.get("button[aria-label='Previous Card']").click();
       activeCard.should("not.have.class", "flip");
+    });
+  });
+
+  context("Login as non-set owner", () => {
+    it("should not see the favorite button but not the edit buttons", () => {
+      cy.visit("http://localhost:3000/login");
+      cy.get("input[type=email]").type("john.doe@example.com");
+      cy.get("input[type=password]").type("johnssecurepassword{enter}");
+      cy.get("header a").contains("john_doe");
+
+      cy.visit("http://localhost:3000/sets/17");
+
+      cy.get('[data-testid="likeBtn"]').should("exist");
+      cy.get("a").contains("Edit Set").should("not.exist");
+      cy.get(".Card button[aria-label='Edit card']").should("not.exist");
     });
   });
 
