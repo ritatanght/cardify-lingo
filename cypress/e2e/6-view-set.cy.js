@@ -3,6 +3,11 @@ describe("View", () => {
     cy.visit("http://localhost:3000/sets/17");
   });
   context("Without login", () => {
+    it("should not see a favorite button nor the edit set button", () => {
+      cy.get('[data-testid="likeBtn"]').should("not.exist");
+      cy.get("a").contains("Edit Set").should("not.exist");
+    });
+
     it("should only see the front side of 1st card on visit and able to navigate through cards", () => {
       cy.fixture("testSet").then((testSet) => {
         cy.get("h1").contains(testSet.title);
