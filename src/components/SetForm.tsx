@@ -94,7 +94,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
         if (err.response.data) {
           toast.update(toastId, {
             render: err.response.data.message,
-            position: "top-center",
+            position: "bottom-center",
             type: "info",
             isLoading: false,
             autoClose: 3000,
@@ -133,7 +133,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
           if (err.response.data) {
             toast.update(toastId, {
               render: err.response.data.message,
-              position: "top-center",
+              position: "bottom-center",
               type: "info",
               isLoading: false,
               autoClose: 3000,
@@ -157,7 +157,10 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     )?.id;
     if (!language_id) return toast.error("Please select a language");
 
-    const toastId = toast.loading("Saving changes", { position: "top-center" });
+    const toastId = toast.loading(
+      `${mode === "create" ? "Creating Set" : "Saving changes"}`,
+      { position: "top-center" }
+    );
     // prep the cards with imageUrl by uploading the images stored in image
     const cardsWithImageUrl = await addImageUrlToCards(cards);
     // make requests to the backend to remove urls stored in the array
@@ -313,6 +316,7 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
                 <Listbox
                   value={selectedLanguage}
                   onChange={setSelectedLanguage}
+                  defaultValue=""
                 >
                   <div className="relative w-full">
                     <Listbox.Button className="w-full cursor-pointer rounded-md bg-[#419c8d] text-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 sm:text-sm hover:bg-[#32786c]">
