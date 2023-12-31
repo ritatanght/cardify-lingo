@@ -10,54 +10,29 @@ describe("Create", () => {
     cy.visit("http://localhost:3000/sets/create");
   };
 
-  const testSet = {
-    title: "Food in French",
-    description: "Learn common food in French",
-    language_name: "French",
-    cards: [
-      {
-        front: "Milk",
-        back: "Le lait",
-        image_url: null,
-      },
-      {
-        front: "Egg",
-        back: "L' œuf",
-        image_url: null,
-      },
-      {
-        front: "Apple",
-        back: "La pomme",
-        image_url: null,
-      },
-      {
-        front: "Sugar",
-        back: "Le sucre",
-        image_url: null,
-      },
-    ],
-  };
-
   beforeEach(() => {
     login("user@example.com");
+    cy.fixture("testSet").then((testSet) => {
+      cy.get('input[aria-label="Title"]').type(testSet.title);
+      cy.get('textarea[aria-label="Description"]').type(testSet.description);
+      // Pick French as the language
+      cy.get('button[id^="headlessui-listbox-button"]')
+        .click()
+        .next()
+        .find("li")
+        .contains(testSet.language_name)
+        .click();
 
-    cy.get('input[aria-label="Title"]').type(testSet.title);
-    cy.get('textarea[aria-label="Description"]').type(testSet.description);
-    // Pick French as the language
-    cy.get('button[id^="headlessui-listbox-button"]')
-      .click()
-      .next()
-      .find("li")
-      .contains(testSet.language_name)
-      .click();
+      // fill the three cards with data from testSet
+      cy.get(".card-container").each(($card, cardIdx) => {
+        const inputs = cy.wrap($card).find("input[type='text']");
 
-    // fill the three cards with data from testSet
-    cy.get(".card-container").each(($card, cardIdx) => {
-      const inputs = cy.wrap($card).find("input[type='text']");
-
-      inputs.each(($el, ind) =>
-        cy.wrap($el).type(testSet.cards[cardIdx][ind === 0 ? "front" : "back"])
-      );
+        inputs.each(($el, ind) =>
+          cy
+            .wrap($el)
+            .type(testSet.cards[cardIdx][ind === 0 ? "front" : "back"])
+        );
+      });
     });
   });
 
@@ -119,24 +94,26 @@ describe("Create", () => {
     cy.get("main a").contains("Food in French");
   });
 
-  after(() => {
-    cy.request("/api/sets/17").as("set");
-    cy.get("@set").should((res) => {
-      expect(res.body).to.have.property("set");
-      expect(res.body).to.have.property("cards");
-      const { set, cards } = res.body;
+  it("should insert data into database correctly", () => {
+    cy.request("http://localhost:3000/api/sets/17").as("set");
+    cy.fixture("testSet").then((testSet) => {
+      cy.get("@set").should((res) => {
+        expect(res.body).to.have.property("set");
+        expect(res.body).to.have.property("cards");
+        const { set, cards } = res.body;
 
-      expect(set.title).to.be.eq(testSet.title);
-      expect(set.description).to.be.eq(testSet.description);
-      expect(set.language_name).to.be.eq(testSet.language_name);
-      expect(cards).to.have.lengthOf(4);
-      // check content of cards
-      cards.forEach((card, index) => {
-        for (const key in card) {
-          if (key === "front" || key === "back") {
-            expect(card[key]).to.be.eq(testSet.cards[index][key]);
+        expect(set.title).to.be.eq(testSet.title);
+        expect(set.description).to.be.eq(testSet.description);
+        expect(set.language_name).to.be.eq(testSet.language_name);
+        expect(cards).to.have.lengthOf(4);
+        // check content of cards
+        cards.forEach((card, index) => {
+          for (const key in card) {
+            if (key === "front" || key === "back") {
+              expect(card[key]).to.be.eq(testSet.cards[index][key]);
+            }
           }
-        }
+        });
       });
     });
   });
