@@ -14,7 +14,60 @@ describe("Edit", () => {
     cy.visit("http://localhost:3000/sets/edit/17");
   });
 
-  it("should change set info", () => {
-    
+  it("should revise set and cards details", () => {
+    // change title to Common Food in French
+    // and update the second card in the list
+    const newTitle = "Common Food in French";
+    const newDesc = "Learn common food vocabulary in French";
+    const newCard = { front: "Milk", back: "Le lait", image_url: null };
+    cy.get("input[aria-label='Title']").clear().type(newTitle);
+    cy.get("textarea[aria-label='Description']").clear().type(newDesc);
+    cy.get(".card-container")
+      .eq(1)
+      .then(($card) => {
+        const inputs = cy.wrap($card).find("input[type='text']");
+        inputs.each(($el, ind) =>
+          cy
+            .wrap($el)
+            .clear()
+            .type(newCard[ind === 0 ? "front" : "back"])
+        );
+      });
+    cy.get("form button").contains("Save").click();
+    cy.get(".Toastify__toast-body").contains("Set updated successfully");
+    cy.request("http://localhost:3000/api/sets/17").as("set");
+
+    cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
+      // update the testSet json file as well
+      const updatedCards = testSet.cards;
+      updatedCards[1] = newCard;
+      cy.writeFile("cypress/fixtures/testSet.json", {
+        ...testSet,
+        title: newTitle,
+        description: newDesc,
+        cards: [...updatedCards],
+      });
+    });
+
+    cy.fixture("testSet").then((testSet) => {
+      cy.get("@set").should((res) => {
+        expect(res.body).to.have.property("set");
+        expect(res.body).to.have.property("cards");
+        const { set, cards } = res.body;
+
+        expect(set.title).to.be.eq(testSet.title);
+        expect(set.description).to.be.eq(testSet.description);
+        expect(set.language_name).to.be.eq(testSet.language_name);
+        expect(cards).to.have.lengthOf(4);
+        // check content of cards
+        cards.forEach((card, index) => {
+          for (const key in card) {
+            if (key === "front" || key === "back") {
+              expect(card[key]).to.be.eq(testSet.cards[index][key]);
+            }
+          }
+        });
+      });
+    });
   });
 });
