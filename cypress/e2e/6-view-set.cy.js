@@ -6,6 +6,7 @@ describe("View", () => {
     it("should not see a favorite button nor the edit set button", () => {
       cy.get('[data-testid="likeBtn"]').should("not.exist");
       cy.get("a").contains("Edit Set").should("not.exist");
+      cy.get(".Card button[aria-label='Edit card']").should("not.exist");
     });
 
     it("should only see the front side of 1st card on visit and able to navigate through cards", () => {
@@ -46,6 +47,28 @@ describe("View", () => {
       cy.get("button[aria-label='Next Card']").click();
       cy.get("button[aria-label='Previous Card']").click();
       activeCard.should("not.have.class", "flip");
+    });
+  });
+
+  context("Login as the set owner", () => {
+    const login = (email) => {
+      cy.session(email, () => {
+        cy.visit("http://localhost:3000/login");
+
+        cy.get("input[type=email]").type(email);
+        cy.get("input[type=password]").type("123456{enter}");
+        cy.get("header a").contains("user");
+      });
+    };
+
+    beforeEach(() => {
+      login("user@example.com");
+      cy.visit("http://localhost:3000/sets/17");
+    });
+    it("should see button for liking set and edit card/ set", () => {
+      cy.get('[data-testid="likeBtn"]').should("exist");
+      cy.get("a").contains("Edit Set").should("exist");
+      cy.get(".Card button[aria-label='Edit card']").should("have.length", 8);
     });
   });
 });
