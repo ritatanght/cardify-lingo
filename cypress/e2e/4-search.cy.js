@@ -7,9 +7,9 @@ describe("Search", () => {
 
     // check for page title including the query
     cy.get("h1").contains('Search Results for "express"');
-
-    cy.get("a").contains("Portuguese Expressions");
-    cy.get("a").contains("Cantonese Slang");
+    const sets = cy.get("a[href^='/sets/']");
+    sets.should("have.length", 3);
+    sets.contains("Portuguese Expressions");
   });
 
   it("should display no set found when searched with no matching results", () => {
