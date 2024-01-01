@@ -72,16 +72,14 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
           {session && (
             <button
               className="text-2xl ml-2.5 bg-transparent text-color-heart transition duration-300 hover:scale-125"
+              aria-label={`${isLiked ? "Unlike" : "Like"}`}
+              data-testid="likeBtn"
               onClick={(e) => {
                 e.preventDefault();
                 toggleLike(set);
               }}
             >
-              {isLiked ? (
-                <FillHeart aria-label="Unlike" />
-              ) : (
-                <EmptyHeart aria-label="Like" />
-              )}
+              {isLiked ? <FillHeart /> : <EmptyHeart />}
             </button>
           )}
         </div>
