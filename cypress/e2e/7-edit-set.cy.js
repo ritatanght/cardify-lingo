@@ -15,7 +15,7 @@ describe("Edit", () => {
   });
 
   it("should revise set and cards details", () => {
-    // change title to Common Food in French
+    // change title to 'Common Food in French'
     // and update the second card in the list
     const newTitle = "Common Food in French";
     const newDesc = "Learn common food vocabulary in French";
@@ -23,7 +23,7 @@ describe("Edit", () => {
     cy.get("input[aria-label='Title']").clear().type(newTitle);
     cy.get("textarea[aria-label='Description']").clear().type(newDesc);
     cy.get(".card-container")
-      .eq(1)
+      .eq(1) // change the 2nd card
       .then(($card) => {
         const inputs = cy.wrap($card).find("input[type='text']");
         inputs.each(($el, ind) =>
@@ -74,7 +74,7 @@ describe("Edit", () => {
     });
   });
 
-  it("should reorder cards in set", () => {
+  it("should reorder cards in set with mouse drag and drop", () => {
     // swap the first two cards
     cy.get("span[data-testid='dragHandle']")
       .first()
@@ -86,11 +86,11 @@ describe("Edit", () => {
     cy.get(".Toastify__toast-body").contains("Set updated successfully");
 
     cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
-      const [firstCard, secondCard, ...updatedCards] = [...testSet.cards];
+      const [firstCard, secondCard, ...card] = [...testSet.cards];
       // update the testSet json file as well
       cy.writeFile("cypress/fixtures/testSet.json", {
         ...testSet,
-        cards: [secondCard, firstCard, ...updatedCards],
+        cards: [secondCard, firstCard, ...card],
       });
     });
 
@@ -113,19 +113,22 @@ describe("Edit", () => {
     });
   });
 
-  it("should reorder cards in set", () => {
-    // swap the first two cards
+  it("should reorder cards in set with touch drag and drop and able to remove card", () => {
+    // swap the last two cards
     cy.get("span[data-testid='dragHandle']")
       .last()
       .trigger("touchstart", { which: 1 })
-      .trigger("touchmove", { clientX: 500, clientY: 400 })
+      .trigger("touchmove", { clientX: 500, clientY: 250 })
       .trigger("touchend");
+
+    // remove the 1st card
+    cy.get('button[aria-label="Remove Card"]').eq(0).click();
 
     cy.wait(200).get("form button").contains("Save").click();
     cy.get(".Toastify__toast-body").contains("Set updated successfully");
 
     cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
-      const updatedCards = [...testSet.cards];
+      const [deleted, ...updatedCards] = [...testSet.cards];
       //swap the last two items in the list
       const [removed] = updatedCards.splice(-1, 1);
       updatedCards.splice(-1, 0, removed);
@@ -155,4 +158,8 @@ describe("Edit", () => {
     });
   });
 
+  it("should display no permission when trying to edit other user's set", () => {
+    cy.visit("http://localhost:3000/sets/edit/1");
+    cy.get("h1").contains("Sorry, you don't have permission to edit this set!");
+  });
 });
