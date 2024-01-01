@@ -8,7 +8,7 @@ Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatang
 - **Backend Migration:** The previous Express backend has been transformed into app/api routes using Next.js route handlers
 - **New Features:**
   - Integrated Google account creation with NextAuth.js
-  -Introduced a quiz feature to aid users in memorizing vocabulary and phrases through images, reading, listening, and speaking. Check out the [screenshots](#screenshots) section below for a visual representation.
+    -Introduced a quiz feature to aid users in memorizing vocabulary and phrases through images, reading, listening, and speaking. Check out the [screenshots](#screenshots) section below for a visual representation.
   - Implementated speech recognition for the quiz feature in compatible browsers[^1]
   - Provided the option to add or remove images on cards via the create/edit page or in the single card edit modal
   - Added drag and drop functionality for reordering cards within a set on the create/edit page
@@ -20,6 +20,10 @@ Cardify Lingo is a revamped version of the [Cardify](https://github.com/ritatang
 - Updated the `id` column in the users' table to the `VARCHAR` type to accommodate Google accounts' IDs
 - Added a new `code` column to the `languages` table specifically for supporting speech synthesis and speech recognition features
 - Added a new `sequence` column to the `lang_cards` table to facilitate the rearrangement of cards within a set
+
+### Testing
+
+- Integrated comprehensive end-to-end tests using Cypress to ensure the application's functionality across various scenarios and user interactions
 
 ### Font Optimization
 
@@ -74,6 +78,7 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - Axios
 - TailwindCSS 3
 - Typescript 5
+- Cypress
 
 ## Deployment
 
@@ -82,6 +87,8 @@ This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-opti
 - **Image Storage**: Vercel Blob
 
 ## Getting Started
+
+### To run the development server
 
 1. Create `.env.local` based on `.env.local.example`
 2. Install dependencies with `npm install`, then run the development server:
@@ -97,6 +104,20 @@ bun dev
 ```
 
 3. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### To run cypress test
+
+- Change `moduleResolution` from ~~`bundler`~~ to `node` in `tsconfig.json` for cypress to work
+
+```ts
+// tsconfig.json
+
+ "compilerOptions": {
+    ...
+    "moduleResolution": "node",
+    ...
+ }
+```
 
 ## Credits
 
