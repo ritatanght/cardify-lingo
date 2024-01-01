@@ -80,6 +80,7 @@ const CardForm = ({
         <span
           className="p-1 text-xl text-gray-500 mx-auto cursor-grab"
           aria-label="Drag and drop card"
+          data-testid="dragHandle"
         >
           <MdDragHandle />
         </span>
