@@ -49,6 +49,7 @@ const SetItem = ({ set, setOwner, onDelete }: setItemProps) => {
                   setIsModalOpen(true);
                 }}
                 aria-label="Delete set"
+                data-testid="delBtn"
                 className="text-gray-600 hover:text-gray-500"
               >
                 <FaRegTrashCan />
