@@ -53,7 +53,7 @@ describe("Edit", () => {
     });
 
     cy.fixture("testSet").then((testSet) => {
-      cy.get("@set").should((res) => {
+      cy.get("@set").then((res) => {
         expect(res.body).to.have.property("set");
         expect(res.body).to.have.property("cards");
         const { set, cards } = res.body;
@@ -80,32 +80,35 @@ describe("Edit", () => {
       .first()
       .trigger("mousedown", { which: 1 })
       .trigger("mousemove", { clientX: 500, clientY: 250 })
+      .trigger("mousemove")
       .trigger("mouseup", { force: true });
+
+    // the first card should have the front text as "Milk" after the dnd action
+    cy.get(".card-container input[name='front']")
+      .eq(0)
+      .should("have.value", "Milk");
 
     cy.wait(200).get("form button").contains("Save").click();
     cy.get(".Toastify__toast-body").contains("Set updated successfully");
 
     cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
       const [firstCard, secondCard, ...card] = [...testSet.cards];
-      // update the testSet json file as well
-      cy.writeFile("cypress/fixtures/testSet.json", {
+      const newtestSet = {
         ...testSet,
         cards: [secondCard, firstCard, ...card],
-      });
-    });
+      };
+      // update the testSet json file as well
+      cy.writeFile("cypress/fixtures/testSet.json", newtestSet);
 
-    cy.url().should("include", "/profile");
-    cy.request("http://localhost:3000/api/sets/17").as("set");
+      cy.url().should("include", "/profile");
+      cy.request("http://localhost:3000/api/sets/17").as("set");
 
-    cy.fixture("testSet").then((testSet) => {
       cy.get("@set").should((res) => {
         // check content of cards
-        console.log("res.body.cards", res.body.cards);
-        console.log("testSet.cards", testSet.cards);
         res.body.cards.forEach((card, index) => {
           for (const key in card) {
             if (key === "front" || key === "back") {
-              expect(card[key]).to.be.eq(testSet.cards[index][key]);
+              expect(card[key]).to.be.eq(newtestSet.cards[index][key]);
             }
           }
         });
@@ -114,43 +117,38 @@ describe("Edit", () => {
   });
 
   it("should reorder cards in set with touch drag and drop and able to remove card", () => {
+    // remove the 1st card
+    cy.get('button[aria-label="Remove Card"]').eq(0).click();
     // swap the last two cards
     cy.get("span[data-testid='dragHandle']")
       .last()
       .trigger("touchstart", { which: 1 })
-      .trigger("touchmove", { clientX: 500, clientY: 250 })
+      .trigger("touchmove", { clientX: 500, clientY: 350 })
       .trigger("touchend");
-
-    // remove the 1st card
-    cy.get('button[aria-label="Remove Card"]').eq(0).click();
 
     cy.wait(200).get("form button").contains("Save").click();
     cy.get(".Toastify__toast-body").contains("Set updated successfully");
 
     cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
       const [deleted, ...updatedCards] = [...testSet.cards];
-      //swap the last two items in the list
+      // swap the last two items in the list
       const [removed] = updatedCards.splice(-1, 1);
       updatedCards.splice(-1, 0, removed);
-
-      cy.writeFile("cypress/fixtures/testSet.json", {
+      const newtestSet = {
         ...testSet,
         cards: [...updatedCards],
-      });
-    });
+      };
 
-    cy.url().should("include", "/profile");
-    cy.request("http://localhost:3000/api/sets/17").as("set");
+      cy.writeFile("cypress/fixtures/testSet.json", newtestSet);
+      cy.url().should("include", "/profile");
+      cy.request("http://localhost:3000/api/sets/17").as("set");
 
-    cy.fixture("testSet").then((testSet) => {
       cy.get("@set").should((res) => {
         // check content of cards
-        console.log("res.body.cards", res.body.cards);
-        console.log("testSet.cards", testSet.cards);
         res.body.cards.forEach((card, index) => {
           for (const key in card) {
             if (key === "front" || key === "back") {
-              expect(card[key]).to.be.eq(testSet.cards[index][key]);
+              expect(card[key]).to.be.eq(newtestSet.cards[index][key]);
             }
           }
         });
