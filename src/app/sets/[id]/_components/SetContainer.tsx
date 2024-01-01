@@ -1,6 +1,4 @@
-"use client";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+"use client";import Link from "next/link";import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserProvider";
 import useFavButton from "@/hooks/useFavButton";
@@ -95,12 +93,10 @@ const SetContainer = ({ fullSetData }: SetContainerProps) => {
           <button
             className="text-3xl inline-block align-middle ml-2 text-color-heart transition duration-300 hover:scale-125"
             onClick={() => toggleLike(set)}
+            aria-label={isLiked ? "Unlike set" : "Like set"}
+            data-testid="likeBtn"
           >
-            {isLiked ? (
-              <FillHeart aria-label="Unlike" />
-            ) : (
-              <EmptyHeart aria-label="Like" />
-            )}
+            {isLiked ? <FillHeart /> : <EmptyHeart />}
           </button>
         )}
         {session && session.user.id === set.user_id && (

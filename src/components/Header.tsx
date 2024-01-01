@@ -73,7 +73,7 @@ export default function Header({ languages }: HeaderProps) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items className="absolute left-0 z-20 mt-1 w-40 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none py-1">
+              <Menu.Items data-cy="header-dropdown" className="absolute left-0 z-20 mt-1 w-40 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none py-1">
                 {Array.isArray(languages) &&
                   languages.map((language) => (
                     <Menu.Item key={language.name}>

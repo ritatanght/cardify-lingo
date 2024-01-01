@@ -1,5 +1,4 @@
-import { useState } from "react";
-import CardItem from "./CardItem";
+import { useState } from "react";import CardItem from "./CardItem";
 import { playpen } from "@/lib/fonts";
 import { Card } from "@/types/definitions";
 import Confetti from "react-confetti";
@@ -94,6 +93,7 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
             currCard === 1 ? " invisible" : ""
           }`}
           onClick={prevCard}
+          aria-label="Previous Card"
         >
           <PiArrowFatLineLeftFill />
         </button>
@@ -104,6 +104,7 @@ const Cards = ({ cards, isSetOwner, onEdit, voices }: CardsProps) => {
         <button
           className="text-3xl text-color-5 p-2 rounded-full transition hover:text-white hover:bg-color-5"
           onClick={nextCard}
+          aria-label="Next Card"
         >
           <PiArrowFatLineRightFill />
         </button>

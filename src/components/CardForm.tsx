@@ -80,6 +80,7 @@ const CardForm = ({
         <span
           className="p-1 text-xl text-gray-500 mx-auto cursor-grab"
           aria-label="Drag and drop card"
+          data-testid="dragHandle"
         >
           <MdDragHandle />
         </span>
@@ -87,8 +88,9 @@ const CardForm = ({
           className="absolute p-1 transition text-lg rounded hover:text-white hover:bg-color-heart"
           onClick={handleDeleteBtnClick}
           data-no-dnd="true"
+          aria-label="Remove Card"
         >
-          <FaRegTrashCan aria-label="Remove Card" />
+          <FaRegTrashCan />
         </button>
       </div>
       <div

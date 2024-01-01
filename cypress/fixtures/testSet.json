@@ -1,0 +1,27 @@
+{
+  "title": "Food in French",
+  "description": "Learn common food in French",
+  "language_name": "French",
+  "cards": [
+    {
+      "front": "Milk",
+      "back": "Le lait",
+      "image_url": null
+    },
+    {
+      "front": "Egg",
+      "back": "L' œuf",
+      "image_url": null
+    },
+    {
+      "front": "Apple",
+      "back": "La pomme",
+      "image_url": null
+    },
+    {
+      "front": "Sugar",
+      "back": "Le sucre",
+      "image_url": null
+    }
+  ]
+}
