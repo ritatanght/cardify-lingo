@@ -69,6 +69,11 @@ describe("View", () => {
         .click()
         .should("have.attr", "aria-label", "Like set");
     });
+
+    it("should not show private set to non owner", () => {
+      cy.visit("http://localhost:3000/sets/5");
+      cy.get("h2").contains("set is marked as private");
+    });
   });
 
   context("Login as the set owner", () => {
