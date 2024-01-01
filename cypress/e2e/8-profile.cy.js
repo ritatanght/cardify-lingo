@@ -14,7 +14,7 @@ describe("Profile", () => {
     cy.visit("http://localhost:3000/profile");
   });
 
-  it("should navigate to create set page", () => {
+  it("should navigate to create set page on click of the create set button", () => {
     // click on the create set button on profile page
     cy.get("main a").contains("Create Set").click();
 
@@ -22,7 +22,7 @@ describe("Profile", () => {
     cy.get("h1").contains("Create a New Set");
   });
 
-  it("should navigate to edit set page", () => {
+  it("should navigate to edit set page on click of a edit set button", () => {
     cy.fixture("testSet").then((testSet) => {
       cy.get("main a")
         .contains(testSet.title)
@@ -74,6 +74,7 @@ describe("Profile", () => {
       .find('[data-testid="delBtn"]')
       .click();
     const modal = cy.get("[id^='headlessui-dialog-panel']");
+    // clicking the cancel button should close the modal
     modal.get("button").contains("Cancel").click();
     modal.should("not.exist");
 
@@ -87,6 +88,7 @@ describe("Profile", () => {
     cy.get(".Toastify__toast-body").contains("Set deleted");
     cy.get("a").contains("Food in French").should("not.exist");
 
+    // assert api request should return 404
     cy.request({
       url: "http://localhost:3000/api/sets/17",
       failOnStatusCode: false,
