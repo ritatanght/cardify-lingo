@@ -66,4 +66,33 @@ describe("Profile", () => {
     cy.get("button").contains("Favorite Sets").click();
     cy.get("a").contains("Food in French").should("not.exist");
   });
+
+  it.only("should prompt confirmation before deleting a set", () => {
+    cy.get("a")
+      .contains("Food in French")
+      .parent()
+      .find('[data-testid="delBtn"]')
+      .click();
+    const modal = cy.get("[id^='headlessui-dialog-panel']");
+    modal.get("button").contains("Cancel").click();
+    modal.should("not.exist");
+
+    cy.get("a")
+      .contains("Food in French")
+      .parent()
+      .find('[data-testid="delBtn"]')
+      .click();
+
+    modal.get("button").contains("Confirm").click();
+    cy.get(".Toastify__toast-body").contains("Set deleted");
+    cy.get("a").contains("Food in French").should("not.exist");
+
+    cy.request({
+      url: "http://localhost:3000/api/sets/17",
+      failOnStatusCode: false,
+    }).then((res) => {
+      expect(res.status).to.eq(404);
+      expect(res.body).to.deep.eq({ message: "Set not found" });
+    });
+  });
 });
