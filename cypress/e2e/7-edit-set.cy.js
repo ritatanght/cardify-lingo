@@ -113,4 +113,46 @@ describe("Edit", () => {
     });
   });
 
+  it("should reorder cards in set", () => {
+    // swap the first two cards
+    cy.get("span[data-testid='dragHandle']")
+      .last()
+      .trigger("touchstart", { which: 1 })
+      .trigger("touchmove", { clientX: 500, clientY: 400 })
+      .trigger("touchend");
+
+    cy.wait(200).get("form button").contains("Save").click();
+    cy.get(".Toastify__toast-body").contains("Set updated successfully");
+
+    cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
+      const updatedCards = [...testSet.cards];
+      //swap the last two items in the list
+      const [removed] = updatedCards.splice(-1, 1);
+      updatedCards.splice(-1, 0, removed);
+
+      cy.writeFile("cypress/fixtures/testSet.json", {
+        ...testSet,
+        cards: [...updatedCards],
+      });
+    });
+
+    cy.url().should("include", "/profile");
+    cy.request("http://localhost:3000/api/sets/17").as("set");
+
+    cy.fixture("testSet").then((testSet) => {
+      cy.get("@set").should((res) => {
+        // check content of cards
+        console.log("res.body.cards", res.body.cards);
+        console.log("testSet.cards", testSet.cards);
+        res.body.cards.forEach((card, index) => {
+          for (const key in card) {
+            if (key === "front" || key === "back") {
+              expect(card[key]).to.be.eq(testSet.cards[index][key]);
+            }
+          }
+        });
+      });
+    });
+  });
+
 });
