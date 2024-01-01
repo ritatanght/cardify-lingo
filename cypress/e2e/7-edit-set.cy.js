@@ -35,6 +35,9 @@ describe("Edit", () => {
       });
     cy.get("form button").contains("Save").click();
     cy.get(".Toastify__toast-body").contains("Set updated successfully");
+    cy.url().should("include", "/profile");
+    cy.get("main a").contains(newTitle).should("exist");
+
     cy.request("http://localhost:3000/api/sets/17").as("set");
 
     cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
@@ -70,4 +73,44 @@ describe("Edit", () => {
       });
     });
   });
+
+  it("should reorder cards in set", () => {
+    // swap the first two cards
+    cy.get("span[data-testid='dragHandle']")
+      .first()
+      .trigger("mousedown", { which: 1 })
+      .trigger("mousemove", { clientX: 500, clientY: 250 })
+      .trigger("mouseup", { force: true });
+
+    cy.wait(200).get("form button").contains("Save").click();
+    cy.get(".Toastify__toast-body").contains("Set updated successfully");
+
+    cy.readFile("cypress/fixtures/testSet.json").then((testSet) => {
+      const [firstCard, secondCard, ...updatedCards] = [...testSet.cards];
+      // update the testSet json file as well
+      cy.writeFile("cypress/fixtures/testSet.json", {
+        ...testSet,
+        cards: [secondCard, firstCard, ...updatedCards],
+      });
+    });
+
+    cy.url().should("include", "/profile");
+    cy.request("http://localhost:3000/api/sets/17").as("set");
+
+    cy.fixture("testSet").then((testSet) => {
+      cy.get("@set").should((res) => {
+        // check content of cards
+        console.log("res.body.cards", res.body.cards);
+        console.log("testSet.cards", testSet.cards);
+        res.body.cards.forEach((card, index) => {
+          for (const key in card) {
+            if (key === "front" || key === "back") {
+              expect(card[key]).to.be.eq(testSet.cards[index][key]);
+            }
+          }
+        });
+      });
+    });
+  });
+
 });
