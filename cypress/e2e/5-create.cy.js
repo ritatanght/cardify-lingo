@@ -109,11 +109,13 @@ describe("Create", () => {
     cy.get(".card-container")
       .last()
       .then(($card) => {
-        const inputs = cy.wrap($card).find("input[type='text']");
+        cy.fixture("testSet").then((testSet) => {
+          const inputs = cy.wrap($card).find("input[type='text']");
 
-        inputs.each(($el, ind) =>
-          cy.wrap($el).type(testSet.cards[3][ind === 0 ? "front" : "back"])
-        );
+          inputs.each(($el, ind) =>
+            cy.wrap($el).type(testSet.cards[3][ind === 0 ? "front" : "back"])
+          );
+        });
       });
 
     cy.get("form button").contains("Create").click();
