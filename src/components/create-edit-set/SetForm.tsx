@@ -1,9 +1,8 @@
-"use client";
-import { useState, Fragment } from "react";
+"use client";import { useState, Fragment } from "react";
 import { useRouter } from "next/navigation";
-import CardForm from "@/components/CardForm";
+import CardForm from "@/components/create-edit-set/CardForm";
 import { toast } from "react-toastify";
-import { createSet, editSet } from "../lib/services";
+import { createSet, editSet } from "../../lib/services";
 import { addImageUrlToCards, cleanUpCards, deleteImageUrls } from "@/lib/utils";
 import {
   FullSet,
@@ -11,7 +10,7 @@ import {
   NewSetData,
   SetData,
   Language,
-} from "../types/definitions";
+} from "../../types/definitions";
 import {
   DndContext,
   DragEndEvent,
@@ -27,7 +26,7 @@ import {
 import { Listbox, Transition } from "@headlessui/react";
 import { FaCheck, FaAngleDown } from "react-icons/fa";
 import type { Id } from "react-toastify";
-import { playpen } from "../lib/fonts";
+import { playpen } from "../../lib/fonts";
 import "@/styles/Create-Edit-Set.scss";
 
 interface SetFormProps {

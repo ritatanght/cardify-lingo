@@ -1,4 +1,6 @@
-"use client";import Link from "next/link";import { useEffect, useState } from "react";
+"use client";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useUser } from "@/context/UserProvider";
 import useFavButton from "@/hooks/useFavButton";
@@ -9,8 +11,8 @@ import {
 } from "react-icons/fa";
 import { FullSet } from "@/types/definitions";
 import { waitForVoices } from "@/lib/utils";
-import ViewSet from "./(view)/ViewSet";
-import QuizSet from "./(quiz)/QuizSet";
+import ViewSet from "./view-set/ViewSet";
+import QuizSet from "./quiz-set/QuizSet";
 import Loading from "@/app/loading";
 import { useSession } from "next-auth/react";
 import "@/styles/ViewSet.scss";

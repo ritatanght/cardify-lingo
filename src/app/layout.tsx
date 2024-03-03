@@ -1,7 +1,6 @@
-import type { Metadata } from "next";
-import { roboto } from "@/lib/fonts";
+import type { Metadata } from "next";import { roboto } from "@/lib/fonts";
 import Providers from "./providers";
-import Header from "@/components/Header";
+import Header from "@/components/header/Header";
 import { getAllLanguages } from "@/db/queries/languages";
 import "@/styles/globals.scss";
 

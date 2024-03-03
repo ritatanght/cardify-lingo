@@ -1,7 +1,8 @@
-import Link from "next/link";import { playpen } from "../../../lib/fonts";
-import RegisterForm from "./RegisterForm";
-import { auth } from "../../../../auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { playpen } from "@/lib/fonts";
+import RegisterForm from "@/components/RegisterForm";
+import { auth } from "@/../auth";
 
 const Page = () => {
   const session = auth();

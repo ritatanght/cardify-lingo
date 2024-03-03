@@ -1,8 +1,8 @@
+import { notFound } from "next/navigation";
 import { getAllLanguages } from "@/db/queries/languages";
 import { getSetInfoById } from "@/db/queries/sets";
 import { getCardsBySetId } from "@/db/queries/cards";
-import SetForm from "@/components/SetForm";
-import { notFound } from "next/navigation";
+import SetForm from "@/components/create-edit-set/SetForm";
 import { auth } from "@/../auth";
 
 const Page = async ({ params }: { params: { id: string } }) => {

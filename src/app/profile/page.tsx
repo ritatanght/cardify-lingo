@@ -1,8 +1,8 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { playpen } from "@/lib/fonts";
 import { auth } from "@/../auth";
-import { redirect } from "next/navigation";
-import Profile from "./Profile";
+import Profile from "@/components/Profile";
 import { getSetsByUserId } from "@/db/queries/sets";
 
 const Page = async () => {

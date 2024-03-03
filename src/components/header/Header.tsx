@@ -1,12 +1,11 @@
-"use client";
-import Link from "next/link";
+"use client";import Link from "next/link";
 import Image from "next/image";
 import { useState, Fragment } from "react";
 import SearchBar from "./SearchBar";
 import { FaUser, FaCaretDown } from "react-icons/fa";
 import { FiMenu } from "react-icons/fi";
 import { IoClose } from "react-icons/io5";
-import { Language } from "../types/definitions";
+import { Language } from "../../types/definitions";
 import { Menu, Transition } from "@headlessui/react";
 import { ToastContainer } from "react-toastify";
 import { signOut } from "next-auth/react";
@@ -73,7 +72,10 @@ export default function Header({ languages }: HeaderProps) {
               leaveFrom="transform opacity-100 scale-100"
               leaveTo="transform opacity-0 scale-95"
             >
-              <Menu.Items data-cy="header-dropdown" className="absolute left-0 z-20 mt-1 w-40 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none py-1">
+              <Menu.Items
+                data-cy="header-dropdown"
+                className="absolute left-0 z-20 mt-1 w-40 origin-top-left rounded-md bg-white shadow-lg ring-1 ring-color-3 focus:outline-none py-1"
+              >
                 {Array.isArray(languages) &&
                   languages.map((language) => (
                     <Menu.Item key={language.name}>

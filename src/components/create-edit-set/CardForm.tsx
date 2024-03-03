@@ -1,5 +1,4 @@
-import { CardFormData } from "../types/definitions";
-import { FaRegTrashCan, FaImage } from "react-icons/fa6";
+import { CardFormData } from "../../types/definitions";import { FaRegTrashCan, FaImage } from "react-icons/fa6";
 import { useRef } from "react";
 import { IoIosRemoveCircle } from "react-icons/io";
 import { MdDragHandle } from "react-icons/md";

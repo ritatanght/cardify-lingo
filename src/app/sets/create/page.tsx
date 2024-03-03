@@ -1,5 +1,5 @@
 import { getAllLanguages } from "@/db/queries/languages";
-import SetForm from "@/components/SetForm";
+import SetForm from "@/components/create-edit-set/SetForm";
 const Page = async () => {
   const languages = await getAllLanguages();
 

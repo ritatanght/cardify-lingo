@@ -1,6 +1,5 @@
-import { getSetInfoById } from "@/db/queries/sets";
-import { getCardsBySetId } from "@/db/queries/cards";
-import SetContainer from "./_components/SetContainer";
+import { getSetInfoById } from "@/db/queries/sets";import { getCardsBySetId } from "@/db/queries/cards";
+import SetContainer from "../../../components/SetContainer";
 import { notFound } from "next/navigation";
 
 export default async function Page({ params }: { params: { id: string } }) {
