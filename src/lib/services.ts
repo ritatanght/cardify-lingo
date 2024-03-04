@@ -1,22 +1,11 @@
-import axios from "axios";
 import { CardFormData, NewSetData, SetData } from "../types/definitions";
 import { PutBlobResult } from "@vercel/blob";
-const instance = axios.create({
-  baseURL:
-    process.env.NODE_ENV === "production"
-      ? process.env.PROD_BASEURL
-      : "http://localhost:3000/",
-});
 
 /* --- Languages --- */
-export const getAllLanguages = () => {
-  return instance.get("/api/languages").then((res) => res.data);
-};
+export const getAllLanguages = () => fetch("/api/languages");
 
-export const getLanguageById = (languageId: string) => {
-  // params.id is string
-  return instance.get(`/api/languages/${languageId}`).then((res) => res.data);
-};
+export const getLanguageById = (languageId: string) =>
+  fetch(`/api/languages/${languageId}`);
 
 /* --- Users --- */
 export const registerUser = (userInfo: {
@@ -24,32 +13,40 @@ export const registerUser = (userInfo: {
   username: string;
   password: string;
 }) => {
-  return instance.post("/api/users", userInfo);
+  return fetch("/api/users", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userInfo),
+  });
 };
 
 export const logInUser = (loginInfo: { email: string; password: string }) => {
-  return instance.post("/api/auth/login", loginInfo).then((res) => res.data);
+  const baseURL =
+    process.env.NODE_ENV === "production"
+      ? process.env.PROD_BASEURL
+      : "http://localhost:3000/";
+
+  return fetch(`${baseURL}api/auth/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(loginInfo),
+  });
 };
 
-export const getUserInfo = () => {
-  return instance.get(`/api/users`).then((res) => res.data);
-};
+export const getUserInfo = () => fetch(`/api/users`);
 
-export const getUserSets = () => {
-  return instance.get("/api/sets").then((res) => res.data);
-};
+export const getUserSets = () => fetch("/api/sets");
 
-export const getUserFavorites = (userId: string) => {
-  return instance.get(`/api/favorites/${userId}`).then((res) => res.data);
-};
+export const getUserFavorites = (userId: string) =>
+  fetch(`/api/favorites/${userId}`);
 
 /* --- Favorites --- */
 export const likeSet = (setId: number) => {
-  return instance.post(`/api/favorites/${setId}`);
+  return fetch(`/api/favorites/${setId}`, { method: "POST" });
 };
 
 export const unlikeSet = (setId: number) => {
-  return instance.delete(`/api/favorites/${setId}`);
+  return fetch(`/api/favorites/${setId}`, { method: "DELETE" });
 };
 
 /* --- Sets --- */
@@ -57,19 +54,20 @@ export const createSet = (setData: {
   setFormData: NewSetData;
   cardFormData: CardFormData[];
 }) => {
-  return instance.post("/api/sets/", setData);
+  return fetch("/api/sets/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(setData),
+  });
 };
 
 export const getSet = (setId: string) => {
   // string for getting the params.id
-  return instance.get(`/api/sets/${setId}`).then((res) => res.data);
+  return fetch(`/api/sets/${setId}`);
 };
 
-export const searchSets = (query: string) => {
-  return instance
-    .get(`/api/search?query=${encodeURIComponent(query)}`)
-    .then((res) => res.data);
-};
+export const searchSets = (query: string) =>
+  fetch(`/api/search?query=${encodeURIComponent(query)}`);
 
 export const editSet = (
   setId: number,
@@ -78,19 +76,26 @@ export const editSet = (
     cardFormData: CardFormData[];
   }
 ) => {
-  return instance.put(`/api/sets/${setId}`, updatedSetInfo);
+  return fetch(`/api/sets/${setId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(updatedSetInfo),
+  });
 };
 
-export const deleteSetById = (setId: number) => {
-  return instance.delete(`/api/sets/${setId}`);
-};
+export const deleteSetById = (setId: number) =>
+  fetch(`/api/sets/${setId}`, { method: "DELETE" });
 
 /* --- Card --- */
 export const editCardById = (
   cardId: number,
   card: { front: string; back: string; image_url: string | null }
 ) => {
-  return instance.put(`/api/cards/${cardId}`, card);
+  return fetch(`/api/cards/${cardId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(card),
+  });
 };
 
 export const uploadImage = async (imageFile: File) => {
@@ -104,7 +109,7 @@ export const uploadImage = async (imageFile: File) => {
 
 export const deleteImage = async (url: string) => {
   try {
-    await instance.delete(`/api/image/delete?url=${url}`);
+    await fetch(`/api/image/delete?url=${url}`, { method: "DELETE" });
   } catch (err) {
     console.log("Error deleting image");
   }
