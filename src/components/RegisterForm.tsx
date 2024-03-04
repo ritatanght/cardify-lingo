@@ -21,21 +21,30 @@ const Register = () => {
       );
 
     registerUser({ email, username, password })
-      .then((res) => {
+      .then(async (res) => {
+        const { message } = await res.json();
         if (res.status === 200) {
           signIn("credentials", { email, password, redirect: false }).then(
             ({ ok, error }: any) => {
               if (ok) {
+                toast.success(
+                  <>
+                    Registration succeeded!
+                    <br />
+                    Redirect to profile.
+                  </>
+                );
                 return router.push("/profile");
               } else {
-                console.log(error);
-                toast.error("Login details are incorrect.");
+                toast.error(error);
               }
             }
           );
+        } else {
+          toast.error(message);
         }
       })
-      .catch((err) => toast.error(err.response.data.message));
+      .catch((err) => toast.error(err));
   };
 
   return (

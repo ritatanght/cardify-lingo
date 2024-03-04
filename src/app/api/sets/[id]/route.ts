@@ -1,10 +1,13 @@
-import {
-  getSetInfoById,
+import {  getSetInfoById,
   getSetOwnerBySetId,
   setSetToDeleted,
   updateSetData,
 } from "@/db/queries/sets";
-import { getCardsBySetId, setCardsToDeleted, updateCardsData } from "@/db/queries/cards";
+import {
+  getCardsBySetId,
+  setCardsToDeleted,
+  updateCardsData,
+} from "@/db/queries/cards";
 import { Card } from "@/types/definitions";
 import { auth } from "@/../auth";
 import { revalidatePath } from "next/cache";
@@ -63,6 +66,7 @@ export async function PUT(
   const emptyCard = cardFormData.some(
     (card: Card) => !card.front || !card.back
   );
+
   if (emptyCard)
     return Response.json({ message: "Cards cannot be empty" }, { status: 400 });
   try {

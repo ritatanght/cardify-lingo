@@ -23,7 +23,10 @@ export const UserProvider = (props: any) => {
   useEffect(() => {
     if (session && !favoriteSets) {
       getUserFavorites(session?.user.id)
-        .then(setFavoriteSets)
+        .then(async (res) => {
+          const sets = await res.json();
+          setFavoriteSets(sets);
+        })
         .catch(console.error);
     } else if (!session && favoriteSets) {
       setFavoriteSets(null);

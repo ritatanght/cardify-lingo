@@ -1,4 +1,3 @@
-import { isAxiosError } from "axios";
 import { logInUser } from "@/lib/services";
 import { getUserByEmail, createExternalUser } from "@/db/queries/users";
 import type {
@@ -25,7 +24,11 @@ export const authOptions: NextAuthOptions = {
       // The name to display on the sign in form (e.g. 'Sign in with...')
       name: "Credentials",
       credentials: {
-        email: { label: "Email", type: "email", placeholder: "user@example.com" },
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "user@example.com",
+        },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
@@ -34,16 +37,20 @@ export const authOptions: NextAuthOptions = {
           password: string;
         };
         try {
-          const { user } = await logInUser({ email, password });
-          //sample user { id: '1231', email: 'john.doe@example.com', name: 'john_doe' }
+          const response = await logInUser({ email, password });
+          const body = await response.json();
 
-          if (user) {
-            return user;
+          //sample user { id: '1231', email: 'john.doe@example.com', name: 'john_doe' }
+          if (body?.user) {
+            return body.user;
+          } else {
+            // set error message from backend
+            throw new Error(body.message);
           }
         } catch (err: any) {
           // Return the error message from backend to client-side
-          if (isAxiosError(err) && err.response) {
-            throw new Error(err.response.data.message);
+          if (err instanceof Error && err.message) {
+            throw new Error(err.message);
           } else {
             console.log(err);
             throw new Error(err);

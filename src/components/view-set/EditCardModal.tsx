@@ -57,12 +57,13 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
         back,
         image_url: imageUrl,
       });
+      const body = await response.json();
 
-      if (response.data.success) {
+      if (body.success) {
         // If successful, update the UI
         onUpdate({ ...card, front, back, image_url: imageUrl });
         toast.update(id, {
-          render: "Changes have been saved.",
+          render: body.message,
           position: "top-center",
           type: "success",
           isLoading: false,
@@ -70,7 +71,13 @@ const EditCardModal = ({ show, onHide, card, onUpdate }: modalProps) => {
         });
         onHide();
       } else {
-        console.error("Error updating card: ", response.data.message);
+        toast.update(id, {
+          render: "Error updating card" + body.message,
+          position: "top-center",
+          type: "error",
+          isLoading: false,
+          autoClose: 3000,
+        });
       }
     } catch (err) {
       toast.update(id, {

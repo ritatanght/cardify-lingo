@@ -18,13 +18,7 @@ const useFavButton = (initialState = false) => {
             setIsLiked(false);
           }
         })
-        .catch((err) => {
-          if (err.response.status === 401) {
-            toast.info(err.response.data.message);
-          } else {
-            toast.error(err);
-          }
-        });
+        .catch((err) => toast.error(err));
     } else {
       // Like a set
       likeSet(set.id)
@@ -34,13 +28,7 @@ const useFavButton = (initialState = false) => {
             setIsLiked(true);
           }
         })
-        .catch((err) => {
-          if (err.response.status === 401) {
-            toast.info(err.response.data.message);
-          } else {
-            toast.error(err);
-          }
-        });
+        .catch((err) => toast.error(err));
     }
   };
 

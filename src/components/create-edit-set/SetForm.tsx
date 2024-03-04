@@ -77,30 +77,35 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     toastId: Id
   ) => {
     createSet(data)
-      .then((res) => {
+      .then(async (res) => {
+        const { message } = await res.json();
         if (res.status === 201) {
           toast.update(toastId, {
-            render: res.data.message,
+            render: message,
             position: "top-center",
             type: "success",
             isLoading: false,
             autoClose: 3000,
           });
           return router.push("/profile");
-        }
-      })
-      .catch((err) => {
-        if (err.response.data) {
+        } else {
           toast.update(toastId, {
-            render: err.response.data.message,
+            render: message,
             position: "bottom-center",
             type: "info",
             isLoading: false,
             autoClose: 3000,
           });
-        } else {
-          console.log(err);
         }
+      })
+      .catch((err) => {
+        toast.update(toastId, {
+          render: err,
+          position: "bottom-center",
+          type: "info",
+          isLoading: false,
+          autoClose: 3000,
+        });
       });
   };
 
@@ -116,30 +121,35 @@ const SetForm = ({ mode, languages, setData }: SetFormProps) => {
     if (setId) {
       setFormData.id = setId;
       editSet(setId, { setFormData, cardFormData })
-        .then((res) => {
+        .then(async (res) => {
+          const { message } = await res.json();
           if (res.status === 200) {
             toast.update(toastId, {
-              render: res.data.message,
+              render: message,
               position: "top-center",
               type: "success",
               isLoading: false,
               autoClose: 3000,
             });
             return router.push("/profile");
-          }
-        })
-        .catch((err) => {
-          if (err.response.data) {
+          } else {
             toast.update(toastId, {
-              render: err.response.data.message,
+              render: message,
               position: "bottom-center",
               type: "info",
               isLoading: false,
               autoClose: 3000,
             });
-          } else {
-            console.log(err);
           }
+        })
+        .catch((err) => {
+          toast.update(toastId, {
+            render: err,
+            position: "bottom-center",
+            type: "info",
+            isLoading: false,
+            autoClose: 3000,
+          });
         });
     }
   };

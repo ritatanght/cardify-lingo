@@ -10,21 +10,16 @@ const useSetsList = (initialSet: Set[] = []) => {
 
   const deleteSet = (setId: number) => {
     deleteSetById(setId)
-      .then((res) => {
+      .then(async (res) => {
+        const { message } = await res.json();
         if (res.status === 200) {
           const updatedSets = sets.filter((set) => set.id !== setId);
           setSets(updatedSets);
           removeFromFavList(setId);
-          toast.success(res.data.message);
+          toast.success(message);
         }
       })
-      .catch((err) => {
-        if (err.response.status === 401) {
-          toast.info(err.response.data.message);
-        } else {
-          console.error("Error deleting the set: ", err);
-        }
-      });
+      .catch((err) => toast.error("Error deleting the set: ", err));
   };
 
   return { sets, setSets, deleteSet };
